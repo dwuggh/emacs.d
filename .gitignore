@@ -1,0 +1,7 @@
+
+*/*.elc
+*.elc
+*/*.el~
+*.el~
+# straight should be ignored
+straight
