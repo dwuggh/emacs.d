@@ -25,10 +25,10 @@
   (let* ((dir (concat user-emacs-directory "modules/"))
         (name (symbol-name module))
         (init-name (concat "init-" name)))
-    (unless (file-exists-p (concat dir init-name ".el"))
-      (add-to-list 'load-path (concat dir name "/")))
-    (require (intern init-name)))
-  )
+    (if (file-exists-p (concat dir init-name ".el"))
+        (require (intern init-name))
+      (let ((load-path (cons (concat dir name "/") load-path)))
+        (require (intern init-name))))))
 
 
 

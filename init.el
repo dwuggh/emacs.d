@@ -10,5 +10,6 @@
 (my-load-module 'core)
 (my-load-module 'appearance)
 
+(setq load-path (cdr load-path))
 
 ;;; init.el ends here
