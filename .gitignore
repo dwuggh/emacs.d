@@ -5,3 +5,5 @@
 *.el~
 # straight should be ignored
 straight
+
+.cache
