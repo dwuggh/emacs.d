@@ -7,9 +7,8 @@
 (setq-default custom-file (concat user-emacs-directory "custom.el"))
 
 
+(my-load-module 'core)
 (my-load-module 'appearance)
-(my-load-module 'evil)
-(my-load-module 'search)
 
 
 ;;; init.el ends here

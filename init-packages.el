@@ -18,15 +18,16 @@
 
 (straight-use-package 'use-package)
 
+(add-to-list 'load-path (concat user-emacs-directory "modules/"))
+
 (defun my-load-module (module)
-  ;; (setq load-path
-  ;;       (cons (concat
-  ;;              user-emacs-directory
-  ;;              (symbol-name module))
-  ;;             load-path))
-  ;; (load (concat "init-" (symbol-name module)))
-  (load (concat user-emacs-directory "modules/" (symbol-name module)
-                "/init-" (symbol-name module)))
+  "load module"
+  (let* ((dir (concat user-emacs-directory "modules/"))
+        (name (symbol-name module))
+        (init-name (concat "init-" name)))
+    (unless (file-exists-p (concat dir init-name ".el"))
+      (add-to-list 'load-path (concat dir name "/")))
+    (require (intern init-name)))
   )
 
 
