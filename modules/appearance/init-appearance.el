@@ -2,6 +2,7 @@
 
 
 ;; themes
+(use-package all-the-icons)
 (use-package doom-themes
   :config
   (custom-set-variables
