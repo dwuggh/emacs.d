@@ -10,6 +10,12 @@
 
 (my-load-module 'core)
 (my-load-module 'appearance)
+
+
+(my-load-module 'elisp)
+
+
+
 (my-load-module 'chinese)
 
 ;; (setq load-path (cdr load-path))
