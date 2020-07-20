@@ -18,17 +18,23 @@
 
 (straight-use-package 'use-package)
 
-(add-to-list 'load-path (concat user-emacs-directory "modules/"))
+(defconst my-module-path (concat user-emacs-directory "modules/")
+  "My module path. Could contain .el file or sub directory.")
+
+(add-to-list 'load-path my-module-path)
 
 (defun my-load-module (module)
   "load module"
-  (let* ((dir (concat user-emacs-directory "modules/"))
+  (let* (
         (name (symbol-name module))
         (init-name (concat "init-" name)))
-    (if (file-exists-p (concat dir init-name ".el"))
+    (if (file-exists-p (concat my-module-path init-name ".el"))
         (require (intern init-name))
-      (let ((load-path (cons (concat dir name "/") load-path)))
-        (require (intern init-name))))))
+      (add-to-list 'load-path (concat my-module-path name "/"))
+      (require (intern init-name))
+      ;; (let ((load-path (cons (concat dir name "/") load-path)))
+      ;;   (require (intern init-name)))
+      )))
 
 
 
