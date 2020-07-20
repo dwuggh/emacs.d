@@ -26,10 +26,19 @@
 ;;             `(lambda ()
 ;;               ,@args)))
 
-(defmacro add-hook+ (hooks hooks &optional append local)
+;;;###autoload
+(defmacro add-hook+ (hooks fun &optional append local)
   "add hook for multiple module"
   (dolist (hook hooks)
     (add-hook hook fun append local)))
+
+;;;###autoload
+(defmacro add-hook- (hook funcbody funcname &optional depth local)
+  "Wrapper for `add-hook'."
+  `(defun ,funcname ()
+     ,funcbody)
+  `(add-hook ,hook ',funcname)
+  )
 
 
 (provide 'lib-hack)

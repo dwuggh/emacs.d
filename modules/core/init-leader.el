@@ -31,12 +31,24 @@
   (general-create-definer dwuggh/leader-def
     :prefix dwuggh--leader
     :keymaps 'override)
-  (general-create-definer dwuggh/localleader-def
-    :prefix dwuggh--localleader)
+  (general-create-definer dwuggh/localleader-def-
+    :prefix dwuggh--localleader
+    :keymaps 'override
+    )
   (general-create-definer dwuggh/localleader-def+
-    :prefix dwuggh--localleader+)
+    :prefix dwuggh--localleader+
+    :keymaps 'override
+    )
   )
 
+;; TODO better
+(defmacro dwuggh/localleader-def (&rest args)
+  "A wrapper."
+    (eval (macroexpand
+           `(,'dwuggh/localleader-def- ,@args)))
+    (eval (macroexpand
+           `(,'dwuggh/localleader-def+ ,@args)))
+    )
 
 (dwuggh/leader-def
  ;; :keymaps 'override
@@ -47,23 +59,21 @@
  "s" '(:ignore t :wk "search")
  "p" '(:ignore t :wk "project")
  "i" '(:ignore t :wk "insert")
+ "j" '(:ignore t :wk "jump")
  "w" '(:ignore t :wk "window")
  "g" '(:ignore t :wk "git")
  "q" '(:ignore t :wk "quit")
-
+ "qq" '(save-buffers-kill-terminal :wk "quit emacs")
 
  ;; single commands
  "SPC" '(counsel-M-x :wk "M-x")
-
- ;; buffer
- "bm" '((lambda () (interactive) (switch-to-buffer "*Messages*")) :wk "message buffer")
-
- ;; file
- ;; search
- ;; window
-
  )
 
+(dwuggh/localleader-def
+ "h" '(:ignore t :wk "help")
+ "g" '(:ignore t :wk "goto")
+ "e" '(:ignore t :wk "eval")
+ )
 
 (provide 'init-leader)
 ;;; init-leader.el ends here
