@@ -18,7 +18,7 @@
 (use-package evil-escape
   :init
   (setq-default evil-escape-key-sequence "jk"
-                evil-escape-delay "0.15"
+                evil-escape-delay "0.1"
                 evil-escape-unordered-key-sequence t)
   (evil-escape-mode)
   )
@@ -56,6 +56,12 @@
   (general-def :keymaps 'override "m" 'evilmi-jump-items)
   )
 
+;; (add-hook 'evil-mode-hook
+;;           (progn
+;;             (evil-escape-mode)
+;;             (evil-matchit-mode)
+;;             (evil-snipe-mode)
+;;             ))
 
 
 (provide 'init-evil)

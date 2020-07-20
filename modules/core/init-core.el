@@ -10,6 +10,7 @@
 (require 'init-jump)
 (require 'init-search)
 (require 'init-files)
+(require 'init-buffer)
 (require 'init-window)
 
 
