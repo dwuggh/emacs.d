@@ -18,6 +18,13 @@
  "8" '(winum-select-window-8 :wk nil)
  "9" '(winum-select-window-9 :wk nil)
  "1..9" '(:ignore t :wk "select window 1..9")
+
+ "wh" '(evil-window-left :wk "to leftward window")
+ "wl" '(evil-window-right :wk "to rightward window")
+ "wk" '(evil-window-up :wk "to upward window")
+ "wj" '(evil-window-down :wk "to downward window")
+ "w/" '(split-window-right :wk "vsplit")
+ "w-" '(split-window-below :wk "vsplit")
  )
 
 ;; from spacemacs
