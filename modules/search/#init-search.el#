@@ -1,11 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
 
-(use-package helpful
-  :straight (helpful :type git :host github :repo "Wilfred/helpful")
-  :config
-  (setq helpful-switch-buffer-function 'pop-to-buffer)
-  (global-set-key (kbd "C-h k") 'helpful-key))
 
 
 (use-package ivy
@@ -28,8 +23,6 @@
    "v" '(counsel-describe-variable :wk "describe variable")
    "o" '(counsel-describe-symbol :wk "describe symbol")
    )
-  (setq counsel-describe-function-function #'helpful-callable)
-  (setq counsel-describe-variable-function #'helpful-variable)
   )
 
 (use-package swiper
@@ -75,12 +68,11 @@
  "pS" '(my-counsel-projectile-rg-thing-at-point :wk "rg project")
  )
 
-(use-package popwin
-  :init
-  (popwin-mode 1)
-  (push
-   '(helpful-mode :dedicated t :position bottom :stick t :noselect t :height 0.4)
-   popwin:special-display-config))
+(require 'init-jump)
+(require 'init-files)
+(require 'init-projects)
+(require 'init-buffer)
+
 
 (provide 'init-search)
 ;;; init-search.el ends here

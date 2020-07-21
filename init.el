@@ -8,7 +8,10 @@
 (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
 
 
-(my-load-module 'core)
+;; (my-load-module 'core)
+(my-load-module 'editor)
+(my-load-module 'search)
+(my-load-module 'git)
 (my-load-module 'appearance)
 
 

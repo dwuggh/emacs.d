@@ -4,9 +4,12 @@
 (use-package evil
   :init
   (setq evil-want-keybinding nil
-        evil-symbol-word-search t)
+        evil-symbol-word-search t
+	evil-search-module 'evil-search)
   :config
   (evil-mode 1)
+  (dwuggh/leader-def
+    "sc" '(evil-ex-nohighlight :wk "clear highlight"))
   )
 
 (use-package evil-collection

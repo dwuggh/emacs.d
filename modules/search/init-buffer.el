@@ -7,6 +7,8 @@
  ;; "bb" '(counsel-buffer-or-recentf)
  )
 
+(define-key ivy-switch-buffer-map (kbd "C-k") 'ivy-previous-line)
+(define-key ivy-switch-buffer-map (kbd "C-l") 'ivy-switch-buffer-kill)
 
 (provide 'init-buffer)
 ;;; init-buffer.el ends here
