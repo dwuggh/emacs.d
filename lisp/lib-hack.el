@@ -40,6 +40,36 @@
   `(add-hook ,hook ',funcname)
   )
 
+(require 'mode-local)
+
+;;;###autoload
+(defmacro setq-modes-local (modes &rest args)
+  "Wrapper for `setq-mode-local' but with multiple modes"
+  (if (symbolp modes)
+      (setq-mode-local modes args)
+    (dolist (mode modes)
+      (setq-mode-local mode args)))
+
+  )
+
+;; from doom emacs
+;;;###autoload
+(defmacro plist-put+ (plist &rest rest)
+  "Set each PROP VALUE pair in REST to PLIST in-place."
+  `(cl-loop for (prop value)
+            on (list ,@rest) by #'cddr
+            do ,(if (symbolp plist)
+                    `(setq ,plist (plist-put ,plist prop value))
+                  `(plist-put ,plist prop value))))
+
+;;;###autoload
+(defmacro pushnew! (place &rest values)
+  "Push VALUES sequentially into PLACE, if they aren't already present.
+This is a variadic `cl-pushnew'."
+  (let ((var (make-symbol "result")))
+    `(dolist (,var (list ,@values) (with-no-warnings ,place))
+       (cl-pushnew ,var ,place :test #'equal))))
+
 
 (provide 'lib-hack)
 ;;; lib-hack.el ends here

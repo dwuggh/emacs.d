@@ -47,13 +47,18 @@
 (use-package yasnippet-snippets)
 
 (use-package company-box
-  ;; :hook (company-mode . company-box-mode)
+  :hook (company-mode . company-box-mode)
+  :init
+  (setq company-box-backends-colors
+	'((company-yasnippet :all "light blue" :selected
+			     (:background :foreground "black"))))
+  (setq company-box-doc-delay 0.2)
   )
 
 (use-package company-posframe
   :config
-  (setq company-posframe-quickhelp-delay 0.3)
-  (company-posframe-mode 1)
+  (setq company-posframe-quickhelp-delay 0.2)
+  ;; (company-posframe-mode 1)
   ;; (general-define-key company-posframe-active-map
   ;; 		      :states 'insert
   ;; 		      "C-f" 'company-posframe-quickhelp-toggle
@@ -69,7 +74,9 @@
 
 ;; backend
 (setq-default company-backends
-      '((company-capf company-dabbrev-code :with company-yasnippet) company-dabbrev))
+	      '((company-capf company-dabbrev-code :with company-yasnippet)
+		(company-dabbrev :with company-yasnippet)
+		company-yasnippet))
 
 
 (provide 'init-company)

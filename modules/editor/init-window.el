@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
+
 ;;; use posframe for rime and company
 (use-package posframe)
 
@@ -7,6 +8,7 @@
 (defvar my-window-cache nil
   "window cache, for jumping")
 
+;; FIXME bugs when treemacs window is on
 (use-package popwin
   :init
   (popwin-mode 1)
@@ -20,6 +22,8 @@
       (setq my-window-cache window))))
 
 (advice-add 'popwin:display-buffer :before 'my-popwin-display-buffer-advice)
+
+;; (advice-remove 'popwin:display-buffer 'my-popwin-display-buffer-advice)
 
 (use-package winum
   :config
@@ -40,6 +44,35 @@
       (funcall orig-fun buffer-or-name action frame)))
 
 (advice-add 'display-buffer :around 'my-display-buffer-around)
+;; (advice-remove 'display-buffer 'my-display-buffer-around)
+
+
+
+
+
+;; fix for `evil-window-left'
+;; (defun my-evil-window-left-advice (count)
+;;   "Advice for `evil-window-left' to make it compatiable with treemacs."
+;;   ())
+
+
+;; from https://gist.github.com/3402786
+(defun spacemacs/toggle-maximize-buffer ()
+  "Maximize buffer"
+  (interactive)
+  (save-excursion
+    (if (and (= 1 (length (window-list)))
+             (assoc ?_ register-alist))
+        (jump-to-register ?_)
+      (progn
+        (window-configuration-to-register ?_)
+        (delete-other-windows)))))
+
+
+
+
+
+
 
 
 (dwuggh/leader-def
@@ -61,6 +94,9 @@
  "w/" '(split-window-right :wk "vsplit")
  "w-" '(split-window-below :wk "vsplit")
  "w=" '(balance-windows-area :wk "balance windows")
+ "wd" '(evil-window-delete :wk "delete current window")
+ "wm" '(spacemacs/toggle-maximize-buffer :wk "maximize window")
+ "wM" 'ace-swap-window
  )
 
 ;; from spacemacs

@@ -26,18 +26,21 @@
   :config
   (setq general-default-states '(normal visual))
   (setq dwuggh--leader "SPC"
-        dwuggh--localleader ","
+        dwuggh--localleader- ","
         dwuggh--localleader+ "\M-c")
   (general-create-definer dwuggh/leader-def
     :prefix dwuggh--leader
+    :states '(normal visual motion)
     :keymaps 'override)
   (general-create-definer dwuggh/localleader-def-
-    :prefix dwuggh--localleader
-    :keymaps 'override
+    :prefix dwuggh--localleader-
+    :states '(normal visual)
+    ;; :keymaps 'override
     )
   (general-create-definer dwuggh/localleader-def+
     :prefix dwuggh--localleader+
-    :keymaps 'override
+    :states '(normal visual)
+    ;; :keymaps 'override
     )
   )
 

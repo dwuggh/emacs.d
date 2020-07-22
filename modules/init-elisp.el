@@ -81,7 +81,7 @@
   "K" 'helpful-at-point)
 
 (dwuggh/localleader-def
- :major-modes 'emacs-lisp-mode
+ :keymaps '(emacs-lisp-mode-map helpful-mode-map help-mode-map)
  "hh" '(helpful-at-point :wk "help at point")
  "hH" '(elisp-slime-nav-describe-elisp-thing-at-point :wk "slime help")
  "gg" '(my-elisp-navigation :wk "jump to definition")

@@ -37,7 +37,7 @@
   )
 
 (dwuggh/localleader-def
- :major-modes 'prog-mode
+ :keymaps 'prog-mode-map
  "gg" 'counsel-etags-find-tag-at-point
  "gl" '(counsel-etags-list-tag-in-current-file :wk "list tags")
  )

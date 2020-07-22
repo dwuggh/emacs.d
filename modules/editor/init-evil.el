@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+(require 'lib-hack)
+
 
 (use-package evil
   :init
@@ -11,6 +13,30 @@
   (dwuggh/leader-def
     "sc" '(evil-ex-nohighlight :wk "clear highlight"))
   )
+
+(use-package undo-fu
+  :init
+  (global-undo-tree-mode -1)
+  (setq undo-limit 8000000
+        undo-strong-limit 8000000
+        undo-outer-limit 8000000)
+  )
+;; from doom emacs
+(define-minor-mode undo-fu-mode
+  "Enables `undo-fu' for the current session."
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map [remap undo] #'undo-fu-only-undo)
+            (define-key map [remap redo] #'undo-fu-only-redo)
+            (define-key map (kbd "C-_")     #'undo-fu-only-undo)
+            (define-key map (kbd "M-_")     #'undo-fu-only-redo)
+            (define-key map (kbd "C-M-_")   #'undo-fu-only-redo-all)
+            (define-key map (kbd "C-x r u") #'undo-fu-session-save)
+            (define-key map (kbd "C-x r U") #'undo-fu-session-recover)
+            map)
+  :init-value nil
+  :global t)
+(undo-fu-mode 1)
+
 
 (use-package evil-collection
   ;; :custom (evil-collection-setup-minibuffer t)
@@ -77,16 +103,42 @@
   (evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
   (evil-define-key 'visual evil-surround-mode-map "S" 'evil-substitute)
   (global-evil-surround-mode 1)
-
   )
 
-
+(use-package evil-goggles
+  :init
+  (setq evil-goggles-duration 0.1
+        evil-goggles-pulse t ; too slow
+        ;; evil-goggles provides a good indicator of what has been affected.
+        ;; delete/change is obvious, so I'd rather disable it for these.
+        evil-goggles-enable-delete nil
+        evil-goggles-enable-change nil)
+  :config
+  (evil-goggles-mode 1)
+  (pushnew! evil-goggles--commands
+            '(evil-magit-yank-whole-line
+              :face evil-goggles-yank-face
+              :switch evil-goggles-enable-yank
+              :advice evil-goggles--generic-async-advice)
+            '(+evil:yank-unindented
+              :face evil-goggles-yank-face
+              :switch evil-goggles-enable-yank
+              :advice evil-goggles--generic-async-advice)
+            '(+eval:region
+              :face evil-goggles-yank-face
+              :switch evil-goggles-enable-yank
+              :advice evil-goggles--generic-async-advice))
+   )
 
 (general-define-key
  :states '(normal visual motion)
  :keymaps 'override
  "C-u" 'evil-scroll-up
  )
+(general-define-key
+ :states 'insert
+ :keymaps 'override
+ "C-V" 'evil-paste-after)
 ;; (add-hook 'evil-mode-hook
 ;;           (progn
 ;;             (evil-escape-mode)
