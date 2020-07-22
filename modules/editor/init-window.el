@@ -76,28 +76,28 @@
 
 
 (dwuggh/leader-def
- "1" '(winum-select-window-1 :wk nil)
- "2" '(winum-select-window-2 :wk nil)
- "3" '(winum-select-window-3 :wk nil)
- "4" '(winum-select-window-4 :wk nil)
- "5" '(winum-select-window-5 :wk nil)
- "6" '(winum-select-window-6 :wk nil)
- "7" '(winum-select-window-7 :wk nil)
- "8" '(winum-select-window-8 :wk nil)
- "9" '(winum-select-window-9 :wk nil)
- "1..9" '(:ignore t :wk "select window 1..9")
+  "1" '(winum-select-window-1 :wk nil)
+  "2" '(winum-select-window-2 :wk nil)
+  "3" '(winum-select-window-3 :wk nil)
+  "4" '(winum-select-window-4 :wk nil)
+  "5" '(winum-select-window-5 :wk nil)
+  "6" '(winum-select-window-6 :wk nil)
+  "7" '(winum-select-window-7 :wk nil)
+  "8" '(winum-select-window-8 :wk nil)
+  "9" '(winum-select-window-9 :wk nil)
+  "1..9" '(:ignore t :wk "select window 1..9")
 
- "wh" '(evil-window-left :wk "to leftward window")
- "wl" '(evil-window-right :wk "to rightward window")
- "wk" '(evil-window-up :wk "to upward window")
- "wj" '(evil-window-down :wk "to downward window")
- "w/" '(split-window-right :wk "vsplit")
- "w-" '(split-window-below :wk "vsplit")
- "w=" '(balance-windows-area :wk "balance windows")
- "wd" '(evil-window-delete :wk "delete current window")
- "wm" '(spacemacs/toggle-maximize-buffer :wk "maximize window")
- "wM" 'ace-swap-window
- )
+  "wh" '(evil-window-left :wk "to leftward window")
+  "wl" '(evil-window-right :wk "to rightward window")
+  "wk" '(evil-window-up :wk "to upward window")
+  "wj" '(evil-window-down :wk "to downward window")
+  "w/" '(split-window-right :wk "vsplit")
+  "w-" '(split-window-below :wk "vsplit")
+  "w=" '(balance-windows-area :wk "balance windows")
+  "wd" '(evil-window-delete :wk "delete current window")
+  "wm" '(spacemacs/toggle-maximize-buffer :wk "maximize window")
+  "wM" 'ace-swap-window
+  )
 
 ;; from spacemacs
 ;; Rename the entry for M-1 in the SPC h k Top-level bindings,
