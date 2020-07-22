@@ -1,0 +1,3 @@
+[submodule "lisp/asymbol"]
+	path = lisp/asymbol
+	url = git@github.com:dwuggh/asymbol.git
