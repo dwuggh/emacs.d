@@ -5,7 +5,7 @@
 (use-package posframe)
 
 
-(defvar my-window-cache nil
+(defvar my-window-number-cache nil
   "window cache, for jumping")
 
 ;; FIXME bugs when treemacs window is on
@@ -19,7 +19,7 @@
 (defun my-popwin-display-buffer-advice (&rest args)
   (let ((window (selected-window)))
     (unless (equal window popwin:popup-window)
-      (setq my-window-cache window))))
+      (setq my-window-number-cache (winum-get-number window)))))
 
 (advice-add 'popwin:display-buffer :before 'my-popwin-display-buffer-advice)
 

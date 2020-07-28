@@ -3,13 +3,14 @@
   :defer t
   :init
   (setq treemacs-follow-after-init t
-        treemacs-is-never-other-window t
+        treemacs-is-never-other-window nil
         treemacs-sorting 'alphabetic-case-insensitive-asc
         treemacs-persist-file (concat my-cache-dir "treemacs-persist")
         treemacs-last-error-persist-file (concat my-cache-dir "treemacs-last-error-persist"))
   :config
   (treemacs-follow-mode -1)
   (delq 'treemacs-mode aw-ignored-buffers)
+  (advice-add 'treemacs :after 'balance-windows-area)
   )
 
 (use-package treemacs-evil

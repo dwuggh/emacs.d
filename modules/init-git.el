@@ -20,6 +20,9 @@
    transient-values-file (concat my-cache-dir "transient/values.el")
    ))
 
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode 1))
 (dwuggh/leader-def
   "gs" 'magit-status
   )

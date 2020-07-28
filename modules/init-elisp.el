@@ -9,11 +9,38 @@
 ;;; the helpful will be extremely useful
 ;;; ------------------------------------------------------------------------------
 
+(defun my-popwin-pop-to-buffer (buffer &optional other-window norecord)
+  "my `popwin:pop-to-buffer'. It works."
+  (interactive (list (read-buffer "Pop to buffer: " (other-buffer))
+                     (if current-prefix-arg t)))
+  (pcase (treemacs-current-visibility)
+    ('visible (treemacs)
+	      (popwin:pop-to-buffer buffer other-window norecord)
+	      (treemacs)
+	      (popwin:select-popup-window)
+	      )
+    ('exists
+     (popwin:pop-to-buffer buffer other-window norecord)
+     (popwin:select-popup-window)
+     )
+    ('none
+    (popwin:pop-to-buffer buffer other-window norecord)
+    (popwin:select-popup-window))
+    )
+  )
+
 (use-package helpful
   :straight (helpful :type git :host github :repo "Wilfred/helpful")
   :config
+  (setq helpful-switch-buffer-function 'my-popwin-pop-to-buffer)
   (setq helpful-switch-buffer-function 'pop-to-buffer)
+  ;; (setq helpful-switch-buffer-function 'popwin:pop-to-buffer)
   (global-set-key (kbd "C-h k") 'helpful-key)
+
+  ;; config popwin
+  (push
+   '(helpful-mode :dedicated t :position bottom :stick t :noselect t :height 0.4)
+   popwin:special-display-config)
   ;; (general-def
   ;;   :state 'normal
   ;;   :keymaps 'helpful-mode-map
@@ -28,12 +55,16 @@
   "Override the `helpful--navigate' function"
   (let ((path (substring-no-properties (button-get button 'path))))
       ;; (winum-select-window-1)
-      (select-window my-window-cache)
-      (find-file path)
+    (call-interactively
+     (popwin:close-popup-window)
+     (winum-select-window-by-number my-window-number-cache)
+     (find-file path)
+     )
       ;; (popwin:select-popup-window)
      (when-let (pos (get-text-property button 'position
                                        (marker-buffer button)))
-       (goto-char pos))))
+       (goto-char pos))
+     ))
 
 
 (advice-add 'helpful--navigate :override 'my-helpful-navigate)
@@ -47,6 +78,23 @@
 
 
 ;; jump inside lisp code
+
+
+(defun my-ivy-goto-definition ()
+  "elisp goto definition with `ivy-read'"
+  (interactive)
+  (let ((enable-recursive-minibuffers t))
+    (ivy-read "Describe symbol: " obarray
+              :predicate (lambda (sym)
+                           (cl-some (lambda (backend)
+                                      (funcall (cadr backend) sym))
+                                    describe-symbol-backends))
+              :require-match t
+              :history 'counsel-describe-symbol-history
+              :keymap counsel-describe-map
+              :preselect (ivy-thing-at-point)
+              :action 'elisp-slime-nav-find-elisp-thing-at-point
+              :caller 'counsel-describe-symbol)))
 
 (setq elisp-jump-handler
       '(elisp-slime-nav-find-elisp-thing-at-point
@@ -85,9 +133,14 @@
  "hh" '(helpful-at-point :wk "help at point")
  "hH" '(elisp-slime-nav-describe-elisp-thing-at-point :wk "slime help")
  "gg" '(my-elisp-navigation :wk "jump to definition")
+ "ga" '(my-ivy-goto-definition :wk "find and go to definition")
  "'" '(ielm :wk "open ielm")
  )
 
+(general-def
+ :keymaps '(emacs-lisp-mode-map helpful-mode-map help-mode-map)
+ "C-h g" '(my-ivy-goto-definition :wk "find and go to definition")
+  )
 
 ;; TODO use the macro
 ;; (setq-modes-local (emacs-lisp-mode lisp-interaction-mode)
