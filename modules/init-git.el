@@ -9,8 +9,12 @@
   :defer t
   :config
   (require 'evil-magit)
-  (define-key with-editor-mode-map (kbd ",,") 'with-editor-finish)
-  (define-key with-editor-mode-map (kbd ",k") 'with-editor-cancel)
+  (general-def
+    :keymaps 'with-editor-mode-map
+    :states '(normal visual motion)
+    ",," 'with-editor-finish
+    ",k" 'with-editor-cancel
+    )
   )
 
 (use-package transient
