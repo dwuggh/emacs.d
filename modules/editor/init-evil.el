@@ -71,7 +71,7 @@
   (evil-snipe-override-mode 1)
   ;; (evil-snipe-local-mode 1)
   (setq evil-snipe-smart-case t
-        evil-snipe-scope 'whole-buffer)
+        evil-snipe-scope 'line)
   )
 
 (use-package evil-nerd-commenter

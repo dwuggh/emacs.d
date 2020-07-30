@@ -15,6 +15,8 @@
 (my-load-module 'search)
 (my-load-module 'git)
 (my-load-module 'appearance)
+
+(my-load-module 'lsp)
 (my-load-module 'treemacs)
 
 

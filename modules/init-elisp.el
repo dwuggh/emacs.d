@@ -138,7 +138,7 @@
  )
 
 (general-def
- :keymaps '(emacs-lisp-mode-map helpful-mode-map help-mode-map)
+ :keymaps 'override
  "C-h g" '(my-ivy-goto-definition :wk "find and go to definition")
   )
 

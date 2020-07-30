@@ -2,12 +2,16 @@
 
 
 (use-package projectile
-  :defer t
+  :init
+  (setq projectile-sort-order 'recentf
+	projectile-cache-file (concat my-cache-dir "projectile.cache")
+	projectile-known-projects-file (expand-file-name (concat my-cache-dir "projectile-bookmarks.eld"))
+	)
+  :config
+  (projectile-global-mode 1)
   )
 
-(use-package counsel-projectile
-  :defer t
-  )
+(use-package counsel-projectile)
 
 (dwuggh/leader-def
  ;; "fr" '(counsel-recentf :wk "find recent files")

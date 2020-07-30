@@ -44,7 +44,6 @@
     )
   )
 
-;; TODO better
 (defmacro dwuggh/localleader-def (&rest args)
   "A wrapper."
     (eval (macroexpand

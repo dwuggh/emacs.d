@@ -13,6 +13,11 @@
   (advice-add 'treemacs :after 'balance-windows-area)
   )
 
+(advice-add 'treemacs-add-project-to-workspace :after
+	    (lambda (path &optional name)
+	      (projectile-add-known-project path)
+	      ))
+
 (use-package treemacs-evil
   :after treemacs
   :config
