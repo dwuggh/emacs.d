@@ -9,6 +9,8 @@
   :defer t
   :config
   (require 'evil-magit)
+  (define-key with-editor-mode-map (kbd ",,") 'with-editor-finish)
+  (define-key with-editor-mode-map (kbd ",k") 'with-editor-cancel)
   )
 
 (use-package transient
@@ -23,8 +25,10 @@
 (use-package git-gutter
   :config
   (global-git-gutter-mode 1))
+
 (dwuggh/leader-def
   "gs" 'magit-status
   )
+
 
 (provide 'init-git)

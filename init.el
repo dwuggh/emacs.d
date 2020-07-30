@@ -25,6 +25,9 @@
 (my-load-module 'chinese)
 (my-load-module 'notes)
 
+;; programming languages
+(my-load-module 'haskell)
+
 ;; (setq load-path (cdr load-path))
 
 ;;; init.el ends here

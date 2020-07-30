@@ -34,6 +34,10 @@
   (global-company-mode)
   )
 
+(use-package company-prescient
+  :config
+  (company-prescient-mode 1))
+
 (use-package company-quickhelp
   :config
   (company-quickhelp-mode))

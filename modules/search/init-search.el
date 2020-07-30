@@ -29,6 +29,19 @@
    "o" '(counsel-describe-symbol :wk "describe symbol")
    )
   )
+(use-package prescient
+  :init
+  (setq
+   prescient-save-file (expand-file-name (concat my-cache-dir "prescient-save.el"))
+   )
+  :config
+  (prescient-persist-mode 1))
+
+(use-package ivy-prescient
+  :init
+  (setq ivy-prescient-retain-classic-highlighting t)
+  :config
+  (ivy-prescient-mode 1))
 
 ;; from doom emacs
 (defun +ivy-rich-describe-variable-transformer (cand)

@@ -136,9 +136,8 @@ This forces it to read the background before rendering."
 ;; ----------------------------------------------------------------------------------------
 
 (use-package ov)
+
 ;; https://kitchingroup.cheme.cmu.edu/blog/2016/11/06/Justifying-LaTeX-preview-fragments-in-org-mode/
-
-
 ;; https://github.com/jkitchin/scimax/blob/50e06f88299249a556825549818a8f79cba867e8/scimax-org.el#L585-L616
 
 (defun org-latex-fragment-justify (justification)
@@ -175,8 +174,6 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
   (org-latex-fragment-justify 'center))
 
 (advice-add 'org--make-preview-overlay :after 'org-latex-fragment-justify-advice)
-;; (advice-add 'org--format-latex-make-overlay :after 'org-justify-fragment-overlay)
-;; (advice-add 'org--format-latex-make-overlay :after 'org-latex-fragment-tooltip)
 
 
 
@@ -224,6 +221,6 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
   :states '(normal visual motion)
   :keymaps 'org-src-mode-map
   ",," 'org-edit-src-exit
-  ",a" 'org-edit-src-abort)
+  ",k" 'org-edit-src-abort)
 
 (provide 'init-org)
