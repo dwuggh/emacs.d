@@ -1,13 +1,19 @@
 ;; (require 'tex)
 ;; typo
 
-;; (use-package tex-site)
+;; (use-package tex-site
+;;   :straight (auctex :host github
+;;                     :repo "emacsmirror/auctex"
+;;                     :files (:default (:exclude "*.el.in"))
+;; 		    )
+;;   )
 (use-package tex
-  :straight (auctex :host github
-                    :repo "emacsmirror/auctex"
-                    ;; :files (:exclude "*.el.in")
-		    )
-  :defer t
+  ;; :straight (auctex :host github
+  ;;                   :repo "emacsmirror/auctex"
+  ;;                   ;; :files (:exclude "*.el.in")
+  ;; 		    )
+  :straight auctex
+  ;; :defer t
   :init
   (setq
    TeX-command-default "latexmk"
@@ -18,9 +24,7 @@
    TeX-source-correlate-start-server nil
    ;; Don't insert line-break at inline math
    LaTeX-fill-break-at-separators nil
-
    )
-  ;; (setq TeX-command)
   )
 
 (use-package auctex-latexmk
@@ -44,6 +48,7 @@
 		   (company-reftex-labels company-reftex-citations :with company-yasnippet)
 		   (company-dabbrev company-files company-semantic :with company-yasnippet))
       )
+
 (use-package magic-latex-buffer
   :defer t
   :init

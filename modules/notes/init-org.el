@@ -2,6 +2,7 @@
 (straight-use-package 'org)
 (straight-use-package 'org-plus-contrib)
 
+(setq org-src-window-setup 'split-window-below)
 (use-package org-superstar
   :defer t
   :init (add-hook 'org-mode-hook 'org-superstar-mode))
@@ -34,6 +35,15 @@
   ;; 					      "rg" 'org-roam-graph))
   )
 
+;; better table alignment
+(use-package valign
+  :straight (valign :host github
+		    :repo "casouri/valign"
+		    )
+  :defer t
+  :init
+  (add-hook 'org-mode-hook #'valign-mode))
+
 ;;; latex editing
 ;;; ------------------------------------------------------------------------------------
 
@@ -49,6 +59,8 @@
    (shell . t)
    ))
 
+
+;; set pdflatex to xelatex
 (setq-default org-latex-default-packages-alist
    '(("AUTO" "inputenc" t
       ("xelatex"))
@@ -65,6 +77,7 @@
      ("" "capt-of" nil nil)
      ("" "hyperref" nil nil)))
 
+;; customize packages
 (setq-default org-latex-packages-alist
               '(
 		("" "ctex" t nil)
@@ -87,6 +100,7 @@
   :init
   (setq org-edit-latex-default-frag-master
 	(concat user-emacs-directory "frag-master.tex"))
+  (add-hook 'org-mode-hook #'org-edit-latex-mode)
   )
 
 (require 'lib-hack)
@@ -104,16 +118,70 @@ This forces it to read the background before rendering."
                                       'default)
                                   :background nil t)))
 
-(plist-put+ org-format-latex-options
-	    :scale 2.0
-	    ;; :matchers
-	    ;; (cons "\\\\begin\\\{.*\\\}")
-	    )
-
 (advice-add 'load-theme :after '+org-refresh-latex-background-h)
 
 (add-hook 'org-mode-hook
 	  '+org-refresh-latex-background-h)
+
+(setq-default org-preview-latex-default-process 'dvipng)
+
+(plist-put+ org-format-latex-options
+	    :scale 2.2
+	    ;; specify the justification you want
+	    ;; :justify 'center
+	    )
+
+
+;; overlay support
+;; ----------------------------------------------------------------------------------------
+
+(use-package ov)
+;; https://kitchingroup.cheme.cmu.edu/blog/2016/11/06/Justifying-LaTeX-preview-fragments-in-org-mode/
+
+
+;; https://github.com/jkitchin/scimax/blob/50e06f88299249a556825549818a8f79cba867e8/scimax-org.el#L585-L616
+
+(defun org-latex-fragment-justify (justification)
+  "Justify the latex fragment at point with JUSTIFICATION.
+JUSTIFICATION is a symbol for 'left, 'center or 'right."
+  (interactive
+   (list (intern-soft
+          (completing-read "Justification (left): " '(left center right)
+                           nil t nil nil 'left))))
+
+  (let* ((ov (ov-at))
+	 (beg (ov-beg ov))
+	 (end (ov-end ov))
+	 (shift (- beg (line-beginning-position)))
+	 (img (overlay-get ov 'display))
+	 (img (and (and img (consp img) (eq (car img) 'image)
+			(image-type-available-p (plist-get (cdr img) :type)))
+		   img))
+	 space-left offset)
+    (when (and img (= beg (line-beginning-position)))
+      (setq space-left (- (window-max-chars-per-line) (car (image-display-size img)))
+	    offset (floor (cond
+			   ((eq justification 'center)
+			    (- (/ space-left 2) shift))
+			   ((eq justification 'right)
+			    (- space-left shift))
+			   (t
+			    0))))
+      (when (>= offset 0)
+	(overlay-put ov 'before-string (make-string offset ?\ ))))))
+
+(defun org-latex-fragment-justify-advice (beg end image &optional imagetype)
+  "After advice function to justify fragments."
+  (org-latex-fragment-justify 'center))
+
+(advice-add 'org--make-preview-overlay :after 'org-latex-fragment-justify-advice)
+;; (advice-add 'org--format-latex-make-overlay :after 'org-justify-fragment-overlay)
+;; (advice-add 'org--format-latex-make-overlay :after 'org-latex-fragment-tooltip)
+
+
+
+
+
 ;;; keybinding
 ;;; ------------------------------------------------------------------------------------
 
@@ -151,5 +219,11 @@ This forces it to read the background before rendering."
  "j" 'org-shiftdown
  "k" 'org-shiftup
  )
+
+(general-def
+  :states '(normal visual motion)
+  :keymaps 'org-src-mode-map
+  ",," 'org-edit-src-exit
+  ",a" 'org-edit-src-abort)
 
 (provide 'init-org)
