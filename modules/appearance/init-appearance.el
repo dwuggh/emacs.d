@@ -11,11 +11,15 @@
   (load-theme 'doom-one)
   )
 
+;; disable whatever bar
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
 
 
 ;; fullscreen on start
-(add-to-list 'default-frame-alist
-             '(fullscreen . maximized))
+(toggle-frame-maximized)
+(toggle-frame-fullscreen)
 
 (defvar dwuggh-font-family
   "Sarasa Term SC"
@@ -48,8 +52,16 @@
   )
 
 (use-package dashboard
+  :init
+  (setq dashboard-banner-logo-title "Dare Evil"
+	dashboard-startup-banner 2
+	dashboard-center-content t
+	)
+  ;; (setq-default
+  ;;  dashboard-banners-directory (expand-file-name (concat user-emacs-directory "straight/build/dashboard/banners")))
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  )
 
 
 (provide 'init-appearance)

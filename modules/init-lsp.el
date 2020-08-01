@@ -3,13 +3,14 @@
 (use-package lsp-mode
   :defer t
   :init
-  (setq lsp-keymap-prefix "SPC l"
-	lsp-prefer-capf t
+  (setq
+   lsp-prefer-capf t
 	)
   :config
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
   (dwuggh/localleader-def
-   :keymaps 'lsp-mode-map
+   :definer 'minor-mode
+   :keymaps 'lsp-mode
     "=" '(:ignore t :wk "format")
     "=b" #'lsp-format-buffer
     "=r" #'lsp-format-region
@@ -21,7 +22,6 @@
     ;; "ar" #'spacemacs//lsp-action-placeholder
     ;; "as" #'spacemacs//lsp-action-placeholder
     ;; goto
-    ;; N.B. implementation and references covered by xref bindings / lsp provider...
     "gt" #'lsp-find-type-definition
     ;; "gk" #'spacemacs/lsp-avy-goto-word
     ;; "gK" #'spacemacs/lsp-avy-goto-symbol
@@ -57,11 +57,45 @@
     "xL" #'lsp-lens-hide
    )
   )
+
 (use-package lsp-ui
-  :defer t)
+  :defer t
+  :config
+  (general-def
+    :keymaps 'lsp-ui-peek-mode-map
+    "h" #'lsp-ui-peek--select-prev-file
+    "j" #'lsp-ui-peek--select-next
+    "k" #'lsp-ui-peek--select-prev
+    "l" #'lsp-ui-peek--select-next-file
+    )
+  (setq lsp-ui-doc-delay 2000)
+  (defun lsp-ui-doc-toggle ()
+    "toggle lsp ui doc."
+    (interactive)
+    (if (lsp-ui-doc--frame-visible-p)
+	(lsp-ui-doc-hide)
+      (lsp-ui-doc-show)
+      ))
+  (general-def
+   :definer 'minor-mode
+   :keymaps 'lsp-mode
+   "K" 'lsp-ui-doc-toggle
+   )
+  )
+
+;; popwin
+(push '("*lsp-help*"
+	:dedicated t :position bottom
+	:stick t :noselect t :height 0.4)
+      popwin:special-display-config)
 
 
 
+(setq-mode-local prog-mode
+		 company-backends
+	      '(company-capf
+		(company-dabbrev-code :with company-yasnippet)
+		company-yasnippet company-dabbrev))
 
 
 (provide 'init-lsp)

@@ -2,7 +2,8 @@
 
 (use-package recentf
   :init
-  (setq recentf-save-file (concat user-emacs-directory ".cache/recentf"))
+  (setq recentf-save-file (concat user-emacs-directory ".cache/recentf")
+	recentf-max-saved-items 2000)
   (recentf-mode t)
   )
 
