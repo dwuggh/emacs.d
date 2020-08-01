@@ -27,6 +27,7 @@
 
 ;; programming languages
 (my-load-module 'haskell)
+(my-load-module 'rust)
 
 ;; (setq load-path (cdr load-path))
 
