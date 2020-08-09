@@ -10,6 +10,7 @@
    company-minimum-prefix-length 2
    company-auto-complete-chars '(?\))
    company-auto-complete nil
+   company-tooltip-align-annotations t
    ;; fuck, why this could even change???
    company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
                        company-echo-metadata-frontend
@@ -43,13 +44,14 @@
   (company-quickhelp-mode))
 
 
-
 (use-package yasnippet
   :config
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets)
 
+(straight-use-package '(company-box
+		      :no-native-compile t))
 (use-package company-box
   :hook (company-mode . company-box-mode)
   :init
@@ -59,6 +61,9 @@
   (setq company-box-doc-delay 0.2)
   )
 
+;; Debugger entered--Lisp error: (error "Invalid byte opcode: op=0, ptr=6")
+;;   company-box--scrollbar-prevent-changes()
+;;   redisplay_internal\ \(C\ function\)()
 (use-package company-posframe
   :config
   (setq company-posframe-quickhelp-delay 0.2)

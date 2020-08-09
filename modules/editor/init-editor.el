@@ -4,9 +4,11 @@
 (require 'lib-hack)
 (require 'init-leader)
 (require 'init-evil)
+(require 'init-fold)
 
 (require 'init-window)
 (require 'init-company)
+(require 'init-flycheck)
 
 (setq-default make-backup-files nil)
 (setq-default scroll-conservatively 101)
@@ -31,10 +33,12 @@
              smartparens-mode)
   :config
   (require 'smartparens-config)
+  (sp-with-modes
+      'prog-mode
+    (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))
   ;; don't create a pair with single quote in minibuffer
   ;; (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
   )
-
 
 ;;; narrow
 (dwuggh/leader-def
@@ -44,6 +48,23 @@
   "nr" 'narrow-to-region
   "nw" 'widen
   )
+
+;; a temporary way
+(defun my-newline ()
+  (interactive)
+  (if (looking-back "{")
+      (progn
+	(newline)
+	(newline)
+	(indent-for-tab-command)
+	(evil-previous-line)
+	(indent-for-tab-command)
+	)
+    (newline)
+    )
+  )
+
+;; (evil-global-set-key 'insert (kbd "RET") 'my-newline)
 
 
 ;;; highlights

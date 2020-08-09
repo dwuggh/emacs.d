@@ -120,6 +120,16 @@
             (throw 'done t)))))
     (message "No jump handler was able to find this symbol.")))
 
+
+
+(use-package erefactor
+  :defer t
+  :init
+  (add-hook 'emacs-lisp-mode-hook
+	    (lambda ()
+	      (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
+
+
 ;;; localleader key setting
 ;;; -------------------------------------------------------------------------------------
 

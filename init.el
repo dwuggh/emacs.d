@@ -9,8 +9,9 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
 
+;; (require 'org-paste-image)
 
-;; (my-load-module 'core)
+
 (my-load-module 'editor)
 (my-load-module 'search)
 (my-load-module 'git)
@@ -28,6 +29,7 @@
 ;; programming languages
 (my-load-module 'haskell)
 (my-load-module 'rust)
+(my-load-module 'cc)
 
 ;; (setq load-path (cdr load-path))
 

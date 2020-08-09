@@ -5,7 +5,7 @@
   :init
   (setq
    lsp-prefer-capf t
-	)
+   )
   :config
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
   (dwuggh/localleader-def
@@ -23,6 +23,8 @@
     ;; "as" #'spacemacs//lsp-action-placeholder
     ;; goto
     "gt" #'lsp-find-type-definition
+    "gr" #'lsp-find-references
+    "gR" #'xref-find-references
     ;; "gk" #'spacemacs/lsp-avy-goto-word
     ;; "gK" #'spacemacs/lsp-avy-goto-symbol
     "gM" #'lsp-ui-imenu
@@ -86,9 +88,13 @@
 ;; popwin
 (push '("*lsp-help*"
 	:dedicated t :position bottom
-	:stick t :noselect t :height 0.4)
+	:stick t :noselect nil :height 0.4)
       popwin:special-display-config)
 
+(push '("*xref*"
+	:dedicated t :position bottom
+	:stick t :noselect nil :height 0.4)
+      popwin:special-display-config)
 
 
 (setq-mode-local prog-mode

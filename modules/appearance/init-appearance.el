@@ -45,12 +45,19 @@
 
 (use-package doom-modeline
   :init
-  (doom-modeline-mode 1))
+  (setq doom-modeline-enable-word-count t)
+  ;; (setq global-mode-string
+  ;;     '(:eval (format "%d chars" (- (line-end-position) (line-beginning-position)))))
+  :config
+  (doom-modeline-mode 1)
+  )
 
 (use-package page-break-lines
   ;; :config (global-page-break-lines-mode)
   )
 
+(straight-use-package '(dashboard
+		      :no-native-compile t))
 (use-package dashboard
   :init
   (setq dashboard-banner-logo-title "Dare Evil"

@@ -1,6 +1,7 @@
 
-(straight-use-package 'org)
-(straight-use-package 'org-plus-contrib)
+;; https://github.com/raxod502/straight.el/issues/211#issuecomment-355840069
+(straight-use-package '(org :local-repo nil))
+(straight-use-package '(org-plus-contrib :local-repo nil))
 
 (setq org-src-window-setup 'split-window-below)
 (use-package org-superstar
@@ -36,6 +37,7 @@
   )
 
 ;; better table alignment
+;; TODO integration with org-latex-preview
 (use-package valign
   :straight (valign :host github
 		    :repo "casouri/valign"
@@ -126,7 +128,7 @@ This forces it to read the background before rendering."
 (setq-default org-preview-latex-default-process 'dvipng)
 
 (plist-put+ org-format-latex-options
-	    :scale 2.2
+	    :scale 2.0
 	    ;; specify the justification you want
 	    ;; :justify 'center
 	    )

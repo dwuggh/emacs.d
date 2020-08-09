@@ -44,6 +44,14 @@
 (advice-remove 'rime-input-method 'rime-evil-escape-advice)
 (advice-add 'rime-input-method :around #'rime-evil-escape-advice)
 
+(use-package jieba
+  :straight (jieba :type git
+		   :host github
+		   :repo "cireu/jieba.el"
+		   :files ("*.el" "*.js" "package.json"))
+  :config
+  (jieba-mode)
+  )
 
 (use-package goldendict
   :defer t
@@ -54,8 +62,10 @@
 
 
 (dwuggh/leader-def
- "o" '(:ignore t :wk "Chinese")
- "ou" '(goldendict-dwim :wk "goldendict")
- "oy" '(youdao-dictionary-search-at-point+ :wk "youdao dict"))
+ "l" '(:ignore t :wk "language")
+ "lg" '(goldendict-dwim :wk "goldendict")
+ "la" '(youdao-dictionary-search-at-point-posframe :wk "youdao dict")
+ "lv" '(youdao-dictionary-play-voice-at-point :wk "youdao voice")
+ )
 
 (provide 'init-chinese)
