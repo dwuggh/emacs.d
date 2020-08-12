@@ -11,7 +11,9 @@
 (require 'init-flycheck)
 
 (setq-default make-backup-files nil
-	      auto-save-default nil)
+	      auto-save-default nil
+	      auto-save-list-file-prefix (concat my-cache-dir "auto-save-list/.saves-"))
+
 
 (use-package auto-save
   :straight (auto-save :type git
@@ -50,6 +52,13 @@
   (sp-with-modes
       'prog-mode
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))
+  (sp-with-modes
+      'org-mode
+    (sp-local-pair "$" "$")
+    (sp-local-pair "=" "=")
+    (sp-local-pair "*" "*")
+    (sp-local-pair "\\[" "\\]")
+    )
   ;; don't create a pair with single quote in minibuffer
   ;; (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
   )

@@ -8,6 +8,7 @@
   :defer t
   :init (add-hook 'org-mode-hook 'org-superstar-mode))
 
+(setq org-id-locations-file (concat my-cache-dir ".org-id-locations"))
 
 (use-package evil-org)
 
