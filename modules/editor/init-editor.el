@@ -10,7 +10,21 @@
 (require 'init-company)
 (require 'init-flycheck)
 
-(setq-default make-backup-files nil)
+(setq-default make-backup-files nil
+	      auto-save-default nil)
+
+(use-package auto-save
+  :straight (auto-save :type git
+		       :host github
+		       :repo "manateelazycat/auto-save"
+		       )
+  :config
+  (auto-save-enable)
+  (setq auto-save-slient t
+	auto-save-idle 10)
+  )
+
+
 (setq-default scroll-conservatively 101)
 (setq-default display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 1)
@@ -66,6 +80,8 @@
 
 ;; (evil-global-set-key 'insert (kbd "RET") 'my-newline)
 
+;; sync files with disk
+(global-auto-revert-mode 1)
 
 ;;; highlights
 ;;; ---------------------------------------------------------------------------------------

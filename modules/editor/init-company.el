@@ -61,6 +61,7 @@
   (setq company-box-doc-delay 0.2)
   )
 
+
 ;; Debugger entered--Lisp error: (error "Invalid byte opcode: op=0, ptr=6")
 ;;   company-box--scrollbar-prevent-changes()
 ;;   redisplay_internal\ \(C\ function\)()
