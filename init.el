@@ -30,6 +30,7 @@
 (my-load-module 'haskell)
 (my-load-module 'rust)
 (my-load-module 'cc)
+(my-load-module 'programming)
 
 ;; (setq load-path (cdr load-path))
 

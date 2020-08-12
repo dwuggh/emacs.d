@@ -5,6 +5,7 @@
   :init
   (setq
    lsp-prefer-capf t
+   lsp-session-file (concat my-cache-dir ".lsp-session-v1")
    )
   :config
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
