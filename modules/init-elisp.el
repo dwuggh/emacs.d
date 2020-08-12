@@ -6,8 +6,14 @@
   :hook (emacs-lisp-mode . highlight-quoted-mode)
   )
 
-;;; the helpful will be extremely useful
+;;; helper packages
 ;;; ------------------------------------------------------------------------------
+
+(use-package explain-pause-mode
+  :straight (explain-pause-mode :type git :host github :repo "lastquestion/explain-pause-mode")
+  :config
+  ;; (explain-pause-mode)
+  )
 
 (defun my-popwin-pop-to-buffer (buffer &optional other-window norecord)
   "my `popwin:pop-to-buffer'. It works."

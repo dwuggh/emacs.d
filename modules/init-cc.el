@@ -12,10 +12,17 @@
 (add-hook+ (c-mode-hook c++-mode-hook)
 	     lsp)
 
-(setq lsp-clients-clangd-args '("--clang-tidy"
+(setq lsp-clients-clangd-args '(
+				"--clang-tidy"
 				"--completion-style=detailed"
 				"--header-insertion=never"
+				"--index"
+				"--background-index"
+				"--all-scopes-completion"
+				"--cross-file-rename"
 				))
+
+;; (use-package ccls)
 
 (use-package clang-format
   :defer t
@@ -42,8 +49,6 @@
   :init
   (add-hook 'global-flycheck-mode #'flycheck-clang-tidy-setup)
   )
-
-
 
 ;; data.items
 (provide 'init-cc)
