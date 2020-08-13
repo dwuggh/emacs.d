@@ -32,6 +32,14 @@
   :config
   )
 
+(use-package lsp-latex
+  :defer t
+  :init
+  (add-hook 'tex-mode-hook 'lsp)
+  (add-hook 'latex-mode-hook 'lsp)
+  (add-hook 'LaTeX-mode-hook 'lsp)
+  )
+
 (use-package company-auctex
   :defer t
   )
@@ -42,9 +50,12 @@
   )
 
 (setq-mode-local latex-mode company-backends
-		 '((company-auctex-macros
-		    company-auctex-symbols
-		    company-auctex-environments :with company-yasnippet)
+		 '((
+		    company-capf
+		    ;; company-auctex-macros
+		    ;; company-auctex-symbols
+		    ;; company-auctex-environments
+		    :with company-yasnippet)
 		   (company-reftex-labels company-reftex-citations :with company-yasnippet)
 		   (company-dabbrev company-files company-semantic :with company-yasnippet))
       )
