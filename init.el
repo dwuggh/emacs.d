@@ -1,11 +1,15 @@
 ;;; init.el --- personal emacs config init file -*- lexical-binding: t; -*-
 
+(setq-default custom-file (concat user-emacs-directory "custom.el")
+	      my-cache-dir (concat user-emacs-directory ".cache/"))
+
+(setq comp-eln-load-path
+      `(,(concat my-cache-dir "eln-cache") "/usr/bin/../lib/emacs/28.0.50/x86_64-pc-linux-gnu/eln-cache/"))
+
 (load (concat user-emacs-directory "init-packages"))
 
 
 ;; custom file
-(setq-default custom-file (concat user-emacs-directory "custom.el")
-	      my-cache-dir (concat user-emacs-directory ".cache/"))
 
 (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
 

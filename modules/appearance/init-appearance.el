@@ -34,6 +34,9 @@
 (add-to-list 'default-frame-alist
              '(font . "Sarasa Term SC-13"))
 
+(use-package default-text-scale
+  :config
+  (default-text-scale-mode 1))
 
 ;; highlight current line
 (global-hl-line-mode t)

@@ -67,6 +67,7 @@
  "q" '(:ignore t :wk "quit")
  "qq" '(save-buffers-kill-terminal :wk "quit emacs")
 
+ "u" 'universal-argument
  ;; single commands
  "SPC" '(counsel-M-x :wk "M-x")
  )

@@ -65,7 +65,7 @@
 
 (dwuggh/localleader-def
  :keymaps '(c-mode-map c++-mode-map)
- "gh" 'lsp-clangd-switch-between-source-headers
+ "ss" '(lsp-clangd-switch-between-source-headers :wk "header/source")
  )
-;; data.items
+
 (provide 'init-cc)

@@ -37,6 +37,13 @@
   ;; 					      "rg" 'org-roam-graph))
   )
 
+(add-hook 'org-mode-hook
+  (lambda ()
+    (interactive)
+    (when org-mode-hook
+      (org-latex-preview '(16))))
+  )
+
 ;; better table alignment
 ;; TODO integration with org-latex-preview
 (use-package valign
@@ -45,6 +52,9 @@
 		    )
   :defer t
   :init
+  (setq
+   valign-fancy-bar nil
+   )
   (add-hook 'org-mode-hook #'valign-mode))
 
 ;;; latex editing
@@ -88,11 +98,6 @@
                 ))
 
 
-(add-hook 'org-mode-hook
-  (lambda ()
-    (interactive)
-    (org-latex-preview '(16))
-    ))
 
 
 
@@ -161,14 +166,16 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
 		   img))
 	 space-left offset)
     (when (and img (= beg (line-beginning-position)))
-      (setq space-left (- (window-max-chars-per-line) (car (image-display-size img)))
-	    offset (floor (cond
-			   ((eq justification 'center)
-			    (- (/ space-left 2) shift))
-			   ((eq justification 'right)
-			    (- space-left shift))
-			   (t
-			    0))))
+      (setq
+       ;; space-left (- (window-max-chars-per-line) (car (image-display-size img)))
+       space-left (- 80 (car (image-display-size img)))
+       offset (floor (cond
+		      ((eq justification 'center)
+		       (- (/ space-left 2) shift))
+		      ((eq justification 'right)
+		       (- space-left shift))
+		      (t
+		       0))))
       (when (>= offset 0)
 	(overlay-put ov 'before-string (make-string offset ?\ ))))))
 
