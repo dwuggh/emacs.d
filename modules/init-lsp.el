@@ -1,4 +1,7 @@
 
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
 
 (use-package lsp-mode
   :defer t
@@ -7,6 +10,14 @@
    lsp-prefer-capf t
    lsp-session-file (concat my-cache-dir ".lsp-session-v1")
    )
+  (defun lsp-company-backends-h ()
+    (when lsp-completion-mode)
+    (set (make-local-variable 'company-backends)
+	 '((company-capf :with company-yasnippet)
+	  company-dabbrev-code company-dabbrev))
+    )
+  (add-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
+  (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
   :config
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
   (dwuggh/localleader-def
