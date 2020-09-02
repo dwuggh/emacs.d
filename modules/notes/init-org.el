@@ -14,8 +14,8 @@
 
 (use-package org-roam
   :defer t
-  :hook
-  (after-init . org-roam-mode)
+  ;; :hook
+  ;; (after-init . org-roam-mode)
   :custom
   (org-roam-directory (expand-file-name "~/org/roam/"))
   :init
@@ -37,12 +37,14 @@
   ;; 					      "rg" 'org-roam-graph))
   )
 
-(add-hook 'org-mode-hook
-  (lambda ()
-    (interactive)
-    (when org-mode-hook
+(defun org-latex-preview-hook ()
+  "hook for auto `org-latex-preview'"
+  (when org-mode-hook
+    (when (and (not (equal (buffer-name) "*Youdao Dictionary*")))
       (org-latex-preview '(16))))
   )
+
+(add-hook 'org-mode-hook #'org-latex-preview-hook)
 
 ;; better table alignment
 ;; TODO integration with org-latex-preview

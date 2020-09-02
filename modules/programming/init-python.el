@@ -5,4 +5,5 @@
                          (require 'lsp-pyright)
                          (lsp)))
   )
+
 (provide 'init-python)

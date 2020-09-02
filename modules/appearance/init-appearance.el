@@ -73,5 +73,21 @@
   (dashboard-setup-startup-hook)
   )
 
+(use-package centaur-tabs
+  :defer t
+  :config
+  (centaur-tabs-mode t)
+  (dwuggh/leader-def
+    "a" '(:ignore t :wk "tab")
+    "ah" 'centaur-tabs-backward
+    "al" 'centaur-tabs-forward
+    )
+  )
+
+(use-package pretty-mode
+  :config
+  (global-pretty-mode t)
+  )
+
 
 (provide 'init-appearance)

@@ -12,6 +12,14 @@
   (evil-mode 1)
   (dwuggh/leader-def
     "sc" '(evil-ex-nohighlight :wk "clear highlight"))
+  (general-def
+    :keymaps 'override
+    :states '(normal visual motion)
+    "j" 'evil-next-visual-line
+    "k" 'evil-previous-visual-line
+    "gj" 'evil-next-line
+    "gk" 'evil-previous-line
+    )
   )
 
 (use-package undo-fu

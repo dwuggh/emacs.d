@@ -8,7 +8,24 @@
 	leetcode-prefer-language "cpp")
   )
 
+(straight-use-package
+ '(tree-sitter :host github
+               :repo "ubolonton/emacs-tree-sitter"
+               :files ("lisp/*.el")))
+
+(straight-use-package
+ '(tree-sitter-langs :host github
+                     :repo "ubolonton/emacs-tree-sitter"
+                     :files ("langs/*.el" "langs/queries")))
+
+(use-package tree-sitter-langs)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(global-tree-sitter-mode)
+
+
+
 (require 'init-python)
 (require 'init-java)
+(require 'init-jsts)
 
 (provide 'init-programming)
