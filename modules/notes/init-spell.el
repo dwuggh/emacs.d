@@ -4,7 +4,7 @@
   )
 
 (general-add-hook
- '(prog-mode-hook text-mode-hook)
+ '(text-mode-hook org-mode-hook)
  #'wucuo-start)
 
 (provide 'init-spell)

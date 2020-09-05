@@ -22,11 +22,10 @@
 				"--cross-file-rename"
 				))
 
-;; (use-package ccls)
 
-(use-package clang-format
-  :defer t
-  )
+(use-package cmake-mode
+  :config
+  (add-hook 'cmake-mode-hook #'lsp))
 
 (use-package cmake-ide
   :defer t

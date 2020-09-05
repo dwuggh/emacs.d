@@ -14,6 +14,12 @@
   (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
   (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
   (define-key ivy-minibuffer-map (kbd "C-h") 'ivy-backward-delete-char)
+  ;; (evil-define-key 'normal ivy-occur-grep-mode-map "SPC fs" 'wgrep-finish-edit)
+  ;; (general-def
+  ;;   :major-modes 'ivy-occur-grep-mode
+  ;;   :states '(normal visual motion)
+  ;;   "SPC fs" 'save-buffer
+  ;;   )
   )
 
 (use-package swiper)
