@@ -7,9 +7,17 @@
   :config
   (custom-set-variables
    '(custom-safe-themes
-     '("2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" default)))
-  (load-theme 'doom-one)
+     '("37144b437478e4c235824f0e94afa740ee2c7d16952e69ac3c5ed4352209eefb" "2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" default)))
+  ;; (load-theme 'doom-one)
   )
+
+(setq my-emacs-theme (getenv "EMACS_THEME"))
+(cond
+ ((equal my-emacs-theme "light") (load-theme 'doom-solarized-light))
+ ((equal my-emacs-theme "dark") (load-theme 'doom-one))
+ ((equal my-emacs-theme "nord") (load-theme 'doom-nord))
+ (t (load-theme 'doom-one))
+ )
 
 ;; disable whatever bar
 (menu-bar-mode -1)
