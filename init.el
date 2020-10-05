@@ -41,6 +41,9 @@
 (my-load-module 'cc)
 (my-load-module 'programming)
 
+
+(my-load-module 'eaf)
+
 ;; (setq load-path (cdr load-path))
 
 ;;; init.el ends here
