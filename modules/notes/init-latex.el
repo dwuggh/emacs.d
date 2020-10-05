@@ -25,10 +25,12 @@
    ;; Don't insert line-break at inline math
    LaTeX-fill-break-at-separators nil
    )
+  (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+  (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
   )
 
 (use-package auctex-latexmk
-  :defer t
+  ;; :defer t
   :config
   )
 
@@ -73,37 +75,32 @@
 
 (use-package cdlatex
   :defer t
-  :config
-  (define-key
-    cdlatex-mode-map
-    (vector asymbol-trigger-key)
-    'asymbol-insert-text-or-symbol)
-  (add-hook 'org-cdlatex-mode-hook
-            (lambda () (interactive)
-              (define-key org-cdlatex-mode-map
-		(vector asymbol-trigger-key)
-	      'asymbol-insert-text-or-symbol)))
   )
 
-(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
-(add-hook 'LaTeX-mode-hook 'cdlatex-mode)
-(add-hook 'tex-mode-hook 'cdlatex-mode)
+;; (add-hook 'LaTeX-mode-hook 'cdlatex-mode)
+;; (add-hook 'tex-mode-hook 'cdlatex-mode)
 
 ;; (setq my-asymbol-dir (concat user-emacs-directory "lisp/asymbol"))
 (straight-use-package `(asymbol :local-repo ,(concat user-emacs-directory "lisp/asymbol/")))
+
 (use-package asymbol
   :init
   (setq asymbol-help-symbol-linewidth 80
 	asymbol-help-tag-linewidth    80
 	)
-  :config
-  (general-def
-    :keymaps 'override
-    :states 'insert
-    "C-`" (lambda () (interactive) (asymbol-insert-text-or-symbol 'symbol))
-    )
-  (asymbol-latex-input-symbol-on)
-  (asymbol-org-input-symbol-on)
+  (global-asymbol-mode 1)
+  (add-hook 'org-mode-hook #'org-cdlatex-mode)
+  (add-hook 'org-mode-hook #'asymbol-mode)
+  (add-hook 'latex-mode-hook #'asymbol-mode)
+  (add-hook 'LaTeX-mode-hook #'asymbol-mode)
+  (add-hook 'tex-mode-hook #'asymbol-mode)
+  (add-hook 'org-cdlatex-mode-hook
+          (lambda () 
+            (define-key org-cdlatex-mode-map
+	      "`" 'asymbol-insert-text-or-symbol)
+            ;; (define-key cdlatex-mode-map
+	    ;;   "`" 'asymbol-insert-text-or-symbol)
+	    ))
   )
 
 
@@ -122,16 +119,42 @@
 	;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 	(add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
 	(add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+	(advice-add 'evil-escape-func :after 'jit-lock-refontify)
+	(advice-add 'self-insert-command :after 'jit-lock-refontify)
+	;; (advice-remove 'self-insert-command 'jit-lock-refontify)
 	)
     ;; (LaTeX-math-mode -1)
     ;; (TeX-source-correlate-mode -1)
     ;; (TeX-PDF-mode -1)
     (magic-latex-buffer -1)
+    (advice-remove 'evil-escape-func 'jit-lock-refontify)
     )
   )
 
-(add-hook+ (latex-mode-hook LaTeX-mode-hook tex-mode-hook)
-	   my-latex-mode)
+;; (add-hook+ (latex-mode-hook LaTeX-mode-hook tex-mode-hook)
+;; 	   my-latex-mode)
 
+;;; useful functions
+;;; -----------------------------------------------------------
+(setq display-buffer-alist
+      (cons `(,shell-command-buffer-name-async display-buffer-no-window)
+	    display-buffer-alist))
+
+(setq display-buffer-alist
+      (cons '("\\*easy-latex-compile-*" display-buffer-no-window)
+	    display-buffer-alist))
+
+(defun latex-easy-compile ()
+  "compile .tex file easily"
+  (interactive)
+  (let* ((name (buffer-file-name))
+	 (cmd (format "xelatex -interaction nonstopmode -synctex=1 %s" name)))
+    (async-shell-command cmd "*easy-latex-compile-log*" "*easy-latex-compile-error*")
+    ))
+
+(dwuggh/localleader-def
+ :keymaps '(latex-mode-map LaTeX-mode-map tex-mode-map)
+ "c" 'latex-easy-compile
+ )
 
 (provide 'init-latex)

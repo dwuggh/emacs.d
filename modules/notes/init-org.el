@@ -3,7 +3,11 @@
 (straight-use-package '(org :local-repo nil))
 (straight-use-package '(org-plus-contrib :local-repo nil))
 
-(setq org-src-window-setup 'split-window-below)
+(setq org-src-window-setup 'split-window-below
+      org-hide-emphasis-markers t
+      markdown-hide-markup t)
+
+
 (use-package org-superstar
   :defer t
   :init (add-hook 'org-mode-hook 'org-superstar-mode))

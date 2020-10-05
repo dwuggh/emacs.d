@@ -27,5 +27,6 @@
 (require 'init-python)
 (require 'init-java)
 (require 'init-jsts)
+(require 'init-cool)
 
 (provide 'init-programming)

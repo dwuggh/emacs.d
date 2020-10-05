@@ -177,4 +177,9 @@
                     company-dabbrev))
 
 
+;; hacking emacs
+;;; ------------------------------------------------------------------------------------
+(use-package s)
+
+
 (provide 'init-elisp)

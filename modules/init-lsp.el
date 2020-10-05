@@ -9,6 +9,7 @@
   (setq
    lsp-prefer-capf t
    lsp-session-file (concat my-cache-dir ".lsp-session-v1")
+   dap-breakpoints-file (concat my-cache-dir ".dap-breakpoints")
    )
   (defun lsp-company-backends-h ()
     (when lsp-completion-mode)
@@ -17,9 +18,11 @@
 	  company-dabbrev-code company-dabbrev))
     )
   (add-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
-  (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
+  (add-hook 'lsp-mode-hook #'lsp-company-backends-h)
+  ;; (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
   :config
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
+
   (dwuggh/localleader-def
    :definer 'minor-mode
    :keymaps 'lsp-mode

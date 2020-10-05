@@ -14,6 +14,7 @@
  "ff" '(counsel-find-file :wk "find files in current dir")
  "fs" '(save-buffer :wk "save file")
  "fS" '(evil-write-all :wk "save all file")
+ "fz" 'counsel-fzf
  )
 
 (provide 'init-files)
