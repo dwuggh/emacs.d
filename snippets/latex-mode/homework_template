@@ -1,0 +1,27 @@
+# -*- mode: snippet -*-
+# name: homework_template
+# key: homework_template
+# --
+
+\documentclass[A4paper]{article}
+
+\usepackage{ctex}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[siunitx]{circuitikz}
+\usepackage{braket}
+\usepackage{graphicx}
+
+\ctikzset{v/.append style={/tikz/american voltages}}
+
+\title{$0}
+\author{邹昊江}
+\date{\today}
+\begin{document}
+    \pagenumbering{gobble}
+    \maketitle
+    % \pagenumbering{arabic}
+
+\end{document}
