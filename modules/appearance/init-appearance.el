@@ -11,6 +11,8 @@
   ;; (load-theme 'doom-one)
   )
 
+(use-package apropospriate-theme)
+
 (setq my-emacs-theme (getenv "EMACS_THEME"))
 (cond
  ((equal my-emacs-theme "light") (load-theme 'doom-solarized-light))

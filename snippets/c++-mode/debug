@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: debug
+# key: debug
+# --
+
+#ifdef DEBUG
+$0
+#endif

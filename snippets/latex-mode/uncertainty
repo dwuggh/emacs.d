@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: uncertainty
+# key: uncertainty
+# --
+
+取置信系数\$p = 0.95\$，B类不确定度为${3: Delta_B}, 呈正态分布，于是
+\begin{align}
+  \Delta_{$1} &= \sqrt{(t_{0.95}\sigma_{$1})^2 + (\frac{k_{0.95}\Delta_B}{C})^2} \notag \\\\
+     &=  \sqrt{(2.26 \times ${2:sigma_A} )^2 + (\frac{1.96 \times $3 }{3})^2} \notag \\\\
+  \Delta_{$1} &= $0
+\end{align}

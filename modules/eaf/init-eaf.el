@@ -5,6 +5,9 @@
   :straight
   (eaf :type git :host github :repo "manateelazycat/emacs-application-framework"
        :files ("*.el" "*.py" "app" "core"))
+  :init
+  (setq eaf-config-location (concat my-cache-dir "eaf/")
+		url-configuration-directory (concat my-cache-dir "url/"))
   :custom
   (eaf-find-alternate-file-in-dired t)
   :config

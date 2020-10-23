@@ -8,11 +8,37 @@
 	leetcode-prefer-language "cpp")
   )
 
+
+(straight-register-package
+ '(tsc :host github
+       :repo "ubolonton/emacs-tree-sitter"
+       :no-build t
+       :files ("core/*.el"))
+ )
+
+;; (straight-use-package tsc)
+;; (straight--add-package-to-load-path
+;;  '(tsc :host github
+;;        :repo "ubolonton/emacs-tree-sitter"
+;;        :files ("core/*.el"))
+;;  )
+
+;; (with-temp-file tsc-dyn-get--version-file
+;;       (let ((coding-system-for-write 'utf-8))
+;;         (insert "0.12.0")))
+
+(setq load-path 
+      (cons (expand-file-name
+	     (concat straight-base-dir "straight/build/tsc"))
+	    load-path))
+
+
+;; Base framework, syntax highlighting.
 (straight-use-package
  '(tree-sitter :host github
                :repo "ubolonton/emacs-tree-sitter"
                :files ("lisp/*.el")))
-
+;; Language bundle.
 (straight-use-package
  '(tree-sitter-langs :host github
                      :repo "ubolonton/emacs-tree-sitter"
@@ -22,6 +48,7 @@
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 (global-tree-sitter-mode)
 
+(setq-default tab-width 4)
 
 
 (require 'init-python)

@@ -12,6 +12,7 @@
    dap-breakpoints-file (concat my-cache-dir ".dap-breakpoints")
    )
   (defun lsp-company-backends-h ()
+    (interactive)
     (when lsp-completion-mode)
     (set (make-local-variable 'company-backends)
 	 '((company-capf :with company-yasnippet)
@@ -75,6 +76,7 @@
    )
   )
 
+
 (use-package lsp-ui
   :defer t
   :config
@@ -85,7 +87,8 @@
     "k" #'lsp-ui-peek--select-prev
     "l" #'lsp-ui-peek--select-next-file
     )
-  (setq lsp-ui-doc-delay 2000)
+  (setq lsp-ui-doc-delay 2000
+	lsp-ui-doc-position 'at-point)
   (defun lsp-ui-doc-toggle ()
     "toggle lsp ui doc."
     (interactive)

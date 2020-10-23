@@ -7,7 +7,9 @@
   :init
   (setq evil-want-keybinding nil
         evil-symbol-word-search t
-	evil-search-module 'evil-search)
+	evil-search-module 'evil-search
+	evil-undo-system 'undo-fu
+	)
   :config
   (evil-mode 1)
   (dwuggh/leader-def
@@ -24,7 +26,7 @@
 
 (use-package undo-fu
   :init
-  (global-undo-tree-mode -1)
+  ;; (global-undo-tree-mode -1)
   (setq undo-limit 8000000
         undo-strong-limit 8000000
         undo-outer-limit 8000000)

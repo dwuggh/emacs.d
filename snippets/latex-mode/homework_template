@@ -5,23 +5,30 @@
 
 \documentclass[A4paper]{article}
 
-\usepackage{ctex}
-\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage[nocap]{ctex}
+\usepackage[utf8]{inputenc}
 \usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+\usepackage[thinc]{esdiff}
 \usepackage{tikz}
 \usepackage[siunitx]{circuitikz}
 \usepackage{braket}
 \usepackage{graphicx}
 
 \ctikzset{v/.append style={/tikz/american voltages}}
+\newcommand*{\dif}{\mathop{}\!\mathrm{d}}
 
-\title{$0}
+\title{$1}
 \author{邹昊江}
 \date{\today}
 \begin{document}
     \pagenumbering{gobble}
     \maketitle
     % \pagenumbering{arabic}
+
+\section{$0}
 
 \end{document}
