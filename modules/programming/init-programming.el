@@ -50,6 +50,15 @@
 
 (setq-default tab-width 4)
 
+(defun my-run-make ()
+  "run make in current dir"
+  (interactive)
+  (async-shell-command "make" "*my-run-make-log*" "*my-run-make-error*")
+)
+
+(setq display-buffer-alist
+      (cons '("\\*my-run-make-*" display-buffer-no-window)
+	    display-buffer-alist))
 
 (require 'init-python)
 (require 'init-java)

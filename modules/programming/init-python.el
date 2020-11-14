@@ -6,4 +6,10 @@
                          (lsp)))
   )
 
+(use-package ein
+  :config
+  (setq org-babel-load-languages
+		(cons '(ein . t) org-babel-load-languages))
+  )
+
 (provide 'init-python)

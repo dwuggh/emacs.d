@@ -8,6 +8,8 @@
 	      gc-cons-threshold 80000000
 	      )
 
+(load-file custom-file)
+
 (setq comp-eln-load-path
       `(,(concat my-cache-dir "eln-cache") "/usr/bin/../lib/emacs/28.0.50/x86_64-pc-linux-gnu/eln-cache/"))
 
