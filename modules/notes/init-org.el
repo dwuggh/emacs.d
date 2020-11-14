@@ -7,6 +7,9 @@
       org-hide-emphasis-markers t
       markdown-hide-markup t)
 
+;; (defun my-org-mode-hook ()
+;;   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
+;; (add-hook 'org-mode-hook #'my-org-mode-hook)
 
 (use-package org-superstar
   :defer t
@@ -59,7 +62,7 @@
   :defer t
   :init
   (setq
-   valign-fancy-bar nil
+   valign-fancy-bar t
    )
   (add-hook 'org-mode-hook #'valign-mode))
 

@@ -27,6 +27,9 @@
    )
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+  (add-hook 'LaTeX-mode-hook 'smartparens-mode)
+  :config
+  (define-key TeX-mode-map (kbd "$") nil)
   )
 
 (use-package auctex-latexmk
@@ -75,6 +78,11 @@
 
 (use-package cdlatex
   :defer t
+  :config
+  (add-hook 'cdlatex-mode-hook
+			(lambda ()
+			  (define-key cdlatex-mode-map "`" nil)
+			  (define-key cdlatex-mode-map "$" nil)))
   )
 
 ;; (add-hook 'LaTeX-mode-hook 'cdlatex-mode)
