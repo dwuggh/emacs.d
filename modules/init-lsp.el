@@ -10,6 +10,7 @@
    lsp-prefer-capf t
    lsp-session-file (concat my-cache-dir ".lsp-session-v1")
    dap-breakpoints-file (concat my-cache-dir ".dap-breakpoints")
+   ;; lsp-use-plists t
    )
   (defun lsp-company-backends-h ()
     (interactive)

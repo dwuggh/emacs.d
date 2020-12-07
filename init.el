@@ -3,10 +3,11 @@
 ;; (setenv "http_proxy" "socks5://127.0.0.1:1080")
 ;; (setenv "https_proxy" "socks5://127.0.0.1:1080")
 ;; (setenv "all_proxy" "socks5://127.0.0.1:1080")
-(setq-default custom-file (concat user-emacs-directory "custom.el")
-	      my-cache-dir (concat user-emacs-directory ".cache/")
-	      gc-cons-threshold 80000000
-	      )
+(setq-default
+ custom-file (concat user-emacs-directory "custom.el")
+ my-cache-dir (concat user-emacs-directory ".cache/")
+ gc-cons-threshold 80000000
+ )
 
 (load-file custom-file)
 

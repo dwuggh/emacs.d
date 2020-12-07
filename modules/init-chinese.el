@@ -40,6 +40,20 @@
   (setq-default rime-user-data-dir (concat user-emacs-directory "rime/")))
 
 
+(use-package sis
+  :config
+  (sis-ism-lazyman-config nil "rime" 'native)
+  (sis-ism-lazyman-config "1" "2" 'fcitx5)
+    ;; enable the /cursor color/ mode
+  (sis-global-cursor-color-mode t)
+  ;; enable the /respect/ mode
+  (sis-global-respect-mode t)
+  ;; enable the /context/ mode for all buffers
+  (sis-global-context-mode t)
+  ;; enable the /inline english/ mode for all buffers
+  (sis-global-inline-mode t)
+  )
+
 
 ;; (advice-remove 'rime-input-method 'rime-evil-escape-advice)
 
@@ -48,6 +62,7 @@
 		   :host github
 		   :repo "cireu/jieba.el"
 		   :files ("*.el" "*.js" "package.json"))
+  :defer t
   :config
   (jieba-mode)
   )

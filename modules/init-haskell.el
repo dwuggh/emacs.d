@@ -3,19 +3,15 @@
   :defer t
   )
 
-;; (require 'hs-lint)
-;; (use-package flycheck-haskell
-;;   :defer t
-;;   :init
-;;   (add-hook 'haskell-mode-hook #'flycheck-haskell-setup)
-;;   )
-
 (use-package lsp-haskell
   :defer t
   :init
   (add-hook 'haskell-mode-hook #'lsp)
-  (setq lsp-haskell-process-path-hie "ghcide")
-  (setq lsp-haskell-process-args-hie nil)
+  (add-hook 'haskell-literate-mode-hook #'lsp)
+  ;; (setq lsp-haskell-process-path-hie "haskell-language-server-8.10.2")
+  ;; (setq lsp-haskell-process-args-hie nil)
+  ;; (setq lsp-haskell-server-path "/home/dwuggh/.ghcup/bin/haskell-language-server-wrapper")
+  ;; (setq lsp-haskell-server-path "/home/dwuggh/.local/bin/ghcide")
   :config
   ;; (lsp-haskell-set-hlint-on)
   ;; (lsp-haskell-set-completion-snippets-on)

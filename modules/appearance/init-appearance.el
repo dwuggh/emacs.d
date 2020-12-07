@@ -12,6 +12,9 @@
   )
 
 (use-package apropospriate-theme)
+(use-package spacemacs-theme)
+(use-package twilight-bright-theme)
+(use-package flucui-themes)
 
 (setq my-emacs-theme (getenv "EMACS_THEME"))
 (cond

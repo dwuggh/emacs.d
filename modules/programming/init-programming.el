@@ -9,12 +9,12 @@
   )
 
 
-(straight-register-package
- '(tsc :host github
-       :repo "ubolonton/emacs-tree-sitter"
-       :no-build t
-       :files ("core/*.el"))
- )
+;; (straight-register-package
+;;  '(tsc :host github
+;;        :repo "ubolonton/emacs-tree-sitter"
+;;        :no-build t
+;;        :files ("core/*.el"))
+;;  )
 
 ;; (straight-use-package tsc)
 ;; (straight--add-package-to-load-path

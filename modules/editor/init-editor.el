@@ -156,6 +156,8 @@
  :keymaps 'override
  "C-q" 'evil-end-of-line)
 
+;; miscellaneous
+(use-package crux)
 
 
 (provide 'init-editor)
