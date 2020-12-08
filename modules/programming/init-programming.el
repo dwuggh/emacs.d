@@ -63,6 +63,8 @@
 (require 'init-python)
 (require 'init-java)
 (require 'init-jsts)
+(require 'init-julia)
+
 (require 'init-cool)
 
 (provide 'init-programming)
