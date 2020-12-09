@@ -42,7 +42,7 @@
 
 (use-package sis
   :config
-  (sis-ism-lazyman-config nil "rime" 'native)
+  ;; (sis-ism-lazyman-config nil "rime" 'native)
   (sis-ism-lazyman-config "1" "2" 'fcitx5)
     ;; enable the /cursor color/ mode
   (sis-global-cursor-color-mode t)

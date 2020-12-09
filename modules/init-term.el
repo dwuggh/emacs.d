@@ -10,8 +10,14 @@
 	)
   )
 
+(defun my-vterm-disable-sis-context-mode (&rest args)
+  (sis-context-mode -1)
+  )
 
 (advice-add 'vterm--update :after
 			'my-vterm-set-cursor-after-update
 			)
+
+(add-hook 'vterm-mode-hook #'my-vterm-disable-sis-context-mode)
+
 (provide 'init-term)
