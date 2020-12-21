@@ -13,6 +13,13 @@
 \usepackage{amssymb}
 \usepackage{capt-of}
 \usepackage{hyperref}
+\usepackage[thinc]{esdiff}
+\usepackage{tikz}
+\usepackage[siunitx]{circuitikz}
+
+\newcommand*{\dif}{\mathop{}\!\mathrm{d}}
+
+
 \pagestyle{empty}             % do not remove
 % The settings below are copied from fullpage.sty
 \setlength{\textwidth}{\paperwidth}
@@ -30,5 +37,7 @@
 
 \begin{document}
 This is the master of LaTeX fragments.
+
+\input{./.cache/input.tex}
 
 \end{document}

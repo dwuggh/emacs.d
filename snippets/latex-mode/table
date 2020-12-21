@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: table
+# key: table
+# --
+
+\begin{table}[htb]
+  \centering
+  \caption{\label{table:$1} ${2:name}}
+  \small
+  \begin{tabular}{${3:|c|c|c|}}
+    \hline
+	$0
+  \end{tabular} 
+\end{table}
