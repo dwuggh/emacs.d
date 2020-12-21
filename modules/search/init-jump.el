@@ -15,8 +15,6 @@
  "j." '(evil-avy-goto-line-below :wk "goto line below")
  "jw" '(evil-avy-goto-word-1 :wk "goto word")
  "jb" '(avy-pop-mark :wk "go back")
-
- "bb" '(ivy-switch-buffer :wk "change buffer")
  )
 
 

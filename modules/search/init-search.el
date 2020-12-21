@@ -157,6 +157,13 @@
   (counsel-rg (my-thing-at-point) default-directory)
   )
 
+(defun my-counsel-rg-dir ()
+  "ripgrep in current directory"
+  (interactive)
+  (counsel-rg nil default-directory)
+  )
+
+
 (defun my-counsel-projectile-rg-thing-at-point ()
   "Search current project with tap."
   (interactive)
@@ -168,8 +175,8 @@
  "sS" '(swiper-thing-at-point :wk "swiper TAP")
  "s C-s" '(swiper-all-thing-at-point :wk "swiper all buffer TAP")
  "sb" '(swiper-isearch :wk "swiper")
- "sd" 'counsel-rg
- "sD" '(my-counsel-rg-thing-at-point :wk "rg at point")
+ "sd" '(my-counsel-rg-dir :wk "search current directory")
+ "sD" '(my-counsel-rg-thing-at-point :wk "search current directory TAP")
  "sp" '(counsel-projectile-rg :wk "rg project")
  "ps" '(counsel-projectile-rg :wk "rg project")
  "sP" '(my-counsel-projectile-rg-thing-at-point :wk "rg project")

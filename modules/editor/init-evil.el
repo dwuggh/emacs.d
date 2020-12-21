@@ -185,11 +185,14 @@
  :states '(normal visual motion)
  :keymaps 'override
  "C-u" 'evil-scroll-up
+ "C-l" 'evil-scroll-line-to-center
  )
 (general-define-key
  :states 'insert
  :keymaps 'override
- "C-V" 'evil-paste-after)
+ "C-V" 'evil-paste-before
+ "C-l" 'evil-scroll-line-to-center
+ )
 ;; (add-hook 'evil-mode-hook
 ;;           (progn
 ;;             (evil-escape-mode)

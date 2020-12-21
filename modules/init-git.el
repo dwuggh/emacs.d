@@ -32,6 +32,7 @@
 
 (dwuggh/leader-def
   "gs" 'magit-status
+  "gf" 'magit-file-dispatch
   )
 
 

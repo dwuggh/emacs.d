@@ -5,6 +5,7 @@
  "bm" '((lambda () (interactive) (switch-to-buffer "*Messages*")) :wk "message buffer")
  "bs" '((lambda () (interactive) (switch-to-buffer "*scratch*")) :wk "switch to scratch buffer")
  ;; "bb" '(counsel-buffer-or-recentf)
+ "bb" '(ivy-switch-buffer :wk "change buffer")
  )
 
 (define-key ivy-switch-buffer-map (kbd "C-k") 'ivy-previous-line)
