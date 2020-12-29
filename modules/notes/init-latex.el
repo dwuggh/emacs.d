@@ -156,7 +156,7 @@
   "compile .tex file easily"
   (interactive)
   (let* ((name (buffer-file-name))
-	 (cmd (format "xelatex -interaction nonstopmode -synctex=1 %s" name)))
+	 (cmd (format "xelatex -interaction nonstopmode -synctex=1 \"%s\"" name)))
     (async-shell-command cmd "*easy-latex-compile-log*" "*easy-latex-compile-error*")
     ))
 

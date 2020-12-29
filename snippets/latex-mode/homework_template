@@ -22,7 +22,7 @@
 \newcommand*{\dif}{\mathop{}\!\mathrm{d}}
 
 \title{$1}
-\author{邹昊江\\PB19061257}
+\author{邹昊江\\\\PB19061257}
 \date{\today}
 \begin{document}
     \pagenumbering{gobble}
