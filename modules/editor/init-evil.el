@@ -9,6 +9,7 @@
         evil-symbol-word-search t
 	evil-search-module 'evil-search
 	evil-undo-system 'undo-fu
+	evil-ex-search-vim-style-regexp t
 	)
   :config
   (evil-mode 1)
