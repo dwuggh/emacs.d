@@ -11,6 +11,23 @@
 
 (use-package rg)
 
+(defun xdg-open-file-1 (file)
+  "Open FILE with xdg-open."
+  (call-process "xdg-open" nil 0 nil file)
+  )
+
+(defun xdg-open-file (&optional initial-input)
+  "Open selected file with xdg-open.
+When INITIAL-INPUT is non-nil, use it in the minibuffer during completion."
+  (interactive)
+  (counsel--find-file-1
+   "xdg-open file: " initial-input
+   #'xdg-open-file-1
+   'my-xdg-open
+   )
+  )
+
+
 (dwuggh/leader-def
  "fr" '(counsel-recentf :wk "find recent files")
  "ff" '(counsel-find-file :wk "find files in current dir")
