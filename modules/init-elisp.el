@@ -135,6 +135,9 @@
 	    (lambda ()
 	      (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
 
+(use-package parinfer-rust-mode
+  ;; :hook emacs-lisp-mode
+  )
 
 ;;; localleader key setting
 ;;; -------------------------------------------------------------------------------------
