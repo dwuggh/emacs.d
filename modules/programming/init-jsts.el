@@ -1,8 +1,9 @@
-
+(setq-default js-indent-level 2)
 (use-package typescript-mode
   :init
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook 'lsp)
+  (add-hook 'js-mode-hook 'lsp)
   )
 
 (use-package rainbow-mode)
@@ -39,5 +40,7 @@
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   :defer t
   )
+
+(use-package json-mode)
 
 (provide 'init-jsts)
