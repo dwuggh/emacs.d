@@ -4,6 +4,7 @@
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook 'lsp)
   (add-hook 'js-mode-hook 'lsp)
+  (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . typescript-mode))
   )
 
 (use-package rainbow-mode)
