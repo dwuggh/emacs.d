@@ -64,6 +64,7 @@
 (require 'init-java)
 (require 'init-jsts)
 (require 'init-julia)
+(require 'init-go)
 
 (require 'init-cool)
 
