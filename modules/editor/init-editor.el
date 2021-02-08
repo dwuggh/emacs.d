@@ -11,25 +11,40 @@
 (require 'init-flycheck)
 
 (setq-default make-backup-files nil
-	      auto-save-default nil
-	      auto-save-list-file-prefix (concat my-cache-dir "auto-save-list/.saves-"))
+          auto-save-default nil
+          auto-save-list-file-prefix (concat my-cache-dir "auto-save-list/.saves-"))
+(setq create-lockfiles nil)
+
 
 
 (use-package auto-save
   :straight (auto-save :type git
-		       :host github
-		       :repo "manateelazycat/auto-save"
-		       )
+               :host github
+               :repo "manateelazycat/auto-save"
+               )
   :config
   (auto-save-enable)
   (setq auto-save-slient t
-	auto-save-idle 10)
+    auto-save-idle 10)
   )
 
 
 (setq-default scroll-conservatively 101)
 (setq-default display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 1)
+
+
+(defvar untabify-this-buffer t
+  "If nonnil, activate `untabify-all'.")
+(defun untabify-all ()
+  "Untabify the current buffer, unless `untabify-this-buffer' is nil."
+  (and untabify-this-buffer (untabify (point-min) (point-max))))
+(define-minor-mode untabify-mode
+  "Untabify buffer on save." nil " untab" nil
+  (make-variable-buffer-local 'untabify-this-buffer)
+  (setq untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
+  (add-hook 'before-save-hook #'untabify-all))
+(add-hook 'prog-mode-hook 'untabify-mode)
 
 ;;; --------------------------------------------------------------------------------------
 
@@ -77,12 +92,12 @@
   (interactive)
   (if (looking-back "{")
       (progn
-	(newline)
-	(newline)
-	(indent-for-tab-command)
-	(evil-previous-line)
-	(indent-for-tab-command)
-	)
+    (newline)
+    (newline)
+    (indent-for-tab-command)
+    (evil-previous-line)
+    (indent-for-tab-command)
+    )
     (newline)
     )
   )
