@@ -14,7 +14,7 @@
           auto-save-default nil
           auto-save-list-file-prefix (concat my-cache-dir "auto-save-list/.saves-"))
 (setq create-lockfiles nil)
-
+(setq-default indent-tabs-mode nil)
 
 
 (use-package auto-save
