@@ -49,16 +49,16 @@
   :config
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets)
+;; (use-package yasnippet-snippets)
 
 (straight-use-package '(company-box
-		      :no-native-compile t))
+              :no-native-compile t))
 (use-package company-box
   :hook (company-mode . company-box-mode)
   :init
   (setq company-box-backends-colors
-	'((company-yasnippet :all "light blue" :selected
-			     (:background :foreground "black"))))
+    '((company-yasnippet :all "light blue" :selected
+                 (:background :foreground "black"))))
   (setq company-box-doc-delay 0.2)
   )
 
@@ -71,11 +71,11 @@
   (setq company-posframe-quickhelp-delay 0.2)
   ;; (company-posframe-mode 1)
   ;; (general-define-key company-posframe-active-map
-  ;; 		      :states 'insert
-  ;; 		      "C-f" 'company-posframe-quickhelp-toggle
-  ;; 		      "C-n" 'company-posframe-quickhelp-scroll-up
-  ;; 		      "C-p" 'company-posframe-quickhelp-scroll-down
-  ;; 		      )
+  ;;              :states 'insert
+  ;;              "C-f" 'company-posframe-quickhelp-toggle
+  ;;              "C-n" 'company-posframe-quickhelp-scroll-up
+  ;;              "C-p" 'company-posframe-quickhelp-scroll-down
+  ;;              )
   ;; (evil-define-key 'insert company-posframe-active-map (kbd "C-f") 'company-posframe-quickhelp-toggle)
   ;; (evil-define-key 'insert company-posframe-active-map (kbd "C-f") 'company-show-doc-buffer)
   ;; (evil-define-key 'insert company-posframe-active-map (kbd "C-n") 'company-posframe-quickhelp-scroll-down)
@@ -85,9 +85,9 @@
 
 ;; backend
 (setq-default company-backends
-	      '((company-capf company-dabbrev-code :with company-yasnippet)
-		(company-dabbrev :with company-yasnippet)
-		company-yasnippet))
+          '((company-capf company-dabbrev-code :with company-yasnippet)
+        (company-dabbrev :with company-yasnippet)
+        company-yasnippet))
 
 
 (provide 'init-company)
