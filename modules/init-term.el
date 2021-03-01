@@ -5,9 +5,9 @@
 
 (defun my-vterm-set-cursor-after-update (&rest args)
   (if (equal evil-state 'insert)
-	(setq-local cursor-type '(bar . 2))
-	(setq-local cursor-type t)
-	)
+    (setq-local cursor-type '(bar . 2))
+    (setq-local cursor-type t)
+    )
   )
 
 (defun my-vterm-disable-sis-context-mode (&rest args)
@@ -15,9 +15,14 @@
   )
 
 (advice-add 'vterm--update :after
-			'my-vterm-set-cursor-after-update
-			)
+            'my-vterm-set-cursor-after-update
+            )
 
 (add-hook 'vterm-mode-hook #'my-vterm-disable-sis-context-mode)
+(general-def
+  :states '(insert normal)
+  :keymaps '(vterm-mode-map)
+  "C-c" #'vterm-send-C-c
+  )
 
 (provide 'init-term)

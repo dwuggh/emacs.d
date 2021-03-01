@@ -16,8 +16,8 @@
     (interactive)
     (when lsp-completion-mode)
     (set (make-local-variable 'company-backends)
-	 '((company-capf :with company-yasnippet)
-	  company-dabbrev-code company-dabbrev))
+     '((company-capf :with company-yasnippet)
+      company-dabbrev-code company-dabbrev))
     )
   (add-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
   (add-hook 'lsp-mode-hook #'lsp-company-backends-h)
@@ -74,6 +74,8 @@
     "xh" #'lsp-document-highlight
     "xl" #'lsp-lens-show
     "xL" #'lsp-lens-hide
+
+    "e" #'(lsp-ui-flycheck-list :wk "list error")
    )
   )
 
@@ -89,12 +91,12 @@
     "l" #'lsp-ui-peek--select-next-file
     )
   (setq lsp-ui-doc-delay 2000
-	lsp-ui-doc-position 'at-point)
+    lsp-ui-doc-position 'at-point)
   (defun lsp-ui-doc-toggle ()
     "toggle lsp ui doc."
     (interactive)
     (if (lsp-ui-doc--frame-visible-p)
-	(lsp-ui-doc-hide)
+    (lsp-ui-doc-hide)
       (lsp-ui-doc-show)
       ))
   (general-def
@@ -106,21 +108,21 @@
 
 ;; popwin
 (push '("*lsp-help*"
-	:dedicated t :position bottom
-	:stick t :noselect nil :height 0.4)
+    :dedicated t :position bottom
+    :stick t :noselect nil :height 0.4)
       popwin:special-display-config)
 
 (push '("*xref*"
-	:dedicated t :position bottom
-	:stick t :noselect nil :height 0.4)
+    :dedicated t :position bottom
+    :stick t :noselect nil :height 0.4)
       popwin:special-display-config)
 
 
 (setq-mode-local prog-mode
-		 company-backends
-	      '(company-capf
-		(company-dabbrev-code :with company-yasnippet)
-		company-yasnippet company-dabbrev))
+         company-backends
+          '(company-capf
+        (company-dabbrev-code :with company-yasnippet)
+        company-yasnippet company-dabbrev))
 
 
 (provide 'init-lsp)

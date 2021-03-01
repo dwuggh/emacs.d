@@ -15,6 +15,8 @@
   :defer t
   ;; from spacemacs
   :mode "/\\(Cargo.lock\\|\\.cargo/config\\)\\'"
+  :init
+  (add-hook 'toml-mode-hook #'smartparens-mode)
   )
 
 (dwuggh/localleader-def
