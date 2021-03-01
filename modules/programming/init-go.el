@@ -41,4 +41,9 @@
    )
   )
 
+(use-package protobuf-mode
+  :config
+  (add-hook 'protobuf-mode-hook #'smartparens-mode)
+  )
+
 (provide 'init-go)

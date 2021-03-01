@@ -60,6 +60,15 @@
       (cons '("\\*my-run-make-*" display-buffer-no-window)
         display-buffer-alist))
 
+(use-package separedit
+  :config
+  (define-key prog-mode-map        (kbd "C-c '") #'separedit)
+  (define-key minibuffer-local-map (kbd "C-c '") #'separedit)
+  (define-key help-mode-map        (kbd "C-c '") #'separedit)
+  (define-key helpful-mode-map     (kbd "C-c '") #'separedit)
+  (setq separedit-default-mode 'markdown-mode)
+  )
+
 (require 'init-python)
 (require 'init-java)
 (require 'init-jsts)

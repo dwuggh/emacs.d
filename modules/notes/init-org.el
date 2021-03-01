@@ -5,7 +5,24 @@
 
 (setq org-src-window-setup 'split-window-below
       org-hide-emphasis-markers t
-      markdown-hide-markup t)
+      )
+
+(use-package markdown-mode
+  :defer t
+  :init
+  (setq markdown-hide-markup t
+        markdown-hide-markup-in-view-modes t
+        markdown-command "marked"
+        )
+  ;; (add-to-list 'auto-mode-alist '("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . gfm-mode))
+  :config
+  (dwuggh/localleader-def
+    :keymaps 'markdown-mode-map
+    "tt" 'markdown-toggle-markup-hiding
+    "tp" 'markdown-toggle-inline-images
+    "tm" 'markdown-toggle-math
+    )
+  )
 
 ;; (defun my-org-mode-hook ()
 ;;   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
@@ -36,12 +53,12 @@
 
   ;;   (spacemacs/declare-prefix-for-mode 'org-mode "mr" "org-roam")
   ;;   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-  ;; 					      "rl" 'org-roam
-  ;; 					      "rt" 'org-roam-dailies-today
-  ;; 					      "rb" 'org-roam-switch-to-buffer
-  ;; 					      "rf" 'org-roam-find-file
-  ;; 					      "ri" 'org-roam-insert
-  ;; 					      "rg" 'org-roam-graph))
+  ;;                          "rl" 'org-roam
+  ;;                          "rt" 'org-roam-dailies-today
+  ;;                          "rb" 'org-roam-switch-to-buffer
+  ;;                          "rf" 'org-roam-find-file
+  ;;                          "ri" 'org-roam-insert
+  ;;                          "rg" 'org-roam-graph))
   )
 
 (defun org-latex-preview-hook ()
@@ -57,8 +74,8 @@
 ;; TODO integration with org-latex-preview
 (use-package valign
   :straight (valign :host github
-		    :repo "casouri/valign"
-		    )
+            :repo "casouri/valign"
+            )
   :defer t
   :init
   (setq
@@ -71,7 +88,7 @@
 
 ;; auto preview latex fragments
 (setq-default org-preview-latex-image-directory
-	      (concat user-emacs-directory ".cache/ltximg/"))
+          (concat user-emacs-directory ".cache/ltximg/"))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -102,7 +119,7 @@
 ;; customize packages
 (setq-default org-latex-packages-alist
               '(
-		("" "ctex" t nil)
+        ("" "ctex" t nil)
                 ("" "braket" t nil)
                 ))
 
@@ -116,7 +133,7 @@
   :defer t
   :init
   (setq org-edit-latex-default-frag-master
-	(concat user-emacs-directory "frag-master.tex"))
+    (concat user-emacs-directory "frag-master.tex"))
   (add-hook 'org-mode-hook #'org-edit-latex-mode)
   )
 
@@ -138,15 +155,15 @@ This forces it to read the background before rendering."
 (advice-add 'load-theme :after '+org-refresh-latex-background-h)
 
 (add-hook 'org-mode-hook
-	  '+org-refresh-latex-background-h)
+      '+org-refresh-latex-background-h)
 
 (setq-default org-preview-latex-default-process 'dvipng)
 
 (plist-put+ org-format-latex-options
-	    :scale 2.0
-	    ;; specify the justification you want
-	    ;; :justify 'center
-	    )
+        :scale 2.0
+        ;; specify the justification you want
+        ;; :justify 'center
+        )
 
 
 ;; overlay support
@@ -166,27 +183,27 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
                            nil t nil nil 'left))))
 
   (let* ((ov (ov-at))
-	 (beg (ov-beg ov))
-	 (end (ov-end ov))
-	 (shift (- beg (line-beginning-position)))
-	 (img (overlay-get ov 'display))
-	 (img (and (and img (consp img) (eq (car img) 'image)
-			(image-type-available-p (plist-get (cdr img) :type)))
-		   img))
-	 space-left offset)
+     (beg (ov-beg ov))
+     (end (ov-end ov))
+     (shift (- beg (line-beginning-position)))
+     (img (overlay-get ov 'display))
+     (img (and (and img (consp img) (eq (car img) 'image)
+            (image-type-available-p (plist-get (cdr img) :type)))
+           img))
+     space-left offset)
     (when (and img (= beg (line-beginning-position)))
       (setq
        ;; space-left (- (window-max-chars-per-line) (car (image-display-size img)))
        space-left (- 80 (car (image-display-size img)))
        offset (floor (cond
-		      ((eq justification 'center)
-		       (- (/ space-left 2) shift))
-		      ((eq justification 'right)
-		       (- space-left shift))
-		      (t
-		       0))))
+              ((eq justification 'center)
+               (- (/ space-left 2) shift))
+              ((eq justification 'right)
+               (- space-left shift))
+              (t
+               0))))
       (when (>= offset 0)
-	(overlay-put ov 'before-string (make-string offset ?\ ))))))
+    (overlay-put ov 'before-string (make-string offset ?\ ))))))
 
 (defun org-latex-fragment-justify-advice (beg end image &optional imagetype)
   "After advice function to justify fragments."
