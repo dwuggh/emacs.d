@@ -24,6 +24,13 @@
     )
   )
 
+(use-package grip-mode
+  :defer t
+  :init
+  ;; (add-hook 'markdown-mode-hook #'grip-mode)
+  ;; (setq grip-preview-use-webkit t)
+  )
+
 ;; (defun my-org-mode-hook ()
 ;;   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
 ;; (add-hook 'org-mode-hook #'my-org-mode-hook)
@@ -82,6 +89,15 @@
    valign-fancy-bar t
    )
   (add-hook 'org-mode-hook #'valign-mode))
+
+(defun lsp-flycheck-filter-org-mode (oldfun &rest args)
+  (unless (equal (car args) 'org-mode)
+    (apply oldfun args)))
+
+
+(advice-add 'lsp-flycheck-add-mode :around
+            #'lsp-flycheck-filter-org-mode)
+
 
 ;;; latex editing
 ;;; ------------------------------------------------------------------------------------
