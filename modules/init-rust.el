@@ -5,6 +5,34 @@
   (add-hook 'rust-mode-hook #'lsp)
   )
 
+(defun rust-rustup-target-list ()
+  "Get rustup's target list using `rustup target list'."
+  (s-split "\n" (s-trim (shell-command-to-string "rustup target list")))
+  )
+
+(defun rust-rustup-target-list-installed ()
+  "Get installed rustup's target list using `rustup target list --installed'."
+  (s-split "\n" (s-trim (shell-command-to-string "rustup target list --installed")))
+  )
+
+(defun lsp-rust-analyzer-select-cargo-target ()
+  "Interactively select `lsp-rust-analyzer-cargo-target'.
+This requires rustup intsalled"
+    (interactive)
+    (ivy-read "set cargo target: "
+              (rust-rustup-target-list-installed)
+              :require-match t
+              :preselect lsp-rust-analyzer-cargo-target
+              :caller 'rust-select-compile-target
+              :action
+              (lambda (new-target)
+                (when (s-ends-with? "(installed)" new-target)
+                    (setq new-target (car (s-split " " new-target))))
+                (unless (equal new-target lsp-rust-analyzer-cargo-target)
+                  (setq lsp-rust-analyzer-cargo-target new-target)
+                  (if (y-or-n-p "restart workspace?")
+                      (call-interactively 'lsp-workspace-restart))))))
+
 (use-package cargo
   :defer t
   :init
@@ -18,6 +46,16 @@
   :init
   (add-hook 'toml-mode-hook #'smartparens-mode)
   )
+
+(use-package wgsl-mode
+  :straight
+  (wgsl-mode :type git :host github :repo "acowley/wgsl-mode")
+  )
+(use-package glsl-mode
+  :straight
+  (glsl-mode :type git :host github :repo "jimhourihan/glsl-mode")
+  )
+
 
 (dwuggh/localleader-def
  :keymaps 'rust-mode-map
