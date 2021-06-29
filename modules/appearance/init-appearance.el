@@ -59,6 +59,7 @@
   ;; (setq global-mode-string
   ;;     '(:eval (format "%d chars" (- (line-end-position) (line-beginning-position)))))
   :config
+  (display-battery-mode 1)
   (doom-modeline-mode 1)
   )
 

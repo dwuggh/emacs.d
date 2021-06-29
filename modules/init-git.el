@@ -27,8 +27,15 @@
    ))
 
 (use-package git-gutter
+  :init
+  ;; (setq git-gutter:deleted-sign "|")
+  ;; (setq git-gutter:modified-sign "|")
+  ;; (setq git-gutter:added-sign "|")
   :config
-  (global-git-gutter-mode 1))
+  (global-git-gutter-mode 1)
+  )
+
+;; (use-package git-gutter-fringe)
 
 (dwuggh/leader-def
   "gs" 'magit-status
