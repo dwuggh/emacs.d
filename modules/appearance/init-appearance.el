@@ -15,7 +15,7 @@
  ((equal my-emacs-theme "light") (load-theme 'doom-solarized-light))
  ((equal my-emacs-theme "dark") (load-theme 'doom-one))
  ((equal my-emacs-theme "nord") (load-theme 'doom-nord))
- (t (load-theme 'doom-one))
+ (t (load-theme 'doom-nord))
  )
 
 ;; disable whatever bar
@@ -68,13 +68,13 @@
   )
 
 (straight-use-package '(dashboard
-		      :no-native-compile t))
+              :no-native-compile t))
 (use-package dashboard
   :init
   (setq dashboard-banner-logo-title "Dare Evil"
-	dashboard-startup-banner 2
-	dashboard-center-content t
-	)
+    dashboard-startup-banner 2
+    dashboard-center-content t
+    )
   ;; (setq-default
   ;;  dashboard-banners-directory (expand-file-name (concat user-emacs-directory "straight/build/dashboard/banners")))
   :config
