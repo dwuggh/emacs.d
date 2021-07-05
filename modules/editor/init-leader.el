@@ -6,13 +6,12 @@
 (use-package which-key
   :init
   (which-key-setup-side-window-bottom)
-  (setq which-key-idle-delay 0.2
+  (setq which-key-idle-delay 0.7
         which-key-idle-secondary-delay 0.01
-        which-key-enable-extended-define-key t
         which-key-add-column-padding 1
         which-key-max-description-length 32
         which-key-max-display-columns nil
-        which-key-min-display-lines 6
+        which-key-min-display-lines 4
         which-key-sort-order 'which-key-prefix-then-key-order
         which-key-sort-uppercase-first nil
         which-key-use-C-h-for-paging t
