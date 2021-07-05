@@ -41,7 +41,16 @@
               )
   )
 
-;; (use-package company-anaconda)
+(use-package company-anaconda
+  :defer t
+  :init
+  (setq-mode-local python-mode company-backends
+                   '((company-anaconda :with company-yasnippet)
+                     company-capf
+                     (company-dabbrev-code :with company-yasnippet)
+                     company-yasnippet company-dabbrev))
+  )
+
 (defun anaconda-eldoc-toggle-posframe ()
   "Interactively toggle posframe view for documentation."
   (interactive)
@@ -53,9 +62,9 @@
 
 (use-package lsp-pyright
   :defer t
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp)))
+  ;; :hook (python-mode . (lambda ()
+  ;;                        (require 'lsp-pyright)
+  ;;                        (lsp)))
   )
 
 (general-def
