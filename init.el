@@ -48,7 +48,7 @@
 (my-load-module 'programming)
 
 
-(my-load-module 'eaf)
+;; (my-load-module 'eaf)
 
 ;; (setq load-path (cdr load-path))
 
