@@ -3,6 +3,18 @@
   :config
   (exec-path-from-shell-initialize))
 
+
+(defun my-lsp-session ()
+  "Get lsp session for current buffer."
+  (lsp-find-session-folder (lsp-session) (buffer-file-name))
+  )
+
+(defun my-lsp-init ()
+  "My lsp initialization."
+  (when (my-lsp-session)
+    (lsp))
+  )
+
 (use-package lsp-mode
   :defer t
   :init

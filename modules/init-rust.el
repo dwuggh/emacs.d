@@ -2,7 +2,7 @@
 (use-package rust-mode
   :defer t
   :init
-  (add-hook 'rust-mode-hook #'lsp)
+  (add-hook 'rust-mode-hook #'my-lsp-init)
   )
 
 (defun rust-rustup-target-list ()

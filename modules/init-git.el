@@ -5,16 +5,20 @@
   :defer t
   )
 
-(use-package magit
+(use-package with-editor
   :defer t
   :config
-  (require 'evil-magit)
   (general-def
     :keymaps 'with-editor-mode-map
     :states '(normal visual motion)
     ",," 'with-editor-finish
     ",k" 'with-editor-cancel
     )
+  )
+(use-package magit
+  :defer t
+  :config
+  (require 'evil-magit)
   )
 
 (use-package transient

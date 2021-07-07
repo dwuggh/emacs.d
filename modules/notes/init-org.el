@@ -1,3 +1,4 @@
+(require 'lib-hack)
 
 ;; https://github.com/raxod502/straight.el/issues/211#issuecomment-355840069
 (straight-use-package '(org :local-repo nil))
@@ -143,8 +144,8 @@
 
 
 
-(straight-use-package '(org-edit-latex :local-repo "~/Projects/emacs/org-edit-latex/"))
-(use-package org-edit-latex
+(straight-use-package '(my-org-edit-latex :local-repo "~/Projects/emacs/org-edit-latex/"))
+(use-package my-org-edit-latex
   ;; :straight '(org-edit-latex :local-repo "~/Projects/emacs/org-edit-latex/")
   :defer t
   :init
@@ -153,7 +154,6 @@
   (add-hook 'org-mode-hook #'org-edit-latex-mode)
   )
 
-(require 'lib-hack)
 ;; configure latex preview
 ;; from doom emacs, auto refresh background with theme
 (defun +org-refresh-latex-background-h (&rest args)

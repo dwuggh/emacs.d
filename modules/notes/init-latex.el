@@ -5,13 +5,13 @@
 ;;   :straight (auctex :host github
 ;;                     :repo "emacsmirror/auctex"
 ;;                     :files (:default (:exclude "*.el.in"))
-;; 		    )
+;;          )
 ;;   )
 (use-package tex
   ;; :straight (auctex :host github
   ;;                   :repo "emacsmirror/auctex"
   ;;                   ;; :files (:exclude "*.el.in")
-  ;; 		    )
+  ;;            )
   :straight auctex
   ;; :defer t
   :init
@@ -40,9 +40,9 @@
 (use-package lsp-latex
   :defer t
   :init
-  (add-hook 'tex-mode-hook 'lsp)
-  (add-hook 'latex-mode-hook 'lsp)
-  (add-hook 'LaTeX-mode-hook 'lsp)
+  (add-hook 'tex-mode-hook 'my-lsp-init)
+  (add-hook 'latex-mode-hook 'my-lsp-init)
+  (add-hook 'LaTeX-mode-hook 'my-lsp-init)
   )
 
 (use-package company-auctex
@@ -55,14 +55,14 @@
   )
 
 (setq-mode-local latex-mode company-backends
-		 '((
-		    company-capf
-		    ;; company-auctex-macros
-		    ;; company-auctex-symbols
-		    ;; company-auctex-environments
-		    :with company-yasnippet)
-		   (company-reftex-labels company-reftex-citations :with company-yasnippet)
-		   (company-dabbrev company-files company-semantic :with company-yasnippet))
+         '((
+            company-capf
+            ;; company-auctex-macros
+            ;; company-auctex-symbols
+            ;; company-auctex-environments
+            :with company-yasnippet)
+           (company-reftex-labels company-reftex-citations :with company-yasnippet)
+           (company-dabbrev company-files company-semantic :with company-yasnippet))
       )
 
 (use-package magic-latex-buffer
@@ -80,9 +80,9 @@
   :defer t
   :config
   (add-hook 'cdlatex-mode-hook
-			(lambda ()
-			  (define-key cdlatex-mode-map "`" nil)
-			  (define-key cdlatex-mode-map "$" nil)))
+            (lambda ()
+              (define-key cdlatex-mode-map "`" nil)
+              (define-key cdlatex-mode-map "$" nil)))
   )
 
 ;; (add-hook 'LaTeX-mode-hook 'cdlatex-mode)
@@ -94,8 +94,8 @@
 (use-package asymbol
   :init
   (setq asymbol-help-symbol-linewidth 80
-	asymbol-help-tag-linewidth    80
-	)
+    asymbol-help-tag-linewidth    80
+    )
   (global-asymbol-mode 1)
   (add-hook 'org-mode-hook #'org-cdlatex-mode)
   (add-hook 'org-mode-hook #'asymbol-mode)
@@ -105,32 +105,32 @@
   (add-hook 'org-cdlatex-mode-hook
           (lambda () 
             (define-key org-cdlatex-mode-map
-	      "`" 'asymbol-insert-text-or-symbol)
+          "`" 'asymbol-insert-text-or-symbol)
             ;; (define-key cdlatex-mode-map
-	    ;;   "`" 'asymbol-insert-text-or-symbol)
-	    ))
+        ;;   "`" 'asymbol-insert-text-or-symbol)
+        ))
   )
 
 
 (define-minor-mode my-latex-mode
   "My latex minor mode, easier for configuration."
   :keymap (let ((map (make-sparse-keymap)))
-	    map)
+        map)
   :init-value nil
   :global nil
   (if my-latex-mode
       (progn
-	;; (LaTeX-math-mode 1)
-	;; (TeX-source-correlate-mode 1)
-	;; (TeX-PDF-mode 1)
-	(magic-latex-buffer 1)
-	;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-	(add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-	(add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
-	(advice-add 'evil-escape-func :after 'jit-lock-refontify)
-	(advice-add 'self-insert-command :after 'jit-lock-refontify)
-	;; (advice-remove 'self-insert-command 'jit-lock-refontify)
-	)
+    ;; (LaTeX-math-mode 1)
+    ;; (TeX-source-correlate-mode 1)
+    ;; (TeX-PDF-mode 1)
+    (magic-latex-buffer 1)
+    ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+    (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+    (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+    (advice-add 'evil-escape-func :after 'jit-lock-refontify)
+    (advice-add 'self-insert-command :after 'jit-lock-refontify)
+    ;; (advice-remove 'self-insert-command 'jit-lock-refontify)
+    )
     ;; (LaTeX-math-mode -1)
     ;; (TeX-source-correlate-mode -1)
     ;; (TeX-PDF-mode -1)
@@ -140,23 +140,23 @@
   )
 
 ;; (add-hook+ (latex-mode-hook LaTeX-mode-hook tex-mode-hook)
-;; 	   my-latex-mode)
+;;     my-latex-mode)
 
 ;;; useful functions
 ;;; -----------------------------------------------------------
 (setq display-buffer-alist
       (cons `(,shell-command-buffer-name-async display-buffer-no-window)
-	    display-buffer-alist))
+        display-buffer-alist))
 
 (setq display-buffer-alist
       (cons '("\\*easy-latex-compile-*" display-buffer-no-window)
-	    display-buffer-alist))
+        display-buffer-alist))
 
 (defun latex-easy-compile ()
   "compile .tex file easily"
   (interactive)
   (let* ((name (buffer-file-name))
-	 (cmd (format "xelatex -interaction nonstopmode -synctex=1 \"%s\"" name)))
+     (cmd (format "xelatex -interaction nonstopmode -synctex=1 \"%s\"" name)))
     (async-shell-command cmd "*easy-latex-compile-log*" "*easy-latex-compile-error*")
     ))
 
