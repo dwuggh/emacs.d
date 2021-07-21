@@ -24,7 +24,8 @@
                )
   :config
   (auto-save-enable)
-  (setq auto-save-slient t
+  (setq
+   auto-save-silent t
     auto-save-idle 10)
   )
 

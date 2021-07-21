@@ -9,7 +9,7 @@
   (ivy-mode 1)
   (setq enable-recursive-minibuffers t
         ivy-use-virtual-buffers nil
-	ivy-height 17
+    ivy-height 17
         )
   (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
   (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
@@ -20,6 +20,15 @@
   ;;   :states '(normal visual motion)
   ;;   "SPC fs" 'save-buffer
   ;;   )
+  )
+
+(use-package ivy-xref
+  :defer t
+  :init
+  ;; TODO it's buggy
+  ;; (setq xref-show-definitions-function #'ivy-xref-show-defs
+  ;;       xref-show-xrefs-function #'ivy-xref-show-xrefs
+  ;;       )
   )
 
 (use-package swiper)
@@ -126,8 +135,8 @@
   :init
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
   (setq ivy-posframe-display-functions-alist
-	'((swiper . ivy-display-function-fallback)
-	  (swiper-isearch . ivy-display-function-fallback)
+    '((swiper . ivy-display-function-fallback)
+      (swiper-isearch . ivy-display-function-fallback)
           (complete-symbol . ivy-posframe-display-at-point)
           (counsel-M-x . ivy-posframe-display-at-frame-center)
           (t . ivy-posframe-display-at-frame-center)))
@@ -213,6 +222,60 @@
   (push
    '(helpful-mode :dedicated t :position bottom :stick t :noselect t :height 0.4)
    popwin:special-display-config))
+
+(defun zoxide-query-l ()
+  (s-split "\n" (shell-command-to-string "zoxide query -l"))
+  )
+
+(defun zoxide-query-ls ()
+  (-map 's-trim (s-split "\n" (shell-command-to-string "zoxide query -ls")))
+  )
+
+(defun zoxide-weighted-pair (text)
+  "Get weight and directory."
+  (->> text
+      (s-match "^\\([0-9]+ \\)\\(.*\\)")
+      (cdr)
+      (-map-first (lambda (_) t) 'string-to-number)))
+
+(defun ivy-zoxide-sort-function (a b)
+  "Sort function for zoxide."
+  (let ((w1 (car (zoxide-weighted-pair a)))
+        (w2 (car (zoxide-weighted-pair b))))
+    (> w1 w2)
+    )
+  )
+;; (setq ivy-sort-functions-alist
+;; '((counsel-minor . ivy-prescient-sort-function)
+;;   (counsel-colors-web . ivy-prescient-sort-function)
+;;   (counsel-unicode-char . ivy-prescient-sort-function)
+;;   (counsel-register . ivy-prescient-sort-function)
+;;   (counsel-mark-ring . ivy-prescient-sort-function)
+;;   (counsel-file-register . ivy-prescient-sort-function)
+;;   (counsel-describe-face . ivy-prescient-sort-function)
+;;   (counsel-info-lookup-symbol . ivy-prescient-sort-function)
+;;   (counsel-apropos . ivy-prescient-sort-function)
+;;   (counsel-describe-symbol . ivy-prescient-sort-function)
+;;   (read-file-name-internal . ivy-prescient-sort-function)
+;;   (t . ivy-prescient-sort-function)))
+
+(setq ivy-sort-functions-alist
+      (cons '(counsel-z . ivy-zoxide-sort-function) ivy-sort-functions-alist))
+
+(defun counsel-z ()
+  "Counsel with zoxide."
+  (interactive)
+  (let ((dirs (zoxide-query-ls)))
+    (ivy-read "switch to directory: "
+              dirs
+              :require-match t
+              :caller 'counsel-z
+              :action
+              (lambda (dir)
+                (->> dir
+                  (zoxide-weighted-pair)
+                  (cadr)
+                  (find-file))))))
 
 (provide 'init-search)
 ;;; init-search.el ends here

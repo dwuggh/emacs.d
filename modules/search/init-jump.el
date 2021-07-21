@@ -35,9 +35,9 @@
   )
 
 (setq my-jump-handler-default '(
-				lsp-find-definition
-				counsel-etags-find-tag-at-point
-				))
+                lsp-find-definition
+                counsel-etags-find-tag-at-point
+                ))
 
 (defun my-navigation (&optional jump-handler)
   "Jump to definition around point using the best tool for this action.
@@ -46,9 +46,9 @@
   (catch 'done
     (let ((old-buffer (current-buffer))
           (old-point (point))
-	  (jump-handler (if jump-handler
-			    jump-handler
-			  my-jump-handler-default)))
+      (jump-handler (if jump-handler
+                jump-handler
+              my-jump-handler-default)))
       (dolist (-handler jump-handler)
         (let ((handler (if (listp -handler) (car -handler) -handler))
               (async (when (listp -handler)
@@ -64,7 +64,7 @@
 
 (dwuggh/localleader-def
  :keymaps 'prog-mode-map
- "gg" '(my-navigation :wk "goto definition")
+ "gg" '(lsp-find-definition :wk "goto definition")
  "gl" '(counsel-etags-list-tag-in-current-file :wk "list tags")
  )
 

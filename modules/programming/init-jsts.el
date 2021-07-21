@@ -42,16 +42,25 @@
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   )
 
-(use-package json-mode)
+(use-package json-mode
+  :defer t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+  )
 
 (defun css-lookup-symbol-at-point ()
   "See `css-lookup-symbol'"
   (interactive)
   (css-lookup-symbol (my-thing-at-point)))
 
-(general-def
-  :major-modes 'css-mode
-  "K" 'css-lookup-symbol-at-point
+
+(use-package css-mode
+  :defer t
+  :config
+  (general-def
+    :keymaps 'css-mode-map
+    "K" 'css-lookup-symbol-at-point
+    )
   )
 
 

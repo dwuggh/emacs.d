@@ -22,6 +22,7 @@
    lsp-prefer-capf t
    lsp-session-file (concat my-cache-dir ".lsp-session-v1")
    dap-breakpoints-file (concat my-cache-dir ".dap-breakpoints")
+   lsp-enable-xref nil
    ;; lsp-use-plists t
    )
   (defun lsp-company-backends-h ()
@@ -47,15 +48,10 @@
     ;; code actions
     "a" '(:ignore t :wk "action")
     "aa" #'lsp-execute-code-action
-    ;; "af" #'spacemacs//lsp-action-placeholder
-    ;; "ar" #'spacemacs//lsp-action-placeholder
-    ;; "as" #'spacemacs//lsp-action-placeholder
     ;; goto
     "gt" #'lsp-find-type-definition
     "gr" #'lsp-find-references
     "gR" #'xref-find-references
-    ;; "gk" #'spacemacs/lsp-avy-goto-word
-    ;; "gK" #'spacemacs/lsp-avy-goto-symbol
     "gM" #'lsp-ui-imenu
     ;; help
     "hh" #'lsp-describe-thing-at-point
@@ -89,6 +85,15 @@
 
     "e" #'(lsp-ui-flycheck-list :wk "list error")
    )
+
+  (general-def
+    :definer 'minor-mode
+    :keymaps 'lsp-mode
+    "gt" #'lsp-find-type-definition
+    "gr" #'lsp-find-references
+    "gR" #'xref-find-references
+    "gM" #'lsp-ui-imenu
+    )
   )
 
 
@@ -119,10 +124,10 @@
   )
 
 ;; popwin
-(push '("*lsp-help*"
-    :dedicated t :position bottom
-    :stick t :noselect nil :height 0.4)
-      popwin:special-display-config)
+;; (push '("*lsp-help*"
+;;     :dedicated t :position bottom
+;;     :stick t :noselect nil :height 0.4)
+;;       popwin:special-display-config)
 
 (push '("*xref*"
     :dedicated t :position bottom

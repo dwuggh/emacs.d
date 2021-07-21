@@ -91,12 +91,6 @@
     "al" 'centaur-tabs-forward
     )
   )
-
-(use-package pretty-mode
-  :config
-  ;; (global-pretty-mode t)
-  )
-
 ;; (require 'pretty-fonts)
 ;; (pretty-fonts-add-hook 'prog-mode-hook 'pretty-fonts-fira-code-alist)
 ;; (pretty-fonts-add-kwds pretty-fonts-fira-code-alist)

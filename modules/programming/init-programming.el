@@ -38,6 +38,22 @@
   (setq separedit-default-mode 'markdown-mode)
   )
 
+(use-package citre
+  :defer t
+  :init
+  ;; This is needed in `:init' block for lazy load to work.
+  (require 'citre-config)
+  ;; Bind your frequently used commands.
+  (global-set-key (kbd "C-x c j") 'citre-jump)
+  (global-set-key (kbd "C-x c J") 'citre-jump-back)
+  (global-set-key (kbd "C-x c p") 'citre-ace-peek)
+  :config
+  ;; (setq
+  ;;  ;; Set this if you use project management plugin like projectile.  It's
+  ;;  ;; used for things like displaying paths relatively, see its docstring.
+  ;;  citre-project-root-function #'projectile-project-root)
+  )
+
 (require 'init-python)
 (require 'init-java)
 (require 'init-jsts)
@@ -45,5 +61,6 @@
 (require 'init-go)
 
 (require 'init-cool)
+(require 'init-asm)
 
 (provide 'init-programming)
