@@ -52,8 +52,11 @@
 
 (use-package evil-collection
   ;; :custom (evil-collection-setup-minibuffer t)
+  :init
+  (setq evil-collection-setup-minibuffer nil)
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  )
 
 (use-package evil-escape
   :straight (evil-escape :type git :host github :repo "hlissner/evil-escape")

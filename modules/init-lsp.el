@@ -73,10 +73,14 @@
     ;; "TI" #'spacemacs/lsp-ui-sideline-ignore-duplicate
     "Tl" #'lsp-lens-mode
     ;; folders
-    "f" '(:ignore t :wk "folder")
-    "fs" #'lsp-workspace-folders-switch
-    "fr" #'lsp-workspace-folders-remove
-    "fa" #'lsp-workspace-folders-add
+    "f" '(:ignore t :wk "find & folder")
+    "fS" #'lsp-workspace-folders-switch
+    "fR" #'lsp-workspace-folders-remove
+    "fA" #'lsp-workspace-folders-add
+    "fp" #'lsp-ui-peek-find-implementation
+    "fs" #'lsp-ui-peek-find-workspace-symbol
+    "fd" #'lsp-ui-peek-find-definitions
+    "fr" #'lsp-ui-peek-find-references
     ;; text/code
     "x" '(:ignore t :wk "text")
     "xh" #'lsp-document-highlight

@@ -4,9 +4,9 @@
 (use-package projectile
   :init
   (setq projectile-sort-order 'recentf
-	projectile-cache-file (concat my-cache-dir "projectile.cache")
-	projectile-known-projects-file (expand-file-name (concat my-cache-dir "projectile-bookmarks.eld"))
-	)
+    projectile-cache-file (concat my-cache-dir "projectile.cache")
+    projectile-known-projects-file (expand-file-name (concat my-cache-dir "projectile-bookmarks.eld"))
+    )
   :config
   (projectile-global-mode 1)
   )
