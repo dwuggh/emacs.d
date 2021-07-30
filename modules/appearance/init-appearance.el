@@ -5,12 +5,15 @@
 (use-package all-the-icons)
 (use-package doom-themes)
 
-(use-package apropospriate-theme)
-(use-package spacemacs-theme)
-(use-package twilight-bright-theme)
-(use-package flucui-themes)
+;; (add-to-list 'load-path (expand-file-name "./themes/"))
+;; (require 'my-solarized)
+;; (load-file "./themes/my-solarized.el")
+(setq custom-theme-directory (concat user-emacs-directory "modules/appearance/themes/"))
 
-(setq my-emacs-theme (getenv "EMACS_THEME"))
+(use-package spacemacs-theme)
+
+(setq my-emacs-theme (getenv "EMACS_THEME")
+      custom-safe-themes t)
 (cond
  ((equal my-emacs-theme "light") (load-theme 'doom-solarized-light))
  ((equal my-emacs-theme "dark") (load-theme 'doom-one))
