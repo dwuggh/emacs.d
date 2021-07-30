@@ -1,8 +1,9 @@
 
-(use-package rust-mode
+(use-package rustic
   :defer t
   :init
-  (add-hook 'rust-mode-hook #'my-lsp-init)
+  ;; (setq rustic-lsp-setup-p nil)
+  ;; (add-hook 'rust-mode-hook #'my-lsp-init)
   )
 
 (defun rust-rustup-target-list ()
