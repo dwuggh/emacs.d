@@ -31,7 +31,7 @@
 
 
 (setq-default scroll-conservatively 101)
-(setq-default display-line-numbers-type 'relative)
+(setq-default display-line-numbers-type t)
 (global-display-line-numbers-mode 1)
 
 
