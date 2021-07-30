@@ -6,10 +6,11 @@
 
 (use-package ivy
   :config
-  (ivy-mode 1)
+  ;; (ivy-mode 1)
   (setq enable-recursive-minibuffers t
         ivy-use-virtual-buffers nil
-    ivy-height 17
+        ivy-dynamic-exhibit-delay-ms 0
+        ivy-height 17
         )
   (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
   (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
@@ -50,13 +51,15 @@
    prescient-save-file (expand-file-name (concat my-cache-dir "prescient-save.el"))
    )
   :config
-  (prescient-persist-mode 1))
+  (prescient-persist-mode 1)
+  )
 
 (use-package ivy-prescient
   :init
   (setq ivy-prescient-retain-classic-highlighting t)
   :config
-  (ivy-prescient-mode 1))
+  (ivy-prescient-mode 1)
+  )
 
 ;; from doom emacs
 (defun +ivy-rich-describe-variable-transformer (cand)
@@ -87,23 +90,23 @@
 
 (use-package ivy-rich
   :config
-  (plist-put+ ivy-rich-display-transformers-list
-              'counsel-describe-variable
-              '(:columns
-                ((counsel-describe-variable-transformer (:width 40)) ; the original transformer
-                 (+ivy-rich-describe-variable-transformer (:width 50)) ; display variable value
-                 (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))
-              'counsel-M-x
-              '(:columns
-                ((counsel-M-x-transformer (:width 60))
-                 (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
-              ;; Apply switch buffer transformers to `counsel-projectile-switch-to-buffer' as well
-              'counsel-projectile-switch-to-buffer
-              (plist-get ivy-rich-display-transformers-list 'ivy-switch-buffer)
-              'counsel-bookmark
-              '(:columns
-                ((ivy-rich-candidate (:width 0.5))
-                 (ivy-rich-bookmark-filename (:width 60)))))
+  ;; (plist-put+ ivy-rich-display-transformers-list
+  ;;             'counsel-describe-variable
+  ;;             '(:columns
+  ;;               ((counsel-describe-variable-transformer (:width 40)) ; the original transformer
+  ;;                (+ivy-rich-describe-variable-transformer (:width 50)) ; display variable value
+  ;;                (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))
+  ;;             'counsel-M-x
+  ;;             '(:columns
+  ;;               ((counsel-M-x-transformer (:width 60))
+  ;;                (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
+  ;;             ;; Apply switch buffer transformers to `counsel-projectile-switch-to-buffer' as well
+  ;;             'counsel-projectile-switch-to-buffer
+  ;;             (plist-get ivy-rich-display-transformers-list 'ivy-switch-buffer)
+  ;;             'counsel-bookmark
+  ;;             '(:columns
+  ;;               ((ivy-rich-candidate (:width 0.5))
+  ;;                (ivy-rich-bookmark-filename (:width 60)))))
 
   (ivy-rich-mode 1)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
@@ -135,8 +138,10 @@
   :init
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
   (setq ivy-posframe-display-functions-alist
-    '((swiper . ivy-display-function-fallback)
-      (swiper-isearch . ivy-display-function-fallback)
+        '(
+          ;; (swiper . ivy-display-function-fallback)
+          (swiper . ivy-posframe-display-at-frame-bottom-window-center)
+          (swiper-isearch . ivy-posframe-display-at-frame-bottom-window-center)
           (complete-symbol . ivy-posframe-display-at-point)
           (counsel-M-x . ivy-posframe-display-at-frame-center)
           (t . ivy-posframe-display-at-frame-center)))
@@ -180,7 +185,7 @@
     (counsel-projectile-rg)))
 
 (dwuggh/leader-def
- "ss" '(swiper :wk "swiper")
+ "ss" '(consult-line :wk "consult line")
  "sS" '(swiper-thing-at-point :wk "swiper TAP")
  "s C-s" '(swiper-all-thing-at-point :wk "swiper all buffer TAP")
  "sb" '(swiper-isearch :wk "swiper")
@@ -190,10 +195,12 @@
  "ps" '(counsel-projectile-rg :wk "rg project")
  "sP" '(my-counsel-projectile-rg-thing-at-point :wk "rg project")
  "pS" '(my-counsel-projectile-rg-thing-at-point :wk "rg project")
+ "sf" '(counsel-flycheck :wk "flycheck errors")
  "'" '(ivy-resume :wk "last search")
  )
 
 (require 'init-jump)
+(require 'init-vertico)
 (require 'init-files)
 (require 'init-projects)
 (require 'init-buffer)
