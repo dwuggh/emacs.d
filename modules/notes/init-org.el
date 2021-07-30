@@ -8,6 +8,16 @@
       org-hide-emphasis-markers t
       )
 
+(setq org-hide-emphasis-markers nil)
+(defun org-toggle-emphasis-markers ()
+  "Toggle markup display."
+  (interactive)
+  (if org-hide-emphasis-markers
+      (setq org-hide-emphasis-markers nil)
+    (setq org-hide-emphasis-markers t))
+  (font-lock-flush)
+  )
+
 (use-package markdown-mode
   :defer t
   :init
@@ -18,11 +28,11 @@
   ;; (add-to-list 'auto-mode-alist '("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . gfm-mode))
   :config
   (dwuggh/localleader-def
-    :keymaps 'markdown-mode-map
-    "tt" 'markdown-toggle-markup-hiding
-    "tp" 'markdown-toggle-inline-images
-    "tm" 'markdown-toggle-math
-    )
+   :keymaps 'markdown-mode-map
+   "tt" 'markdown-toggle-markup-hiding
+   "tp" 'markdown-toggle-inline-images
+   "tm" 'markdown-toggle-math
+   )
   )
 
 (use-package grip-mode
@@ -45,28 +55,22 @@
 (use-package evil-org)
 
 (use-package org-roam
-  :defer t
+  ;; :defer t
+  :after org
   ;; :hook
   ;; (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory (expand-file-name "~/org/roam/"))
+  :commands (org-roam-buffer
+             org-roam-setup
+             org-roam-capture
+             org-roam-node-find)
   :init
-  ;; (progn
-  ;;   (spacemacs/declare-prefix "ar" "org-roam")
-  ;;   (spacemacs/set-leader-keys
-  ;;    "arl" 'org-roam
-  ;;    "art" 'org-roam-dailies-today
-  ;;    "arf" 'org-roam-find-file
-  ;;    "arg" 'org-roam-graph)
-
-  ;;   (spacemacs/declare-prefix-for-mode 'org-mode "mr" "org-roam")
-  ;;   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-  ;;                          "rl" 'org-roam
-  ;;                          "rt" 'org-roam-dailies-today
-  ;;                          "rb" 'org-roam-switch-to-buffer
-  ;;                          "rf" 'org-roam-find-file
-  ;;                          "ri" 'org-roam-insert
-  ;;                          "rg" 'org-roam-graph))
+  (setq org-roam-directory (expand-file-name "~/org/roam/")
+        org-roam-db-location (concat my-cache-dir "org-roam.db")
+        org-id-link-to-org-use-id
+        )
+  :config
+  (org-roam-setup)
+  (advice-add 'org-id-get-create :after 'org-roam-db-sync)
   )
 
 (defun org-latex-preview-hook ()
@@ -82,8 +86,8 @@
 ;; TODO integration with org-latex-preview
 (use-package valign
   :straight (valign :host github
-            :repo "casouri/valign"
-            )
+                    :repo "casouri/valign"
+                    )
   :defer t
   :init
   (setq
@@ -105,7 +109,7 @@
 
 ;; auto preview latex fragments
 (setq-default org-preview-latex-image-directory
-          (concat user-emacs-directory ".cache/ltximg/"))
+              (concat user-emacs-directory ".cache/ltximg/"))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -118,25 +122,25 @@
 
 ;; set pdflatex to xelatex
 (setq-default org-latex-default-packages-alist
-   '(("AUTO" "inputenc" t
-      ("xelatex"))
-     ("T1" "fontenc" t
-      ("xelatex"))
-     ("" "graphicx" t nil)
-     ("" "longtable" nil nil)
-     ("" "wrapfig" nil nil)
-     ("" "rotating" nil nil)
-     ("normalem" "ulem" t nil)
-     ("" "amsmath" t nil)
-     ("" "textcomp" t nil)
-     ("" "amssymb" t nil)
-     ("" "capt-of" nil nil)
-     ("" "hyperref" nil nil)))
+              '(("AUTO" "inputenc" t
+                 ("xelatex"))
+                ("T1" "fontenc" t
+                 ("xelatex"))
+                ("" "graphicx" t nil)
+                ("" "longtable" nil nil)
+                ("" "wrapfig" nil nil)
+                ("" "rotating" nil nil)
+                ("normalem" "ulem" t nil)
+                ("" "amsmath" t nil)
+                ("" "textcomp" t nil)
+                ("" "amssymb" t nil)
+                ("" "capt-of" nil nil)
+                ("" "hyperref" nil nil)))
 
 ;; customize packages
 (setq-default org-latex-packages-alist
               '(
-        ("" "ctex" t nil)
+                ("" "ctex" t nil)
                 ("" "braket" t nil)
                 ))
 
@@ -240,9 +244,6 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
   "ol" 'org-store-link
   "oi" 'org-insert-link
 
-  "orl" 'org-roam
-  "ort" 'org-roam-dailies-today
-  "orf" 'org-roam-find-file
   "org" 'org-roam-graph
   )
 
@@ -267,6 +268,7 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
  "h" 'org-shiftleft
  "j" 'org-shiftdown
  "k" 'org-shiftup
+ "i" 'org-id-get-create
  )
 
 (general-def
