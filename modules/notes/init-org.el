@@ -185,6 +185,13 @@ This forces it to read the background before rendering."
         ;; :justify 'center
         )
 
+(add-hook 'org-mode-hook #'electric-pair-local-mode)
+(use-package company-org-latex
+  :straight (company-org-latex :type built-in
+                               :local-repo (concat user-emacs-directory "lisp/")
+                               :files ("company-org-latex.el"))
+  :after org
+  )
 
 ;; overlay support
 ;; ----------------------------------------------------------------------------------------

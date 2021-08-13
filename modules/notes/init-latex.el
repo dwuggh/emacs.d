@@ -83,7 +83,15 @@
             (lambda ()
               (define-key cdlatex-mode-map "`" nil)
               (define-key cdlatex-mode-map "$" nil)))
+  (defun my/org-disable-yasnippet-in-latex-environment ()
+    (setq-local yas-buffer-local-condition '(not (org-inside-LaTeX-fragment-p))))
+
+  (add-hook 'org-mode-hook #'my/org-disable-yasnippet-in-latex-environment)
+  (add-hook 'LaTeX-mode-hook
+            '(lambda () (define-key LaTeX-mode-map (kbd "TAB") 'cdlatex-tab)))
+
   )
+
 
 ;; (add-hook 'LaTeX-mode-hook 'cdlatex-mode)
 ;; (add-hook 'tex-mode-hook 'cdlatex-mode)
@@ -164,5 +172,23 @@
  :keymaps '(latex-mode-map LaTeX-mode-map tex-mode-map)
  "c" 'latex-easy-compile
  )
+
+(use-package company-auctex)
+
+(defvar-local company-latex--toggle-backend-state nil)
+(defun company-latex-toggle-backend ()
+  "Toggle between lsp backend and company-auctex."
+  (interactive)
+  (if company-latex--toggle-backend-state
+    (setq-local company-backends company-latex--toggle-backend-state
+                company-latex--toggle-backend-state nil)
+      (setq-local company-latex--toggle-backend-state company-backends
+                  company-backends
+                  '((company-auctex-macros company-auctex-symbols company-auctex-environments :with company-yasnippet)
+                    company-dabbrev)
+      )
+    )
+  )
+
 
 (provide 'init-latex)
