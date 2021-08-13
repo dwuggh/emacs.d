@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 
+(setq vc-follow-symlinks t)
 (use-package evil-magit
   :defer t
   )

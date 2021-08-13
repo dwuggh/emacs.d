@@ -36,14 +36,13 @@
 
 (use-package counsel
   :config
-  (general-define-key
-   :keymaps 'override
-   "M-x" 'counsel-M-x
-   :prefix "C-h"
-   "f" '(counsel-describe-function :wk "describe function")
-   "v" '(counsel-describe-variable :wk "describe variable")
-   "o" '(counsel-describe-symbol :wk "describe symbol")
-   )
+  ;; (general-define-key
+  ;;  :keymaps 'override
+  ;;  :prefix "C-h"
+  ;;  "f" '(counsel-describe-function :wk "describe function")
+  ;;  "v" '(counsel-describe-variable :wk "describe variable")
+  ;;  "o" '(counsel-describe-symbol :wk "describe symbol")
+  ;;  )
   )
 (use-package prescient
   :init
@@ -150,19 +149,24 @@
   )
 
 (defun my-thing-at-point ()
-  "Thing at point"
-  (let (thing)
-    (if (use-region-p)
-        (progn
-          (setq thing (buffer-substring-no-properties
-                       (region-beginning) (region-end)))
-          (goto-char (region-beginning))
-          (deactivate-mark))
-      (let ((bnd (bounds-of-thing-at-point 'symbol)))
-        (when bnd
-          (goto-char (car bnd)))
-        (setq thing (ivy-thing-at-point))))
-    thing)
+  "Thing at point."
+  (cond
+   ((use-region-p)
+    (let ((thing
+          (buffer-substring-no-properties
+           (region-beginning) (region-end))))
+      (goto-char (region-beginning))
+      (deactivate-mark)
+      thing))
+   (t
+    (let ((bnd (bounds-of-thing-at-point 'symbol)))
+      (when (car bnd)
+        (buffer-substring-no-properties (car bnd) (cdr bnd)))))))
+
+(defun consult-line-thing-at-point ()
+  "`consult-line' with initial input."
+  (interactive)
+  (consult-line (my-thing-at-point) t)
   )
 
 (defun my-counsel-rg-thing-at-point ()
@@ -188,15 +192,21 @@
  "ss" '(consult-line :wk "consult line")
  "sS" '(swiper-thing-at-point :wk "swiper TAP")
  "s C-s" '(swiper-all-thing-at-point :wk "swiper all buffer TAP")
+ "sg" '(consult-line-multi :wk "swiper all buffer")
  "sb" '(swiper-isearch :wk "swiper")
- "sd" '(my-counsel-rg-dir :wk "search current directory")
+ "sd" '(consult-ripgrep :wk "search current directory")
+ "si" 'consult-imenu
+ "i" 'consult-imenu
+ "so" 'consult-outline
+ "sn" 'consult-focus-lines
  "sD" '(my-counsel-rg-thing-at-point :wk "search current directory TAP")
  "sp" '(counsel-projectile-rg :wk "rg project")
  "ps" '(counsel-projectile-rg :wk "rg project")
  "sP" '(my-counsel-projectile-rg-thing-at-point :wk "rg project")
  "pS" '(my-counsel-projectile-rg-thing-at-point :wk "rg project")
- "sf" '(counsel-flycheck :wk "flycheck errors")
+ "se" '(consult-flycheck :wk "flycheck errors")
  "'" '(ivy-resume :wk "last search")
+ ";" '(vertico-repeat :wk "last search")
  )
 
 (require 'init-jump)

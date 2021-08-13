@@ -68,7 +68,7 @@
 
  "u" 'universal-argument
  ;; single commands
- "SPC" '(counsel-M-x :wk "M-x")
+ "SPC" '(execute-extended-command :wk "M-x")
  )
 
 (dwuggh/localleader-def

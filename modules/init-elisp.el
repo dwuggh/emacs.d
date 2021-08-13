@@ -21,10 +21,10 @@
                      (if current-prefix-arg t)))
   (pcase (treemacs-current-visibility)
     ('visible (treemacs)
-	      (popwin:pop-to-buffer buffer other-window norecord)
-	      (treemacs)
-	      (popwin:select-popup-window)
-	      )
+          (popwin:pop-to-buffer buffer other-window norecord)
+          (treemacs)
+          (popwin:select-popup-window)
+          )
     ('exists
      (popwin:pop-to-buffer buffer other-window norecord)
      (popwin:select-popup-window)
@@ -34,7 +34,6 @@
     (popwin:select-popup-window))
     )
   )
-
 (use-package helpful
   :straight (helpful :type git :host github :repo "Wilfred/helpful")
   :config
@@ -42,6 +41,9 @@
   (setq helpful-switch-buffer-function 'pop-to-buffer)
   ;; (setq helpful-switch-buffer-function 'popwin:pop-to-buffer)
   (global-set-key (kbd "C-h k") 'helpful-key)
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h o") #'helpful-symbol)
 
   ;; config popwin
   (push
@@ -132,8 +134,8 @@
   :defer t
   :init
   (add-hook 'emacs-lisp-mode-hook
-	    (lambda ()
-	      (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
+        (lambda ()
+          (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
 
 (use-package parinfer-rust-mode
   ;; :hook emacs-lisp-mode
