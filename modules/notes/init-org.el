@@ -186,11 +186,27 @@ This forces it to read the background before rendering."
         )
 
 (add-hook 'org-mode-hook #'electric-pair-local-mode)
+
+(use-package org-ml
+  :straight (org-ml :type built-in
+                    :local-repo (concat user-emacs-directory "lisp/")
+                    :files ("org-ml.el"))
+  :after org
+  :init
+  (add-hook 'org-mode-hook 'org-ml-mode)
+  )
+
 (use-package company-org-latex
   :straight (company-org-latex :type built-in
                                :local-repo (concat user-emacs-directory "lisp/")
                                :files ("company-org-latex.el"))
   :after org
+  :init
+  (defun org-setup-company ()
+    (setq-local company-backends '(company-capf company-yasnippet company-dabbrev))
+    (add-hook 'completion-at-point-functions #'org-latex-capf nil t)
+    )
+  (add-hook 'org-mode-hook 'org-setup-company)
   )
 
 ;; overlay support
