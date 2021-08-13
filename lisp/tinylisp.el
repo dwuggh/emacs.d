@@ -9,9 +9,9 @@
 
 (defmacro maybe (&rest args)
   (case (length args)
-	(0 nil)
-	(1 `(car ,`(list ,@args)))
-	(t `(list ,@args))))
+    (0 nil)
+    (1 `(car ,`(list ,@args)))
+    (t `(list ,@args))))
   
 (cl-defmacro cl-maybe (&key (just nil just-supplied-p))
   (if just-supplied-p `(cons ,just nil)))
@@ -28,16 +28,16 @@
 (defun maybe->>= (ma a->mb)
   "(>>=) :: Monad m a -> (a -> m b) -> m b"
   (when ma
-	;; (cond
-	;;  ((functionp amb) `(funcall ,amb ,ma))
-	;;  ((macrop amb) `(macroexpand ,amb ,ma)))
-	;; `(funcall ,amb ,ma)
-	(eval
-	 (if (sequencep ma)
-		 `(,a->mb ,@ma)
-	   `(,a->mb ,ma))
-	 )
-	))
+    ;; (cond
+    ;;  ((functionp a->mb) `(funcall ,a->mb ,ma))
+    ;;  ((macrop a->mb) `(macroexpand ,amb ,ma)))
+    ;; `(funcall ,a->mb ,ma)
+    (eval
+     (if (sequencep ma)
+         `(,a->mb ,@ma)
+       `(,a->mb ,ma))
+     )
+    ))
   
 (tl-test
  (= 2 (maybe->>= 1 (lambda (a) (+ a 1))))
@@ -48,12 +48,12 @@
   "Tokenize INPUT.
 Didn't handle comments."
   (->> input
-	   (s-replace "(" " ( ")
-	   (s-replace ")" " ) ")
-	   (s-replace "'" " ' ")
-	   (s-trim)
-	   (s-split "[ \t\n\r]+")
-	   )
+       (s-replace "(" " ( ")
+       (s-replace ")" " ) ")
+       (s-replace "'" " ' ")
+       (s-trim)
+       (s-split "[ \t\n\r]+")
+       )
   )
 
 (tl-test
@@ -87,44 +87,40 @@ Didn't handle comments."
 ;; (cl-defun tl-parse-token (tokens &key (result-prev nil result-prev-supplied-p))
 (defun tl-parse-token (tokens &optional result-prev)
   (let* ((ele (car tokens))
-		 (result
-		  (cond
-		   ((not (eq (string-to-number ele) 0)) (tl-atom :number (string-to-number ele)))
-		   ((equal ele "0") (tl-atom :number 0))
-		   ((s-match "(" ele) (append result-prev (tl-sexp (cadr (tl-parse-token (cdr tokens))))))
-		   ;; ((s-match ")" ele) result-prev)
-		   ;; ((s-match "(" ele) (tl-sexp (tl-parse-token (cdr tokens))))
-		   ((s-match ")" ele) nil)
-		   ((s-match "[^ \t\r\n]+" ele) `(tl-atom :symbol ,ele))
-		   )))
-	;; (princ result)
-	(maybe->>= `(',result)
-			   (lambda (result)
-				 (list (cdr tokens) result)))
-	(when result
-	  (list (cdr tokens) result))
-	))
+         (result
+          (cond
+           ((not (eq (string-to-number ele) 0)) (tl-atom :number (string-to-number ele)))
+           ((equal ele "0") (tl-atom :number 0))
+           ((s-match "(" ele) (append result-prev (tl-sexp (cadr (tl-parse-token (cdr tokens))))))
+           ;; ((s-match ")" ele) result-prev)
+           ;; ((s-match "(" ele) (tl-sexp (tl-parse-token (cdr tokens))))
+           ((s-match ")" ele) nil)
+           ((s-match "[^ \t\r\n]+" ele) `(tl-atom :symbol ,ele))
+           )))
+    ;; (princ result)
+    (maybe->>= `(',result)
+               (lambda (result)
+                 (list (cdr tokens) result)))
+    (when result
+      (list (cdr tokens) result))
+    ))
 
 (defun tl-parse-token-list (tokens &optional result-prev)
   (let ((res1 (tl-parse-token tokens result-prev)))
-	(while res1)
-	)
+    (while res1)
+    )
   )
 
 (tl-parse-token '(")"))
 
 (defun tl-parse (input)
   "INPUT is a string"
-  (let ((first (list nil '(tl-tokenize input))))
-	(maybe->>=
-	 first
-	 (lambda (args)
-	   (let ((result (car args))
-			 (token-next (cdar args)))
-		 (tl-parse-token token-next result)
-		 )
-	   ))
-	)
+  (let ((fst (tl-tokenize input)))
+    (when fst
+      (let ((result (car fst))
+            (token-next (cadr fst)))
+        (tl-parse-token token-next result)))
+    )
   )
 
 (setq tl-test-prog "(lambda (&number a)\n (+ a 1))")
@@ -136,3 +132,5 @@ Didn't handle comments."
   "parse a s-expression"
   )
   
+
+(provide 'tinylisp)
