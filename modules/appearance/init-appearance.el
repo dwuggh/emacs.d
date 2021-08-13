@@ -3,19 +3,20 @@
 
 ;; themes
 (use-package all-the-icons)
+(setq custom-theme-directory (concat user-emacs-directory "modules/appearance/themes/"))
 (use-package doom-themes)
 
-;; (add-to-list 'load-path (expand-file-name "./themes/"))
-;; (require 'my-solarized)
-;; (load-file "./themes/my-solarized.el")
-(setq custom-theme-directory (concat user-emacs-directory "modules/appearance/themes/"))
 
 (use-package spacemacs-theme)
 
 (setq my-emacs-theme (getenv "EMACS_THEME")
-      custom-safe-themes t)
+      custom-safe-themes t
+      doom-solarized-light-brighter-comments nil
+      doom-solarized-light-brighter-modeline nil
+      doom-solarized-light-padded-modeline nil
+      )
 (cond
- ((equal my-emacs-theme "light") (load-theme 'doom-solarized-light))
+ ((equal my-emacs-theme "light") (load-theme 'dwuggh-doom-solarized-light))
  ((equal my-emacs-theme "dark") (load-theme 'doom-one))
  ((equal my-emacs-theme "nord") (load-theme 'doom-nord))
  (t (load-theme 'doom-nord))

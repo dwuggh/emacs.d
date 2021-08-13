@@ -83,6 +83,8 @@ determine the exact padding."
    (vc-modified    orange)
    (vc-added       green)
    (vc-deleted     red)
+   (shadow         :foreground base5)
+   
 
    ;; custom categories
    (hidden     `(,(car bg) "black" "black"))
