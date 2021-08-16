@@ -12,9 +12,7 @@
 (use-package popwin
   :init
   (popwin-mode 1)
-  (push
-   '(helpful-mode :dedicated t :position bottom :stick t :noselect t :height 0.4)
-   popwin:special-display-config))
+  )
 
 (defun my-popwin-display-buffer-advice (&rest args)
   (let ((window (selected-window)))
@@ -40,7 +38,7 @@
 (defun my-display-buffer-around (orig-fun buffer-or-name &optional action frame)
   "pre advice"
   (unless (equal (window-normalize-buffer buffer-or-name)
-	     popwin:popup-buffer)
+         popwin:popup-buffer)
       (funcall orig-fun buffer-or-name action frame)))
 
 (advice-add 'display-buffer :around 'my-display-buffer-around)

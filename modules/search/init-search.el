@@ -233,13 +233,6 @@
   )
 
 
-(use-package popwin
-  :init
-  (popwin-mode 1)
-  (push
-   '(helpful-mode :dedicated t :position bottom :stick t :noselect t :height 0.4)
-   popwin:special-display-config))
-
 (defun zoxide-query-l ()
   (s-split "\n" (shell-command-to-string "zoxide query -l"))
   )

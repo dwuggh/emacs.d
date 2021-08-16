@@ -47,7 +47,7 @@
 
   ;; config popwin
   (push
-   '(helpful-mode :dedicated t :position bottom :stick t :noselect t :height 0.4)
+   '(helpful-mode :dedicated nil :position bottom :stick t :noselect t :height 0.4)
    popwin:special-display-config)
   ;; (general-def
   ;;   :state 'normal
