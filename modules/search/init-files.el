@@ -93,11 +93,28 @@ When INITIAL-INPUT is non-nil, use it in the minibuffer during completion."
   (use-local-map my-find-file-map)
   )
 
+;;; https://emacs.stackexchange.com/questions/16490/emacs-let-bound-advice
+;;; also see `undo-fu--with-advice'
+(defmacro with-advice (args &rest body)
+  (declare (indent 1))
+  (let ((fun-name (car args))
+        (advice   (cadr args))
+        (orig-sym (make-symbol "orig")))
+    `(cl-letf* ((,orig-sym  (symbol-function ',fun-name))
+                ((symbol-function ',fun-name)
+                 (lambda (&rest args)
+                   (apply ,advice ,orig-sym args))))
+       ,@body)))
+
 (defun my-find-file ()
   (interactive)
-  (advice-add 'vertico--setup :after 'my-find-file-advice-vertico--setup)
-  (call-interactively 'find-file)
-  (advice-remove 'vertico--setup 'my-find-file-advice-vertico--setup)
+  (unwind-protect
+      (progn
+          (advice-add 'vertico--setup :after #'my-find-file-advice-vertico--setup)
+          (call-interactively 'find-file)
+        )
+    (advice-remove 'vertico--setup #'my-find-file-advice-vertico--setup)
+    )
   )
 
 (dwuggh/leader-def
