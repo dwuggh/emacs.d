@@ -6,6 +6,16 @@
 (setq custom-theme-directory (concat user-emacs-directory "modules/appearance/themes/"))
 (use-package doom-themes)
 
+(use-package base16-theme
+  :config
+  (defvar my/base16-colors base16-default-dark-colors)
+  (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
+        evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
+        evil-motion-state-cursor  `(,(plist-get my/base16-colors :base0E) box)
+        evil-normal-state-cursor  `(,(plist-get my/base16-colors :base0B) box)
+        evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
+        evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
+  )
 
 (use-package spacemacs-theme)
 

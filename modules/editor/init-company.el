@@ -16,6 +16,7 @@
                        company-echo-metadata-frontend
                        company-preview-if-just-one-frontend)
    company-selection-default 0
+   company-dabbrev-downcase nil
    )
   (define-key company-active-map (kbd "C-j") 'company-select-next)
   (define-key company-active-map (kbd "C-k") 'company-select-previous)

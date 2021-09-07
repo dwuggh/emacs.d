@@ -92,7 +92,6 @@
 
 (defmacro dw-format-cmd (text)
   `(s-concat dw-command ,text)
-  (evil-collection-define-key)
   )
 
 (defun dw-get (text)
