@@ -49,6 +49,8 @@
   (define-key vertico-map (kbd "M-TAB") #'minibuffer-complete)
   (define-key vertico-map (kbd "C-j") 'vertico-next)
   (define-key vertico-map (kbd "C-k") 'vertico-previous)
+  ;; (define-key vertico-map (kbd "C-h") 'delete-backward-char)
+  ;; (define-key vertico-map (kbd "C-h") nil)
   (custom-set-faces
    '(completions-common-part
       (( t :inherit ivy-minibuffer-match-face-1 )))
@@ -97,8 +99,8 @@
         consult-async-input-throttle 0.1
         consult-async-input-debounce 0.1
         completion-in-region-function #'consult-completion-in-region
-        consult-line-start-from-top t
-        consult--buffer-display nil
+        consult-line-start-from-top nil
+        consult--buffer-display #'switch-to-buffer
         consult-narrow-key (kbd "C-,")
         )
   :config
@@ -108,6 +110,7 @@
    (list (kbd "C-."))
    )
   )
+
 (use-package embark-consult
   :hook
   (embark-collect-mode . consult-preview-at-point-mode)
