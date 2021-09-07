@@ -1,4 +1,14 @@
 
+(use-package conda
+  :init
+  (setq conda-anaconda-home "/opt/anaconda"
+        conda-env-home-directory (expand-file-name "~/.conda/")
+        )
+  :config
+  ;; (conda-env-autoactivate-mode 1)
+  (conda-env-activate "env0")
+  )
+
 (use-package anaconda-mode
   :defer t
   :straight (anaconda-mode
@@ -61,10 +71,7 @@
 
 
 (use-package lsp-pyright
-  :defer t
-  ;; :hook (python-mode . (lambda ()
-  ;;                        (require 'lsp-pyright)
-  ;;                        (lsp)))
+  :after python
   )
 
 (general-def
