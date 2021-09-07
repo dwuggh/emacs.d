@@ -77,7 +77,14 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
                 '(
                   ("" "ctex" t nil)
                   ("" "braket" t nil)
+                  ("" "tikz" t nil)
+                  ("" "esint" t nil)
                   ))
+  (setq-default org-format-latex-header
+                (s-concat org-format-latex-header
+                          "
+\\usepackage[thinc]{esdiff}
+\\newcommand*{\\dif}{\\mathop{}\\!\\mathrm{d}}"))
 
   (setq-default org-preview-latex-image-directory
                 (concat user-emacs-directory ".cache/ltximg/"))
