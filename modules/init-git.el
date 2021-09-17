@@ -19,7 +19,7 @@
 (use-package magit
   :defer t
   :config
-  (require 'evil-magit)
+  ;; (require 'evil-magit)
   )
 
 (use-package transient
