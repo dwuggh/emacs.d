@@ -81,7 +81,13 @@ When INITIAL-INPUT is non-nil, use it in the minibuffer during completion."
      ((s-equals? input "/"))
      (parent
       (delete-minibuffer-contents)
-      (insert parent)
+      (insert
+       (if (s-starts-with? (expand-file-name "~/") parent)
+           (->> parent
+                (s-chop-prefix (expand-file-name "~/"))
+                (s-prepend "~/"))
+         parent)
+       )
       )
      ;; TODO
      (t (delete-backward-char))

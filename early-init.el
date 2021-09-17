@@ -19,6 +19,9 @@
 (load-file (concat user-emacs-directory "init-packages.el"))
 
 (use-package gcmh
+  :init
+  (setq gcmh-verbose t
+        )
   :config
   (gcmh-mode 1)
   )
