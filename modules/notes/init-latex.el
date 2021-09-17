@@ -119,36 +119,34 @@
         ))
   )
 
-
-(define-minor-mode my-latex-mode
-  "My latex minor mode, easier for configuration."
-  :keymap (let ((map (make-sparse-keymap)))
-        map)
-  :init-value nil
-  :global nil
-  (if my-latex-mode
-      (progn
-    ;; (LaTeX-math-mode 1)
-    ;; (TeX-source-correlate-mode 1)
-    ;; (TeX-PDF-mode 1)
-    (magic-latex-buffer 1)
-    ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-    (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-    (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
-    (advice-add 'evil-escape-func :after 'jit-lock-refontify)
-    (advice-add 'self-insert-command :after 'jit-lock-refontify)
-    ;; (advice-remove 'self-insert-command 'jit-lock-refontify)
-    )
-    ;; (LaTeX-math-mode -1)
-    ;; (TeX-source-correlate-mode -1)
-    ;; (TeX-PDF-mode -1)
-    (magic-latex-buffer -1)
-    (advice-remove 'evil-escape-func 'jit-lock-refontify)
-    )
+(use-package laas
+  :defer t
+  ;; :after org
+  ;; :hook (org-mode . laas-mode)
+  :init
+  (add-hook 'org-mode-hook #'laas-mode)
+  (add-hook 'latex-mode-hook #'laas-mode)
+  (add-hook 'LaTeX-mode-hook #'laas-mode)
+  (add-hook 'tex-mode-hook #'laas-mode)
+  :config
+  (setq laas-enable-auto-space nil)
+  (aas-set-snippets 'laas-mode
+                    ;; 只在 org latex 片段中展开
+                    :cond #'latex-environment-p
+                    "tan" "\\tan"
+                    ;; 内积
+                    "sr" "^2"
+                    "RR" "\\mathbb{R}"
+                    "ZZ" "\\mathbb{Z}"
+                    ;; 还可以绑定函数，和 yasnippet 联动
+                    "Sum" (lambda () (interactive)
+                            (yas-expand-snippet "\\sum_{$1}^{$2} $0"))
+                    ;; 这是 laas 中定义的用于包裹式 latex 代码的函数，实现 \bm{a}
+                    :cond #'laas-object-on-left-condition
+                    ",." (lambda () (interactive) (laas-wrap-previous-object "bm"))
+                    ".," (lambda () (interactive) (laas-wrap-previous-object "bm")))
   )
 
-;; (add-hook+ (latex-mode-hook LaTeX-mode-hook tex-mode-hook)
-;;     my-latex-mode)
 
 ;;; useful functions
 ;;; -----------------------------------------------------------
@@ -160,12 +158,29 @@
       (cons '("\\*easy-latex-compile-*" display-buffer-no-window)
         display-buffer-alist))
 
+(defvar latex-easy-compile-cmd
+  "tectonic %s"
+  "command for `latex-easy-compile'"
+  )
+;; (setq latex-easy-compile-cmd "tectonic --keep-intermediates --print %s")
+;; (setq latex-easy-compile-cmd "latexmk -cd -e \"\$pdflatex = 'pdflatex -interaction=nonstopmode -shell-escape -synctex=1 %%S %%O'\" %s -f -pdf")
+
+(defun latex-easy-compile-switch-engine ()
+  (interactive)
+  (if (s-equals? latex-easy-compile-cmd "tectonic %s")
+      (setq latex-easy-compile-cmd "xelatex -interaction nonstopmode -synctex=1 \"%s\"")
+    (setq latex-easy-compile-cmd "tectonic %s")
+      )
+    )
+
 (defun latex-easy-compile ()
   "compile .tex file easily"
   (interactive)
   (let* ((name (buffer-file-name))
-     (cmd (format "xelatex -interaction nonstopmode -synctex=1 \"%s\"" name)))
-    (async-shell-command cmd "*easy-latex-compile-log*" "*easy-latex-compile-error*")
+         ;; (cmd (format "xelatex -interaction nonstopmode -synctex=1 \"%s\"" name))
+         )
+    (async-shell-command (format latex-easy-compile-cmd name)
+                         "*easy-latex-compile-log*" "*easy-latex-compile-error*")
     ))
 
 (dwuggh/localleader-def
@@ -173,7 +188,6 @@
  "c" 'latex-easy-compile
  )
 
-(use-package company-auctex)
 
 (defvar-local company-latex--toggle-backend-state nil)
 (defun company-latex-toggle-backend ()

@@ -66,5 +66,5 @@ As a replacement of `org--latex-preview-region'.
     )
   )
 
-(advice-add 'org--latex-preview-region :override 'my-org--latex-preview-region)
-(advice-remove 'org--latex-preview-region 'my-org--latex-preview-region)
+;; (advice-add 'org--latex-preview-region :override 'my-org--latex-preview-region)
+;; (advice-remove 'org--latex-preview-region 'my-org--latex-preview-region)

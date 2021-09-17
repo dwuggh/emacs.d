@@ -257,6 +257,21 @@ This forces it to read the background before rendering."
   (add-hook 'org-mode-hook 'org-setup-company)
   )
 
+(defun latex-environment-p ()
+  (or
+   (and (or
+         (equal major-mode 'latex-mode)
+         (equal major-mode 'LaTeX-mode)
+         (equal major-mode 'tex-mode)
+         )
+        (texmathp)
+        )
+   (and (equal major-mode 'org-mode)
+        (org-inside-latex-environment-p))
+   )
+  )
+
+
 ;;; keybinding
 ;;; ------------------------------------------------------------------------------------
 

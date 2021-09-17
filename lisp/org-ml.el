@@ -2,6 +2,8 @@
 (require 'magic-latex-buffer)
 
 (defun org-ml-jit-lock (beg end)
+  ;; (print beg)
+  ;; (print end)
   (save-excursion
     (goto-char beg)
     (while (< (point) end)
@@ -25,7 +27,10 @@
             (goto-char ele-end)
             (forward-char)
             )
-          (forward-line)
+          (forward-char)
+          (if (< (- (line-end-position) (point)) 2)
+              (forward-line)
+              )
           )
         )
       )
