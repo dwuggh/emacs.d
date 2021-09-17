@@ -102,6 +102,9 @@
         consult-line-start-from-top nil
         consult--buffer-display #'switch-to-buffer
         consult-narrow-key (kbd "C-,")
+        ;; otherwise `consult-line' would be too slow
+        ;; https://github.com/minad/consult/issues/329
+        consult-fontify-max-size 1024
         )
   :config
   (consult-customize
