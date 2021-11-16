@@ -87,6 +87,7 @@
 (use-package vertico-indexed)
 
 (use-package embark
+  :init
   (define-key vertico-map (kbd "C-\"") 'embark-act)
   (define-key vertico-map (kbd "C-/") 'embark-dwim)
   

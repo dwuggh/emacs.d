@@ -6,13 +6,16 @@
 
 (defun my-url-copy-file (url newname &optional ok-if-already-exists &rest _ignored)
   "See `url-copy-file'."
-  ;; TODO
+  (shell-command-to-string (s-concat "graftcp wget " url))
   )
+
+(advice-add 'url-copy-file :override 'my-url-copy-file)
 
 (straight-use-package 'tree-sitter)
 (straight-use-package 'tree-sitter-langs)
 
 
+;; (straight-pull-package "tree-sitter")
 (use-package tree-sitter-langs)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 (global-tree-sitter-mode)
@@ -55,12 +58,12 @@
   )
 
 (require 'init-python)
-(require 'init-java)
 (require 'init-jsts)
-(require 'init-julia)
-(require 'init-go)
+;; (require 'init-java)
+;; (require 'init-julia)
+;; (require 'init-go)
 
-(require 'init-cool)
-(require 'init-asm)
+;; (require 'init-cool)
+;; (require 'init-asm)
 
 (provide 'init-programming)

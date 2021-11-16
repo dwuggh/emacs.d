@@ -18,8 +18,8 @@
              :files ("*.el" "anaconda-mode.py"))
   :init
   (setq anaconda-mode-installation-directory (concat my-cache-dir "anaconda-mode"))
-  (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-  (add-hook 'python-mode-hook 'anaconda-mode)
+  ;; (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+  ;; (add-hook 'python-mode-hook 'anaconda-mode)
 
   :config
   (defun anaconda-mode-show-doc-advice (result)
@@ -71,7 +71,12 @@
 
 
 (use-package lsp-pyright
-  :after python
+  :config
+  (defun lsp-pyright-hook ()
+    (require 'lsp-pyright)
+    (lsp)
+    )
+  (add-hook 'python-mode-hook #'lsp-pyright-hook)
   )
 
 (general-def
