@@ -168,24 +168,24 @@ This forces it to read the background before rendering."
 
 (use-package evil-org)
 
-(use-package org-roam
-  ;; :defer t
-  :after org
-  ;; :hook
-  ;; (after-init . org-roam-mode)
-  :commands (org-roam-buffer
-             org-roam-setup
-             org-roam-capture
-             org-roam-node-find)
-  :init
-  (setq org-roam-directory (expand-file-name "~/org/roam/")
-        org-roam-db-location (concat my-cache-dir "org-roam.db")
-        org-id-link-to-org-use-id
-        )
-  :config
-  (org-roam-setup)
-  (advice-add 'org-id-get-create :after 'org-roam-db-sync)
-  )
+;; (use-package org-roam
+;;   ;; :defer t
+;;   :after org
+;;   ;; :hook
+;;   ;; (after-init . org-roam-mode)
+;;   :commands (org-roam-buffer
+;;              org-roam-setup
+;;              org-roam-capture
+;;              org-roam-node-find)
+;;   :init
+;;   (setq org-roam-directory (expand-file-name "~/org/roam/")
+;;         org-roam-db-location (concat my-cache-dir "org-roam.db")
+;;         org-id-link-to-org-use-id
+;;         )
+;;   :config
+;;   (org-roam-setup)
+;;   (advice-add 'org-id-get-create :after 'org-roam-db-sync)
+;;   )
 
 
 ;; better table alignment

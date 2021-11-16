@@ -1,12 +1,47 @@
-;; (require 'tex)
-;; typo
 
-;; (use-package tex-site
-;;   :straight (auctex :host github
-;;                     :repo "emacsmirror/auctex"
-;;                     :files (:default (:exclude "*.el.in"))
-;;          )
-;;   )
+(defvar image-directory "./img/")
+(defvar xclip-cmd "xclip -sel c -t image/png -o")
+
+(defun paste-image ()
+  "Paste image to directory"
+  (interactive)
+  (let ((img-dir-p (call-process-shell-command (s-concat "ls " image-directory))))
+    (when (or (eql 0 img-dir-p)
+              (when (y-or-n-p (format "create the image directory %s ?" image-directory))
+                  (shell-command (s-concat "mkdir " image-directory)))
+              )
+      (store-image)
+      )
+    )
+  ;; (when (not (eql 0 (call-process-shell-command (s-concat "ls " image-directory))))
+  ;;   (if (y-or-n-p (format "create the image directory %s ?" image-directory))
+  ;;     (shell-command (s-concat "mkdir " image-directory)))
+  ;;   )
+  
+  )
+
+;; (shell-command "xclip -sel c -t image/png -o")
+;; (call-process-shell-command "timeout 0.05 xclip -sel c -t image/png -o")
+;; (async-shell-command "xclip -o -sel c -t image/png")
+;; (make-process :command '(nil "xclip" "-o"))
+;; (call-process "xclip" nil nil nil "-o" "-selection" "clipboard")
+;; (call-process "xclip" nil nil nil "-o")
+(defun store-image ()
+  (let* ((name (read-from-minibuffer "image file name: "))
+         (name1 (s-concat image-directory
+                          (if (s-ends-with? ".png" name)
+                              (s-trim name)
+                            (s-concat (s-trim name) ".png"))))
+         )
+    
+    (if (not (eql 0 (async-shell-command (s-concat xclip-cmd " > " name1))))
+        (user-error "no image in clipboard!")
+      (message (format "successfully paste image %s" name1))
+      name1
+      )
+    )
+  )
+
 (use-package tex
   ;; :straight (auctex :host github
   ;;                   :repo "emacsmirror/auctex"
@@ -131,7 +166,6 @@
   :config
   (setq laas-enable-auto-space nil)
   (aas-set-snippets 'laas-mode
-                    ;; 只在 org latex 片段中展开
                     :cond #'latex-environment-p
                     "tan" "\\tan"
                     ;; 内积
@@ -146,6 +180,38 @@
                     ",." (lambda () (interactive) (laas-wrap-previous-object "bm"))
                     ".," (lambda () (interactive) (laas-wrap-previous-object "bm")))
   )
+
+;;; https://github.com/karthink/lazytab
+(advice-add 'orgtbl-ctrl-c-ctrl-c :after #'orgtbl-replace)
+(defun orgtbl-replace (_unused)
+  (interactive "P")
+  (unless (org-at-table-p) (user-error "Not at a table"))
+  (let* ((table (org-table-to-lisp))
+         params
+         (replacement-table
+          (if (texmathp)
+              (orgtbl-to-amsmath table params)
+            (orgtbl-to-latex table params))))
+    (kill-region (org-table-begin) (org-table-end))
+    (open-line 1)
+    (push-mark)
+    (insert replacement-table)
+    (align-regexp (region-beginning) (region-end) "\\([:space:]*\\)& ")
+    (orgtbl-mode -1)
+    ;; (advice-remove 'orgtbl-ctrl-c-ctrl-c #'orgtbl-replace)
+    ))
+
+(defun orgtbl-to-amsmath (table params)
+  (orgtbl-to-generic
+   table
+   (org-combine-plists
+    '(:splice t
+      :lstart ""
+      :lend " \\\\"
+      :sep " & "
+      :hline nil
+      :llend "")
+    params)))
 
 
 ;;; useful functions
@@ -165,6 +231,8 @@
 ;; (setq latex-easy-compile-cmd "tectonic --keep-intermediates --print %s")
 ;; (setq latex-easy-compile-cmd "latexmk -cd -e \"\$pdflatex = 'pdflatex -interaction=nonstopmode -shell-escape -synctex=1 %%S %%O'\" %s -f -pdf")
 
+;; (setq latex-easy-compile-cmd "latexmk -cd %s -f -pdf")
+(setq latex-easy-compile-cmd "latexmk -cd %s -f -pdfxe")
 (defun latex-easy-compile-switch-engine ()
   (interactive)
   (if (s-equals? latex-easy-compile-cmd "tectonic %s")
