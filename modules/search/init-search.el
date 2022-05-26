@@ -51,6 +51,7 @@
  "so" 'consult-outline
  "sn" 'consult-focus-lines
  "sp" '(consult-ripgrep :wk "rg project")
+ "sP" '(my-consult-rg-thing-at-point :wk "rg project")
  "ps" '(consult-ripgrep :wk "rg project")
  "se" '(consult-flycheck :wk "flycheck errors")
  ";" '(vertico-repeat :wk "last search")
