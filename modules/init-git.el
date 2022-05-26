@@ -2,9 +2,6 @@
 
 
 (setq vc-follow-symlinks t)
-(use-package evil-magit
-  :defer t
-  )
 
 (use-package with-editor
   :defer t
@@ -18,8 +15,6 @@
   )
 (use-package magit
   :defer t
-  :config
-  ;; (require 'evil-magit)
   )
 
 (use-package transient
@@ -40,7 +35,22 @@
   (global-git-gutter-mode 1)
   )
 
-;; (use-package git-gutter-fringe)
+(use-package blamer
+  :straight (blamer :type git :host github :repo "artawower/blamer.el")
+  :defer 20
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 140
+                    :italic t)))
+  :config
+  (setq blamer-max-commit-message-length 50
+        blamer-min-offset 60
+        blamer-idle-time 0.3
+        )
+  
+  ;; (global-blamer-mode 1)
+  )
 
 (dwuggh/leader-def
   "gs" 'magit-status

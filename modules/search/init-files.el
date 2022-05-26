@@ -22,18 +22,16 @@
 
 (defun xdg-open-file-1 (file)
   "Open FILE with xdg-open."
-  (call-process "xdg-open" nil 0 nil file)
+  (call-process "xdg-open" nil 0 nil (expand-file-name file))
   )
 
 (defun xdg-open-file (&optional initial-input)
   "Open selected file with xdg-open.
 When INITIAL-INPUT is non-nil, use it in the minibuffer during completion."
   (interactive)
-  (counsel--find-file-1
-   "xdg-open file: " initial-input
-   #'xdg-open-file-1
-   'my-xdg-open
-   )
+  ;; TODO
+  (xdg-open-file-1
+   (read-file-name "xdg-open file: " default-directory initial-input t))
   )
 
 ;;;###autoload

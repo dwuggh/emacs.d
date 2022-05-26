@@ -70,6 +70,7 @@
   )
 
 (use-package auto-yasnippet
+  :config
   (general-define-key
    :states '(insert)
    "<backtab>" 'aya-expand

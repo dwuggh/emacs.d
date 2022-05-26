@@ -17,7 +17,7 @@
         evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
   )
 
-(use-package spacemacs-theme)
+;; (use-package spacemacs-theme)
 
 (setq my-emacs-theme (getenv "EMACS_THEME")
       custom-safe-themes t
@@ -29,7 +29,7 @@
  ((equal my-emacs-theme "light") (load-theme 'dwuggh-doom-solarized-light))
  ((equal my-emacs-theme "dark") (load-theme 'doom-one))
  ((equal my-emacs-theme "nord") (load-theme 'doom-nord))
- (t (load-theme 'doom-nord))
+ (t (load-theme 'dwuggh-doom-solarized-light))
  )
 
 ;; disable whatever bar
