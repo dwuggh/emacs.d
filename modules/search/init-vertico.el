@@ -34,6 +34,19 @@
 (straight-register-package
   `(vertico ,@straight-vertico-recipe-args :files ("*.el")))
 
+(defface ivy-current-match
+  '((((class color) (background light))
+     :background "#1a4b77" :foreground "white" :extend t)
+    (((class color) (background dark))
+     :background "#65a7e2" :foreground "black" :extend t))
+  "Face used by Ivy for highlighting the current match.")
+
+(defface ivy-minibuffer-match-face-1
+  '((((class color) (background light))
+     :background "#d3d3d3")
+    (((class color) (background dark))
+     :background "#555555"))
+  "The background face for `ivy' minibuffer matches.")
 
 (use-package vertico
   :init
@@ -56,16 +69,6 @@
       (( t :inherit ivy-minibuffer-match-face-1 )))
    '(vertico-current
       (( t :inherit ivy-prompt-match )))
-   ;; '(marginalia-documentation
-   ;;    (( t :inherit font-lock-doc-face )))
-   ;; '(orderless-match-face-0
-   ;;    (( t :inherit ivy-minibuffer-match-face-1 )))
-   ;; '(orderless-match-face-1
-   ;;    (( t :inherit ivy-minibuffer-match-face-2 )))
-   ;; '(orderless-match-face-2
-   ;;    (( t :inherit ivy-minibuffer-match-face-3 )))
-   ;; '(orderless-match-face-3
-   ;;    (( t :inherit ivy-minibuffer-match-face-4 )))
    )
   ;; (setq minibuffer-prompt-properties
   ;;       '(read-only t cursor-intangible t face minibuffer-prompt))
@@ -96,7 +99,7 @@
   :init
   (setq consult-async-min-input 2
         consult-async-refresh-delay 0.1
-        consult-async-split-style 'space
+        consult-async-split-style 'semicolon
         consult-async-input-throttle 0.1
         consult-async-input-debounce 0.1
         completion-in-region-function #'consult-completion-in-region
@@ -125,6 +128,10 @@
 
 (use-package marginalia
   :init
+  (setq
+   marginalia-field-width 80
+   marginalia-align 'right
+   )
   (marginalia-mode)
   )
 

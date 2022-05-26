@@ -126,7 +126,6 @@ When INITIAL-INPUT is non-nil, use it in the minibuffer during completion."
  "ff" '(my-find-file :wk "find files in current dir")
  "fs" '(save-buffer :wk "save file")
  "fS" '(evil-write-all :wk "save all file")
- "fz" 'counsel-fzf
  )
 
 (provide 'init-files)

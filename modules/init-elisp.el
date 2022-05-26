@@ -47,15 +47,14 @@
 
   ;; config popwin
   (push
-   '(helpful-mode :dedicated nil :position bottom :stick t :noselect t :height 0.4)
+   '(helpful-mode :dedicated nil :position bottom :stick nil :noselect t :height 0.4)
    popwin:special-display-config)
-  ;; (general-def
-  ;;   :state 'normal
-  ;;   :keymaps 'helpful-mode-map
-  ;;   "RET" 'helpful-visit-reference
-  ;;  )
-  (setq counsel-describe-function-function #'helpful-callable)
-  (setq counsel-describe-variable-function #'helpful-variable)
+  (general-def
+    :state 'normal
+    :keymaps 'helpful-mode-map
+    "K" 'helpful-at-point
+    ;; "RET" 'helpful-visit-reference
+   )
   )
 
 
@@ -88,25 +87,9 @@
 ;; jump inside lisp code
 
 
-(defun my-ivy-goto-definition ()
-  "elisp goto definition with `ivy-read'"
-  (interactive)
-  (let ((enable-recursive-minibuffers t))
-    (ivy-read "Describe symbol: " obarray
-              :predicate (lambda (sym)
-                           (cl-some (lambda (backend)
-                                      (funcall (cadr backend) sym))
-                                    describe-symbol-backends))
-              :require-match t
-              :history 'counsel-describe-symbol-history
-              :keymap counsel-describe-map
-              :preselect (ivy-thing-at-point)
-              :action 'elisp-slime-nav-find-elisp-thing-at-point
-              :caller 'counsel-describe-symbol)))
-
 (setq elisp-jump-handler
       '(elisp-slime-nav-find-elisp-thing-at-point
-       counsel-etags-find-tag-at-point))
+        ))
 
 (defun my-elisp-navigation (&optional jump-handler)
   "Jump to definition around point using the best tool for this action.
@@ -154,14 +137,14 @@
  "hh" '(helpful-at-point :wk "help at point")
  "hH" '(elisp-slime-nav-describe-elisp-thing-at-point :wk "slime help")
  "gg" '(my-elisp-navigation :wk "jump to definition")
- "ga" '(my-ivy-goto-definition :wk "find and go to definition")
+ ;; "ga" '(my-ivy-goto-definition :wk "find and go to definition")
  "'" '(ielm :wk "open ielm")
  )
 
-(general-def
- :keymaps 'override
- "C-h g" '(my-ivy-goto-definition :wk "find and go to definition")
-  )
+;; (general-def
+;;  :keymaps 'override
+;;  "C-h g" '(my-ivy-goto-definition :wk "find and go to definition")
+;;   )
 
 ;; TODO use the macro
 ;; (setq-modes-local (emacs-lisp-mode lisp-interaction-mode)

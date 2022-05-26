@@ -9,7 +9,6 @@
 
 (dwuggh/leader-def
  "jj" '(evil-avy-goto-char-timer :wk "char timer")
- "ji" '(counsel-imenu :wk "imenu")
  "jl" '(evil-avy-goto-line :wk "goto line")
  "jo" '(evil-avy-goto-line-above :wk "goto line above")
  "j." '(evil-avy-goto-line-below :wk "goto line below")
@@ -18,25 +17,8 @@
  )
 
 
-;; tags
-(use-package counsel-etags
-  ;; :bind (("C-]" . counsel-etags-find-tag-at-point))
-  :init
-  (add-hook 'prog-mode-hook
-        (lambda ()
-          (add-hook 'after-save-hook
-            'counsel-etags-virtual-update-tags 'append 'local)))
-  :config
-  (setq counsel-etags-update-interval 60)
-  (push "build" counsel-etags-ignore-directories)
-  (push "build-debug" counsel-etags-ignore-directories)
-  (push ".cache" counsel-etags-ignore-directories)
-  (push "*.json" counsel-etags-ignore-filenames)
-  )
-
 (setq my-jump-handler-default '(
                 lsp-find-definition
-                counsel-etags-find-tag-at-point
                 ))
 
 (defun my-navigation (&optional jump-handler)
@@ -65,7 +47,6 @@
 (dwuggh/localleader-def
  :keymaps 'prog-mode-map
  "gg" '(lsp-find-definition :wk "goto definition")
- "gl" '(counsel-etags-list-tag-in-current-file :wk "list tags")
  )
 
 (provide 'init-jump)
