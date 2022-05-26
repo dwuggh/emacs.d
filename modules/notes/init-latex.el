@@ -13,19 +13,8 @@
       (store-image)
       )
     )
-  ;; (when (not (eql 0 (call-process-shell-command (s-concat "ls " image-directory))))
-  ;;   (if (y-or-n-p (format "create the image directory %s ?" image-directory))
-  ;;     (shell-command (s-concat "mkdir " image-directory)))
-  ;;   )
-  
   )
 
-;; (shell-command "xclip -sel c -t image/png -o")
-;; (call-process-shell-command "timeout 0.05 xclip -sel c -t image/png -o")
-;; (async-shell-command "xclip -o -sel c -t image/png")
-;; (make-process :command '(nil "xclip" "-o"))
-;; (call-process "xclip" nil nil nil "-o" "-selection" "clipboard")
-;; (call-process "xclip" nil nil nil "-o")
 (defun store-image ()
   (let* ((name (read-from-minibuffer "image file name: "))
          (name1 (s-concat image-directory

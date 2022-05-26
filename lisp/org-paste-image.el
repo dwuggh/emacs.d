@@ -52,8 +52,8 @@ return the correspond path otherwise"
 ;; (defun org-paste-image-full-path (path)
 ;;   "convert file path to full path. Include file://"
 ;;   (let ((path (if (string-prefix-p "file:\/\/" path)
-;; 		  (substring path 7 nil)
-;; 		path)))
+;;        (substring path 7 nil)
+;;      path)))
 ;;     (file-truename path)))
 
 (defun org-paste-image-format-path (path)
@@ -66,7 +66,7 @@ return the correspond path otherwise"
   "return nil if `file' is not an existing image file, return `file' otherwise."
   (let ((extension (downcase (file-name-extension file))))
     (and (member extension org-paste-image-extensions-default)
-	 (file-exists-p file))))
+     (file-exists-p file))))
 
 
 (defun org-paste-image-new-name-default (ext)
@@ -80,10 +80,10 @@ return the correspond path otherwise"
 NAME should contain extension."
   (when (org-paste-image-file-is-image-p img)
     (let* ((image (file-truename image))
-	   (new-image (concat org-paste-image-store-directory name)))
+       (new-image (concat org-paste-image-store-directory name)))
       ;; create directory
       (unless (file-exists-p org-paste-image-store-directory)
-	(make-directory org-paste-image-store-directory))
+    (make-directory org-paste-image-store-directory))
       (copy-file image new-image)
       new-image)))
 
@@ -99,23 +99,27 @@ NAME should contain extension."
   (let* ((text (if register
                    (evil-get-register register)
                  (current-kill 0)))
-	 (text (org-paste-image-format-path text)))
+     (text (org-paste-image-format-path text)))
     (when (and (org-paste-image-file-is-image-p text)
-	       (equal major-mode 'org-mode))
+           (equal major-mode 'org-mode))
       ;; (ivy-read "name:" 'read-file-name-internal
-      ;; 		:initial-input ())
+      ;;        :initial-input ())
       (let* ((ext file-name-extension text)
-	     (name (org-paste-image-new-name-default ext))
-	     (path (org-paste-image-copy-to-local text name))
-	     (content (format "[[%s]]" path)))
-	(ivy-read (concat "new name: ") #'read-file-name-internal
-		  :matcher #'counsel--find-file-matcher
-		  :initial-input name
-		  :require-match nil
-		  :caller 'org-paste-image-yank
-		  :action 
-	 )
-	(insert-for-yank content)))))
+         (name (org-paste-image-new-name-default ext))
+         (path (org-paste-image-copy-to-local text name))
+         (content (format "[[%s]]" path)))
+    (ivy-read (concat "new name: ") #'read-file-name-internal
+          :matcher #'counsel--find-file-matcher
+          :initial-input name
+          :require-match nil
+          :caller 'org-paste-image-yank
+          :action 
+     )
+    ;; (completing-read "new name: " #'read-file-name-internal
+    ;;                  nil nil name
+    ;;                  )
+    ;; read-file-name
+    (insert-for-yank content)))))
 
 
 (defun org-paste-image-selected-copy-to-local (beg end)

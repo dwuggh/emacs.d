@@ -85,6 +85,16 @@
    "K" 'anaconda-mode-show-doc
    )
 
+(dwuggh/localleader-def
+  :keymaps '(python-mode-map)
+  :states '(normal visual)
+  "sb" 'python-shell-send-buffer
+  "sg" 'python-shell-send-file
+  "sf" 'python-shell-send-defun
+  "sr" 'python-shell-send-region
+  )
+
+
 (use-package ein
   :config
   (setq org-babel-load-languages

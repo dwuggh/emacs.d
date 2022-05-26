@@ -166,26 +166,11 @@ This forces it to read the background before rendering."
 
 (setq org-id-locations-file (concat my-cache-dir ".org-id-locations"))
 
-(use-package evil-org)
-
-;; (use-package org-roam
-;;   ;; :defer t
-;;   :after org
-;;   ;; :hook
-;;   ;; (after-init . org-roam-mode)
-;;   :commands (org-roam-buffer
-;;              org-roam-setup
-;;              org-roam-capture
-;;              org-roam-node-find)
-;;   :init
-;;   (setq org-roam-directory (expand-file-name "~/org/roam/")
-;;         org-roam-db-location (concat my-cache-dir "org-roam.db")
-;;         org-id-link-to-org-use-id
-;;         )
-;;   :config
-;;   (org-roam-setup)
-;;   (advice-add 'org-id-get-create :after 'org-roam-db-sync)
-;;   )
+(use-package evil-org
+  :after org
+  :init
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  )
 
 
 ;; better table alignment
@@ -201,28 +186,14 @@ This forces it to read the background before rendering."
    )
   (add-hook 'org-mode-hook #'valign-mode))
 
-;; (defun lsp-flycheck-filter-org-mode (oldfun &rest args)
-;;   (unless (equal (car args) 'org-mode)
-;;     (apply oldfun args)))
-
-
-;; (advice-add 'lsp-flycheck-add-mode :around
-;;             #'lsp-flycheck-filter-org-mode)
-
 
 ;;; latex editing
 ;;; ------------------------------------------------------------------------------------
 
 ;; auto preview latex fragments
-
-
-
 ;; set pdflatex to xelatex
 
 ;; customize packages
-
-
-
 
 ;; (straight-use-package '(my-org-edit-latex :local-repo "~/Projects/emacs/org-edit-latex/"))
 (use-package my-org-edit-latex
@@ -330,6 +301,11 @@ This forces it to read the background before rendering."
    "tp" 'markdown-toggle-inline-images
    "tm" 'markdown-toggle-math
    )
+  (general-def
+    :states '(normal visual)
+   :keymaps 'markdown-mode-map
+   "TAB" 'markdown-cycle
+    )
   )
 
 (provide 'init-org)

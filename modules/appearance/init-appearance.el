@@ -8,13 +8,13 @@
 
 (use-package base16-theme
   :config
-  (defvar my/base16-colors base16-default-dark-colors)
-  (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
-        evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
-        evil-motion-state-cursor  `(,(plist-get my/base16-colors :base0E) box)
-        evil-normal-state-cursor  `(,(plist-get my/base16-colors :base0B) box)
-        evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
-        evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
+  ;; (defvar my/base16-colors base16-default-dark-colors)
+  ;; (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
+  ;;       evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
+  ;;       evil-motion-state-cursor  `(,(plist-get my/base16-colors :base0E) box)
+  ;;       evil-normal-state-cursor  `(,(plist-get my/base16-colors :base0B) box)
+  ;;       evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
+  ;;       evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
   )
 
 ;; (use-package spacemacs-theme)
@@ -36,6 +36,24 @@
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
+
+;; (if (version<= (emacs-version) 28))
+;; (defun psp-scroll-down (&optional delta)
+;;   (interactive "P")
+;;   (pixel-scroll-precision-scroll-down (or delta 5))
+;;   )
+
+;; (defun psp-scroll-up (&optional delta)
+;;   (interactive "P")
+;;   (pixel-scroll-precision-scroll-up (or delta 5))
+;;   )
+
+;; (pixel-scroll-precision-mode 1)
+;; (general-def
+;;  :keymaps 'override
+;;  "C-j" 'psp-scroll-down
+;;  "C-k" 'psp-scroll-up
+;;   )
 
 
 ;; fullscreen on start
