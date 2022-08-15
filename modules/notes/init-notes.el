@@ -1,5 +1,6 @@
 
 
+(general-define-key)
 (general-def
   :major-modes 'text-mode
   :states '(normal visual motion)

@@ -22,7 +22,8 @@
 (when (eq dwuggh-emacs-type 'full)
   (my-load-module 'term)
 
-  (my-load-module 'lsp)
+  ;; (my-load-module 'lsp)
+  (my-load-module 'lsp-bridge)
   ;; (my-load-module 'treemacs)
 
   (my-load-module 'elisp)

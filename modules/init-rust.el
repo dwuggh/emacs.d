@@ -2,7 +2,7 @@
 (use-package rustic
   :defer t
   :init
-  ;; (setq rustic-lsp-setup-p nil)
+  (setq rustic-lsp-setup-p nil)
   ;; (add-hook 'rust-mode-hook #'my-lsp-init)
   )
 

@@ -1,31 +1,13 @@
 
-;; (use-package ccls
-;;   :defer t
-;;   :init
-;;   ;; (add-hook+ (c-mode-hook c++-mode-hook)
-;;   ;;          lsp)
-;;   ;; :config (push ".ccls-cache" projectile-globally-ignored-directories)
-;;   )
-
 (setq c-basic-offset 4)
 
-(add-hook+ (c-mode-hook c++-mode-hook)
-         my-lsp-init)
 
-(setq lsp-clients-clangd-args '(
-                                "--clang-tidy"
-                                "--completion-style=detailed"
-                                "--header-insertion=never"
-                                "--index"
-                                "--background-index"
-                                "--all-scopes-completion"
-                                "--cross-file-rename"
-                                ))
 
 
 (use-package cmake-mode
-  :config
-  (add-hook 'cmake-mode-hook #'my-lsp-init))
+  ;; :config
+  ;; (add-hook 'cmake-mode-hook #'my-lsp-init)
+  )
 
 (use-package cmake-ide
   :defer t
@@ -49,22 +31,6 @@
   (add-hook 'global-flycheck-mode #'flycheck-clang-tidy-setup)
   )
 
-(defun lsp-clangd-switch-between-source-headers ()
-  "switch between header and source file using clangd."
-  (interactive)
-  (let* ((resp (lsp-request
-        "textDocument/switchSourceHeader"
-        (lsp--text-document-identifier)))
-     (filename (if (string-prefix-p "file:\/\/" resp)
-               (substring resp 7 nil)
-             resp)))
-    (if (not (equal "" filename))
-    (switch-to-buffer (find-file-noselect filename))
-      (message "didn't find file"))))
 
-(dwuggh/localleader-def
- :keymaps '(c-mode-map c++-mode-map)
- "ss" '(lsp-clangd-switch-between-source-headers :wk "header/source")
- )
 
 (provide 'init-cc)

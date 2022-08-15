@@ -145,5 +145,87 @@
         (company-dabbrev-code :with company-yasnippet)
         company-yasnippet company-dabbrev))
 
+;;; lsp pacakges
 
+;;; latex
+(use-package lsp-latex
+  :defer t
+  :init
+  (add-hook 'tex-mode-hook 'my-lsp-init)
+  (add-hook 'latex-mode-hook 'my-lsp-init)
+  (add-hook 'LaTeX-mode-hook 'my-lsp-init)
+  )
+
+;;; c, c++
+(add-hook+ (c-mode-hook c++-mode-hook)
+         my-lsp-init)
+
+(setq lsp-clients-clangd-args '(
+                                "--clang-tidy"
+                                "--completion-style=detailed"
+                                "--header-insertion=never"
+                                "--index"
+                                "--background-index"
+                                "--all-scopes-completion"
+                                "--cross-file-rename"
+                                ))
+
+(defun lsp-clangd-switch-between-source-headers ()
+  "switch between header and source file using clangd."
+  (interactive)
+  (let* ((resp (lsp-request
+        "textDocument/switchSourceHeader"
+        (lsp--text-document-identifier)))
+     (filename (if (string-prefix-p "file:\/\/" resp)
+               (substring resp 7 nil)
+             resp)))
+    (if (not (equal "" filename))
+    (switch-to-buffer (find-file-noselect filename))
+      (message "didn't find file"))))
+
+(dwuggh/localleader-def
+ :keymaps '(c-mode-map c++-mode-map)
+ "ss" '(lsp-clangd-switch-between-source-headers :wk "header/source")
+ )
+
+
+;;; python
+(use-package lsp-pyright
+  :config
+  (defun lsp-pyright-hook ()
+    (require 'lsp-pyright)
+    (lsp)
+    )
+  (add-hook 'python-mode-hook #'lsp-pyright-hook)
+  )
+
+
+
+;;; haskell
+(use-package lsp-haskell
+  :defer t
+  :init
+  (add-hook 'haskell-mode-hook #'my-lsp-init)
+  (add-hook 'haskell-mode-hook #'dante-mode)
+  (add-hook 'haskell-literate-mode-hook #'my-lsp-init)
+  ;; (setq lsp-haskell-process-path-hie "haskell-language-server-8.10.2")
+  ;; (setq lsp-haskell-process-args-hie nil)
+  ;; (setq lsp-haskell-server-path "/home/dwuggh/.ghcup/bin/haskell-language-server-wrapper")
+  ;; (setq lsp-haskell-server-path "/home/dwuggh/.local/bin/ghcide")
+  :config
+  (setq haskell-process-auto-import-loaded-modules t
+        haskell-process-show-overlays nil
+        )
+  ;; (lsp-haskell-set-hlint-on)
+  ;; (lsp-haskell-set-completion-snippets-on)
+  )
+
+
+;;; julia
+(use-package lsp-julia
+  :straight
+  (lsp-julia :type git :host github :repo "non-Jedi/lsp-julia" :files ("*.*" "languageserver"))
+  :init
+  (add-hook 'julia-mode-hook #'my-lsp-init)
+  )
 (provide 'init-lsp)

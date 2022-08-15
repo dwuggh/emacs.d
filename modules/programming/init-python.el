@@ -70,14 +70,6 @@
   )
 
 
-(use-package lsp-pyright
-  :config
-  (defun lsp-pyright-hook ()
-    (require 'lsp-pyright)
-    (lsp)
-    )
-  (add-hook 'python-mode-hook #'lsp-pyright-hook)
-  )
 
 (general-def
    :definer 'minor-mode

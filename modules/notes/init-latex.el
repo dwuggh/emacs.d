@@ -61,13 +61,6 @@
   :config
   )
 
-(use-package lsp-latex
-  :defer t
-  :init
-  (add-hook 'tex-mode-hook 'my-lsp-init)
-  (add-hook 'latex-mode-hook 'my-lsp-init)
-  (add-hook 'LaTeX-mode-hook 'my-lsp-init)
-  )
 
 (use-package company-auctex
   :defer t
@@ -155,7 +148,7 @@
   :config
   (setq laas-enable-auto-space nil)
   (aas-set-snippets 'laas-mode
-                    :cond #'latex-environment-p
+                    :cond #'latex-math-environment-p
                     "tan" "\\tan"
                     ;; 内积
                     "sr" "^2"
@@ -168,6 +161,17 @@
                     :cond #'laas-object-on-left-condition
                     ",." (lambda () (interactive) (laas-wrap-previous-object "bm"))
                     ".," (lambda () (interactive) (laas-wrap-previous-object "bm")))
+  ;; (aas-set-snippets 'latex-mode
+  ;;                   "C-i"
+                    
+  ;;                   )
+  (general-def
+    :keymap 'latex-mode-map
+    :states '(normal insert)
+    "C-t" (lambda () (interactive)
+                      (yas-expand-snippet "\\item ")
+                      )
+    )
   )
 
 ;;; https://github.com/karthink/lazytab
@@ -221,7 +225,7 @@
 ;; (setq latex-easy-compile-cmd "latexmk -cd -e \"\$pdflatex = 'pdflatex -interaction=nonstopmode -shell-escape -synctex=1 %%S %%O'\" %s -f -pdf")
 
 ;; (setq latex-easy-compile-cmd "latexmk -cd %s -f -pdf")
-(setq latex-easy-compile-cmd "latexmk -cd %s -f -pdfxe")
+(setq latex-easy-compile-cmd "latexmk -cd \"%s\" -f -pdfxe")
 (defun latex-easy-compile-switch-engine ()
   (interactive)
   (if (s-equals? latex-easy-compile-cmd "tectonic %s")
