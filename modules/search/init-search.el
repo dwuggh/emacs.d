@@ -62,7 +62,7 @@
 (require 'init-files)
 (require 'init-projects)
 (require 'init-buffer)
-;; (require 'init-z)
+(require 'init-z)
 
 ;;; helpful
 ;;; ------------------------------------------------------------------------------
