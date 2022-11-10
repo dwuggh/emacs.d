@@ -1,3 +1,6 @@
 [submodule "lisp/asymbol"]
 	path = lisp/asymbol
 	url = git@github.com:dwuggh/asymbol.git
+[submodule "lisp/lsp-bridge"]
+	path = lisp/lsp-bridge
+	url = git@github.com:dwuggh/lsp-bridge.git
