@@ -8,20 +8,21 @@
 (defvar my-window-number-cache nil
   "window cache, for jumping")
 
-;; FIXME bugs when treemacs window is on
-(use-package popwin
+
+(use-package popper
   :init
-  (popwin-mode 1)
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          helpful-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1)
+  (define-key popper-mode-map (kbd "C-`") #'popper-cycle)
+  (setq popper-group-function #'popper-group-by-project)
   )
-
-(defun my-popwin-display-buffer-advice (&rest args)
-  (let ((window (selected-window)))
-    (unless (equal window popwin:popup-window)
-      (setq my-window-number-cache (winum-get-number window)))))
-
-(advice-add 'popwin:display-buffer :before 'my-popwin-display-buffer-advice)
-
-;; (advice-remove 'popwin:display-buffer 'my-popwin-display-buffer-advice)
 
 (use-package winum
   :config
@@ -30,28 +31,6 @@
         winum-ignored-buffers '(" *which-key*"))
   (winum-mode))
 
-
-
-
-;; FIXME report upstream?
-;; prevent `display-buffer' from moving popwin buffer
-(defun my-display-buffer-around (orig-fun buffer-or-name &optional action frame)
-  "pre advice"
-  (unless (equal (window-normalize-buffer buffer-or-name)
-         popwin:popup-buffer)
-      (funcall orig-fun buffer-or-name action frame)))
-
-(advice-add 'display-buffer :around 'my-display-buffer-around)
-;; (advice-remove 'display-buffer 'my-display-buffer-around)
-
-
-
-
-
-;; fix for `evil-window-left'
-;; (defun my-evil-window-left-advice (count)
-;;   "Advice for `evil-window-left' to make it compatiable with treemacs."
-;;   ())
 
 
 ;; from https://gist.github.com/3402786
@@ -65,11 +44,6 @@
       (progn
         (window-configuration-to-register ?_)
         (delete-other-windows)))))
-
-
-
-
-
 
 
 

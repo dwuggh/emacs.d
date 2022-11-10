@@ -1,17 +1,6 @@
 
-(defun my-completion-in-region-function ()
-  (lambda (&rest args)
-          (apply (if vertico-mode
-                     #'consult-completion-in-region
-                   #'completion--in-region)
-                 args))
-  )
 
-(general-define-key
- :states '(normal visual)
- :keymaps 'override
- "C-h A" 'describe-face
- )
+(define-key minibuffer-mode-map (kbd "C-v") #'yank)
 
 (use-package savehist
   :init
@@ -153,9 +142,14 @@
   :config (setq wgrep-auto-save-buffer t))
 
 (defun my-project-root ()
-  (when-let (project (project-current))
-    (project-root project))
-  )
+  (if (s-equals?
+              (s-trim-right (shell-command-to-string "git rev-parse --is-inside-work-tree"))
+              "true")
+      (s-trim-right (shell-command-to-string "git rev-parse --show-toplevel"))
+    (when-let (project (project-current)) (project-root project))
+    ))
+
+
 (setq consult-project-root-function 'my-project-root)
 
 ;;; form doom-emacs

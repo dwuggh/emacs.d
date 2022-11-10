@@ -15,32 +15,16 @@
   ;; (explain-pause-mode)
   )
 
-(defun my-popwin-pop-to-buffer (buffer &optional other-window norecord)
-  "my `popwin:pop-to-buffer'. It works."
-  (interactive (list (read-buffer "Pop to buffer: " (other-buffer))
-                     (if current-prefix-arg t)))
-  (pcase (treemacs-current-visibility)
-    ('visible (treemacs)
-          (popwin:pop-to-buffer buffer other-window norecord)
-          (treemacs)
-          (popwin:select-popup-window)
-          )
-    ('exists
-     (popwin:pop-to-buffer buffer other-window norecord)
-     (popwin:select-popup-window)
-     )
-    ('none
-    (popwin:pop-to-buffer buffer other-window norecord)
-    (popwin:select-popup-window))
-    )
-  )
+
 (use-package helpful
   :straight (helpful :type git :host github :repo "Wilfred/helpful")
+  :defer t
   :config
   (setq helpful-switch-buffer-function 'my-popwin-pop-to-buffer)
   (setq helpful-switch-buffer-function 'pop-to-buffer)
   ;; (setq helpful-switch-buffer-function 'popwin:pop-to-buffer)
   (global-set-key (kbd "C-h k") 'helpful-key)
+  (global-set-key (kbd "C-h C-k") 'helpful-key)
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-h o") #'helpful-symbol)
@@ -51,12 +35,11 @@
    popwin:special-display-config)
   (general-def
     :state 'normal
-    :keymaps 'helpful-mode-map
+    :keymaps '(helpful-mode-map emacs-lisp-mode-map)
     "K" 'helpful-at-point
     ;; "RET" 'helpful-visit-reference
    )
   )
-
 
 (defun my-helpful-navigate (button)
   "Override the `helpful--navigate' function"
@@ -82,10 +65,6 @@
   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
     (add-hook hook 'turn-on-elisp-slime-nav-mode))
   )
-
-
-;; jump inside lisp code
-
 
 (setq elisp-jump-handler
       '(elisp-slime-nav-find-elisp-thing-at-point
@@ -120,10 +99,6 @@
         (lambda ()
           (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
 
-(use-package parinfer-rust-mode
-  ;; :hook emacs-lisp-mode
-  )
-
 ;;; localleader key setting
 ;;; -------------------------------------------------------------------------------------
 
@@ -137,14 +112,9 @@
  "hh" '(helpful-at-point :wk "help at point")
  "hH" '(elisp-slime-nav-describe-elisp-thing-at-point :wk "slime help")
  "gg" '(my-elisp-navigation :wk "jump to definition")
- ;; "ga" '(my-ivy-goto-definition :wk "find and go to definition")
  "'" '(ielm :wk "open ielm")
  )
 
-;; (general-def
-;;  :keymaps 'override
-;;  "C-h g" '(my-ivy-goto-definition :wk "find and go to definition")
-;;   )
 
 ;; TODO use the macro
 ;; (setq-modes-local (emacs-lisp-mode lisp-interaction-mode)
@@ -165,7 +135,6 @@
                     company-dabbrev))
 
 
-;; hacking emacs
 ;;; ------------------------------------------------------------------------------------
 (use-package s)
 

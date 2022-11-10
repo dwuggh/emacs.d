@@ -57,27 +57,18 @@
  ";" '(vertico-repeat :wk "last search")
  )
 
+(general-define-key
+ :states '(normal visual)
+ :keymaps 'override
+ "C-h A" 'describe-face
+ )
+
 (require 'init-jump)
 (require 'init-vertico)
 (require 'init-files)
 (require 'init-projects)
 (require 'init-buffer)
 (require 'init-z)
-
-;;; helpful
-;;; ------------------------------------------------------------------------------
-
-(use-package helpful
-  :straight (helpful :type git :host github :repo "Wilfred/helpful")
-  :config
-  (setq helpful-switch-buffer-function 'pop-to-buffer)
-  (global-set-key (kbd "C-h k") 'helpful-key)
-  ;; (general-def
-  ;;   :state 'normal
-  ;;   :keymaps 'helpful-mode-map
-  ;;   "RET" 'helpful-visit-reference
-  ;;  )
-  )
 
 
 (provide 'init-search)

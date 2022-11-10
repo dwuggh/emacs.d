@@ -2,37 +2,33 @@
 (use-package rustic
   :defer t
   :init
-  (setq rustic-lsp-setup-p nil)
-  ;; (add-hook 'rust-mode-hook #'my-lsp-init)
-  )
+  ;; (setq rustic-lsp-setup-p nil)
+  (defun rust-rustup-target-list ()
+    "Get rustup's target list using `rustup target list'."
+    (s-split "\n" (s-trim (shell-command-to-string "rustup target list")))
+    )
 
-(defun rust-rustup-target-list ()
-  "Get rustup's target list using `rustup target list'."
-  (s-split "\n" (s-trim (shell-command-to-string "rustup target list")))
-  )
+  (defun rust-rustup-target-list-installed ()
+    "Get installed rustup's target list using `rustup target list --installed'."
+    (s-split "\n" (s-trim (shell-command-to-string "rustup target list --installed")))
+    )
 
-(defun rust-rustup-target-list-installed ()
-  "Get installed rustup's target list using `rustup target list --installed'."
-  (s-split "\n" (s-trim (shell-command-to-string "rustup target list --installed")))
-  )
+  (defun lsp-rust-analyzer--select-cargo-target (new-target)
+    (when (s-ends-with? "(installed)" new-target)
+      (setq new-target (car (s-split " " new-target))))
+    (unless (equal new-target lsp-rust-analyzer-cargo-target)
+      (setq lsp-rust-analyzer-cargo-target new-target)
+      (if (y-or-n-p "restart workspace?")
+          (call-interactively 'lsp-workspace-restart))))
 
-(defun lsp-rust-analyzer-select-cargo-target ()
-  "Interactively select `lsp-rust-analyzer-cargo-target'.
+  (defun lsp-rust-analyzer-select-cargo-target ()
+    "Interactively select `lsp-rust-analyzer-cargo-target'.
 This requires rustup intsalled"
     (interactive)
-    (ivy-read "set cargo target: "
-              (rust-rustup-target-list-installed)
-              :require-match t
-              :preselect lsp-rust-analyzer-cargo-target
-              :caller 'rust-select-compile-target
-              :action
-              (lambda (new-target)
-                (when (s-ends-with? "(installed)" new-target)
-                    (setq new-target (car (s-split " " new-target))))
-                (unless (equal new-target lsp-rust-analyzer-cargo-target)
-                  (setq lsp-rust-analyzer-cargo-target new-target)
-                  (if (y-or-n-p "restart workspace?")
-                      (call-interactively 'lsp-workspace-restart))))))
+    (lsp-rust-analyzer--select-cargo-target
+     (completing-read "set cargo target: " (rust-rustup-target-list-installed) nil t)))
+  )
+
 
 (use-package cargo
   :defer t

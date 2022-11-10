@@ -25,7 +25,7 @@
 
 (defcustom latex-edit-fragment-TeX-master
   ;; (expand-file-name "./frag-master.tex")
-  (expand-file-name "~/.emacs.d/frag-master.tex")
+  (expand-file-name "frag-master.tex" user-emacs-directory)
   "Decide which frag-master.tex file to be used.
 This package provides a default frag-master.tex. "
   :type 'string
@@ -53,9 +53,9 @@ This package provides a default frag-master.tex. "
   :lighter "l"
   (let ((old-tex-master TeX-master))
     (if latex-edit-fragment-mode
-	(progn
-	  (setq-local TeX-master latex-edit-fragment-TeX-master)
-	  )
+    (progn
+      (setq-local TeX-master latex-edit-fragment-TeX-master)
+      )
       (setq-local TeX-master old-tex-master)
       )
     )

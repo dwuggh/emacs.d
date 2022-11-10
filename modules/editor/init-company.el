@@ -92,26 +92,6 @@
   )
 
 
-;; Debugger entered--Lisp error: (error "Invalid byte opcode: op=0, ptr=6")
-;;   company-box--scrollbar-prevent-changes()
-;;   redisplay_internal\ \(C\ function\)()
-(use-package company-posframe
-  :config
-  (setq company-posframe-quickhelp-delay 0.2)
-  ;; (company-posframe-mode 1)
-  ;; (general-define-key company-posframe-active-map
-  ;;              :states 'insert
-  ;;              "C-f" 'company-posframe-quickhelp-toggle
-  ;;              "C-n" 'company-posframe-quickhelp-scroll-up
-  ;;              "C-p" 'company-posframe-quickhelp-scroll-down
-  ;;              )
-  ;; (evil-define-key 'insert company-posframe-active-map (kbd "C-f") 'company-posframe-quickhelp-toggle)
-  ;; (evil-define-key 'insert company-posframe-active-map (kbd "C-f") 'company-show-doc-buffer)
-  ;; (evil-define-key 'insert company-posframe-active-map (kbd "C-n") 'company-posframe-quickhelp-scroll-down)
-  ;; (evil-define-key 'insert company-posframe-active-map (kbd "C-p") 'company-posframe-quickhelp-scroll-up)
-  )
-
-
 ;; backend
 (setq-default company-backends
           '((company-capf company-dabbrev-code :with company-yasnippet)

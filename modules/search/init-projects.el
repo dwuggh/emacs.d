@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
+(setq project-list-file (concat my-cache-dir "projects"))
 
 (use-package projectile
   :init
@@ -16,7 +17,7 @@
   "switch to .emacs.d"
   (interactive)
   ;; (project-find-file-in "~/.emacs.d")
-  (projectile-find-file-in-directory "~/.emacs.d")
+  (projectile-find-file-in-directory user-emacs-directory)
   )
 
 (defun switch-to-init.el ()

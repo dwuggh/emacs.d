@@ -5,14 +5,25 @@
 ;; see `org--make-preview-overlay'
 
 (defvar my-org-latex-preview-program
-  "tex2img convert "
+  "tex2img convert --engine xelatex"
+  )
+
+
+(defvar my-org-latex-tex2img
+  "tex2img convert --engine xelatex"
   )
 
 (defun my-org-latex-get-img-path (text)
   (s-trim (shell-command-to-string
            (s-concat my-org-latex-preview-program "'" text "'"))))
 
-;; (my-org-latex-get-img-path "$a$")
+(defun my-org-latex-get-img-path (text)
+  (s-trim (with-temp-buffer
+            (call-process-region text nil "tex2img" nil t nil "convert" "--scale" "2"
+                                 "--engine" "xelatex")
+            (buffer-string))))
+
+;; (find-file(message(my-org-latex-get-img-path "$fv_贵$")))
 
 (defun check-ov ()
   (interactive)
@@ -51,6 +62,7 @@ As a replacement of `org--latex-preview-region'.
                (text (buffer-substring-no-properties ele-beg ele-end))
                (imgpath (my-org-latex-get-img-path text))
                )
+          (message imgpath)
           (dolist (o (overlays-in beg end))
                 (when (eq (overlay-get o 'org-overlay-type)
                       'org-latex-overlay)
@@ -66,5 +78,5 @@ As a replacement of `org--latex-preview-region'.
     )
   )
 
-;; (advice-add 'org--latex-preview-region :override 'my-org--latex-preview-region)
+(advice-add 'org--latex-preview-region :override 'my-org--latex-preview-region)
 ;; (advice-remove 'org--latex-preview-region 'my-org--latex-preview-region)

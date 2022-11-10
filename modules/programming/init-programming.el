@@ -14,7 +14,7 @@
 (straight-use-package 'tree-sitter)
 (straight-use-package 'tree-sitter-langs)
 
-
+(setq tsc-dyn-dir (expand-file-name "straight/build/tsc/" user-emacs-directory))
 ;; (straight-pull-package "tree-sitter")
 (use-package tree-sitter-langs)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
@@ -59,11 +59,6 @@
 
 (require 'init-python)
 (require 'init-jsts)
-;; (require 'init-java)
-;; (require 'init-julia)
 ;; (require 'init-go)
-
-;; (require 'init-cool)
-;; (require 'init-asm)
 
 (provide 'init-programming)

@@ -206,19 +206,11 @@ This forces it to read the background before rendering."
   )
 
 
-(use-package org-ml
-  :after org
-  :straight (org-ml :type built-in
-                    :local-repo (concat user-emacs-directory "lisp/")
-                    :files ("org-ml.el"))
-  :init
-  (add-hook 'org-mode-hook 'org-ml-mode)
-  )
 
 (use-package company-org-latex
   :after org
-  :straight (company-org-latex :type built-in
-                               :local-repo (concat user-emacs-directory "lisp/")
+  :straight `(company-org-latex :type built-in
+                               :local-repo ,(concat user-emacs-directory "lisp/")
                                :files ("company-org-latex.el"))
   :init
   (defun org-setup-company ()

@@ -13,18 +13,20 @@
 
 ;; (require 'org-paste-image)
 
+(defvar my-lsp-use-lsp-bridge nil)
 
+(my-load-module 'appearance)
 (my-load-module 'editor)
 (my-load-module 'search)
 (my-load-module 'git)
-(my-load-module 'appearance)
 
 (when (eq dwuggh-emacs-type 'full)
-  (my-load-module 'term)
+  ;; (my-load-module 'term)
 
-  ;; (my-load-module 'lsp)
-  (my-load-module 'lsp-bridge)
-  ;; (my-load-module 'treemacs)
+  (if my-lsp-use-lsp-bridge
+      (my-load-module 'lsp-bridge)
+    (my-load-module 'lsp)
+    )
 
   (my-load-module 'elisp)
 

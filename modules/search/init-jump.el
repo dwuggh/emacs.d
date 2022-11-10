@@ -7,15 +7,6 @@
         avy-background t)
   )
 
-(dwuggh/leader-def
- "jj" '(evil-avy-goto-char-timer :wk "char timer")
- "jl" '(evil-avy-goto-line :wk "goto line")
- "jo" '(evil-avy-goto-line-above :wk "goto line above")
- "j." '(evil-avy-goto-line-below :wk "goto line below")
- "jw" '(evil-avy-goto-word-1 :wk "goto word")
- "jb" '(avy-pop-mark :wk "go back")
- )
-
 
 (setq my-jump-handler-default '(
                 lsp-find-definition
@@ -43,6 +34,16 @@
                     (not (equal old-buffer (current-buffer))))
             (throw 'done t)))))
     (message "No jump handler was able to find this symbol.")))
+
+
+(dwuggh/leader-def
+ "jj" '(evil-avy-goto-char-timer :wk "char timer")
+ "jl" '(evil-avy-goto-line :wk "goto line")
+ "jo" '(evil-avy-goto-line-above :wk "goto line above")
+ "j." '(evil-avy-goto-line-below :wk "goto line below")
+ "jw" '(evil-avy-goto-word-1 :wk "goto word")
+ "jb" '(avy-pop-mark :wk "go back")
+ )
 
 (dwuggh/localleader-def
  :keymaps 'prog-mode-map

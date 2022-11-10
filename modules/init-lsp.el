@@ -1,19 +1,9 @@
 
-(use-package exec-path-from-shell
-  :config
-  (exec-path-from-shell-initialize))
+;; (use-package exec-path-from-shell
+;;   :config
+;;   (exec-path-from-shell-initialize))
 
 
-(defun my-lsp-session ()
-  "Get lsp session for current buffer."
-  (lsp-find-session-folder (lsp-session) (buffer-file-name))
-  )
-
-(defun my-lsp-init ()
-  "My lsp initialization."
-  (when (my-lsp-session)
-    (lsp))
-  )
 
 (use-package lsp-mode
   :defer t
@@ -25,6 +15,8 @@
    lsp-enable-xref nil
    ;; lsp-use-plists t
    )
+
+
   (defun lsp-company-backends-h ()
     (interactive)
     (when lsp-completion-mode)
@@ -127,17 +119,6 @@
    )
   )
 
-;; popwin
-;; (push '("*lsp-help*"
-;;     :dedicated t :position bottom
-;;     :stick t :noselect nil :height 0.4)
-;;       popwin:special-display-config)
-
-(push '("*xref*"
-    :dedicated t :position bottom
-    :stick t :noselect nil :height 0.4)
-      popwin:special-display-config)
-
 
 (setq-mode-local prog-mode
          company-backends
@@ -147,6 +128,16 @@
 
 ;;; lsp pacakges
 
+(defun my-lsp-session ()
+  "Get lsp session for current buffer."
+  (lsp-find-session-folder (lsp-session) (buffer-file-name))
+  )
+
+(defun my-lsp-init ()
+  "My lsp initialization."
+  (when (my-lsp-session)
+    (lsp))
+  )
 ;;; latex
 (use-package lsp-latex
   :defer t
@@ -191,7 +182,8 @@
 
 ;;; python
 (use-package lsp-pyright
-  :config
+  :defer t
+  :init
   (defun lsp-pyright-hook ()
     (require 'lsp-pyright)
     (lsp)
@@ -206,7 +198,6 @@
   :defer t
   :init
   (add-hook 'haskell-mode-hook #'my-lsp-init)
-  (add-hook 'haskell-mode-hook #'dante-mode)
   (add-hook 'haskell-literate-mode-hook #'my-lsp-init)
   ;; (setq lsp-haskell-process-path-hie "haskell-language-server-8.10.2")
   ;; (setq lsp-haskell-process-args-hie nil)
@@ -221,11 +212,4 @@
   )
 
 
-;;; julia
-(use-package lsp-julia
-  :straight
-  (lsp-julia :type git :host github :repo "non-Jedi/lsp-julia" :files ("*.*" "languageserver"))
-  :init
-  (add-hook 'julia-mode-hook #'my-lsp-init)
-  )
 (provide 'init-lsp)
