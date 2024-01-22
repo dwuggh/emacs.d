@@ -7,6 +7,7 @@
 
 (use-package lsp-mode
   :defer t
+  :commands lsp-install-server
   :init
   (setq
    lsp-prefer-capf t
@@ -14,9 +15,20 @@
    dap-breakpoints-file (concat my-cache-dir ".dap-breakpoints")
    lsp-enable-xref nil
    ;; lsp-use-plists t
+   lsp-enable-folding t
+   lsp-enable-suggest-server-download nil
+   lsp-enable-text-document-color nil
+   lsp-lens-enable nil
    )
 
 
+  (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
+  :config
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  (add-hook 'lsp-after-open-hook (lambda ()
+                                 (when (lsp-find-workspace 'rust-analyzer nil)
+                                   (lsp-rust-analyzer-inlay-hints-mode))))
+  (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
   (defun lsp-company-backends-h ()
     (interactive)
     (when lsp-completion-mode)
@@ -25,10 +37,8 @@
       company-dabbrev-code company-dabbrev))
     )
   (add-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
-  (add-hook 'lsp-mode-hook #'lsp-company-backends-h)
-  ;; (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
-  :config
-  (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
+  (add-hook 'python-mode-hook #'lsp)
+  ;; (add-hook 'lsp-mode-hook #'lsp-company-backends-h)
 
   (dwuggh/localleader-def
    :definer 'minor-mode
@@ -87,6 +97,7 @@
     :keymaps 'lsp-mode
     "gt" #'lsp-find-type-definition
     "gr" #'lsp-find-references
+    "gd" #'lsp-find-definition
     "gR" #'xref-find-references
     "gM" #'lsp-ui-imenu
     )
@@ -95,6 +106,8 @@
 
 (use-package lsp-ui
   :defer t
+  :init
+  (setq lsp-ui-sideline-enable nil)
   :config
   (general-def
     :keymaps 'lsp-ui-peek-mode-map
@@ -119,6 +132,9 @@
    )
   )
 
+(use-package consult-lsp
+  :after lsp-mode)
+
 
 (setq-mode-local prog-mode
          company-backends
@@ -126,8 +142,8 @@
         (company-dabbrev-code :with company-yasnippet)
         company-yasnippet company-dabbrev))
 
-;;; lsp pacakges
 
+;;; lsp pacakges
 (defun my-lsp-session ()
   "Get lsp session for current buffer."
   (lsp-find-session-folder (lsp-session) (buffer-file-name))
@@ -180,16 +196,16 @@
  )
 
 
-;;; python
-(use-package lsp-pyright
-  :defer t
-  :init
-  (defun lsp-pyright-hook ()
-    (require 'lsp-pyright)
-    (lsp)
-    )
-  (add-hook 'python-mode-hook #'lsp-pyright-hook)
-  )
+;; ;;; python
+;; (use-package lsp-pyright
+;;   :defer t
+;;   :init
+;;   (defun lsp-pyright-hook ()
+;;     (require 'lsp-pyright)
+;;     (lsp)
+;;     )
+;;   (add-hook 'python-mode-hook #'lsp-pyright-hook)
+;;   )
 
 
 

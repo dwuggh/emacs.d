@@ -154,6 +154,15 @@
                     "sr" "^2"
                     "RR" "\\mathbb{R}"
                     "ZZ" "\\mathbb{Z}"
+                    "<>" (lambda () (interactive)
+                           (yas-expand-snippet "\\braket{$0}")
+                           )
+                    "<<" (lambda () (interactive)
+                           (yas-expand-snippet "\\bra{$0}")
+                           )
+                    ">>" (lambda () (interactive)
+                           (yas-expand-snippet "\\ket{$0}")
+                           )
                     ;; 还可以绑定函数，和 yasnippet 联动
                     "Sum" (lambda () (interactive)
                             (yas-expand-snippet "\\sum_{$1}^{$2} $0"))

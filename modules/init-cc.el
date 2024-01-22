@@ -4,7 +4,6 @@
 
 (use-package cmake-mode
   ;; :config
-  ;; (add-hook 'cmake-mode-hook #'my-lsp-init)
   )
 
 (use-package flycheck-clang-tidy

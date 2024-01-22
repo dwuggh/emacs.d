@@ -19,20 +19,17 @@
 (use-package helpful
   :straight (helpful :type git :host github :repo "Wilfred/helpful")
   :defer t
-  :config
-  (setq helpful-switch-buffer-function 'my-popwin-pop-to-buffer)
-  (setq helpful-switch-buffer-function 'pop-to-buffer)
-  ;; (setq helpful-switch-buffer-function 'popwin:pop-to-buffer)
+  ;; (setq helpful-switch-buffer-function 'my-popwin-pop-to-buffer)
+  ;; (setq helpful-switch-buffer-function 'pop-to-buffer)
+  :init
   (global-set-key (kbd "C-h k") 'helpful-key)
   (global-set-key (kbd "C-h C-k") 'helpful-key)
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-h o") #'helpful-symbol)
+  :config
 
   ;; config popwin
-  (push
-   '(helpful-mode :dedicated nil :position bottom :stick nil :noselect t :height 0.4)
-   popwin:special-display-config)
   (general-def
     :state 'normal
     :keymaps '(helpful-mode-map emacs-lisp-mode-map)
@@ -41,23 +38,23 @@
    )
   )
 
-(defun my-helpful-navigate (button)
-  "Override the `helpful--navigate' function"
-  (let ((path (substring-no-properties (button-get button 'path))))
-      ;; (winum-select-window-1)
-    (call-interactively
-     (popwin:close-popup-window)
-     (winum-select-window-by-number my-window-number-cache)
-     (find-file path)
-     )
-      ;; (popwin:select-popup-window)
-     (when-let (pos (get-text-property button 'position
-                                       (marker-buffer button)))
-       (goto-char pos))
-     ))
+;; (defun my-helpful-navigate (button)
+;;   "Override the `helpful--navigate' function"
+;;   (let ((path (substring-no-properties (button-get button 'path))))
+;;       ;; (winum-select-window-1)
+;;     (call-interactively
+;;      (popwin:close-popup-window)
+;;      (winum-select-window-by-number my-window-number-cache)
+;;      (find-file path)
+;;      )
+;;       ;; (popwin:select-popup-window)
+;;      (when-let (pos (get-text-property button 'position
+;;                                        (marker-buffer button)))
+;;        (goto-char pos))
+;;      ))
 
 
-(advice-add 'helpful--navigate :override 'my-helpful-navigate)
+;; (advice-add 'helpful--navigate :override 'my-helpful-navigate)
 ;; (advice-remove 'helpful--navigate 'my-helpful-navigate)
 
 (use-package elisp-slime-nav

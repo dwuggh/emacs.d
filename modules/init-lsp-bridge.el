@@ -15,35 +15,24 @@
   ;; (lsp-bridge :local-repo (concat user-emacs-directory "lisp/lsp-bridge/")
   ;;             :files ("*"))
   :init
-  (setq lsp-bridge-python-command "/usr/bin/python")
+  (setq lsp-bridge-python-command "python")
+  ;; (setq lsp-bridge-enable-log t)
   :config
-  (require 'lsp-bridge)
+  ;; (require 'lsp-bridge)
   (setq popper-reference-buffers
         (cons lsp-bridge-lookup-doc-board popper-reference-buffers)
         )
-  (setq lsp-bridge-default-mode-hooks
-        (remove "emacs-lisp-mode-hook" lsp-bridge-default-mode-hooks))
+  (setq-default lsp-bridge-default-mode-hooks
+        (remove 'emacs-lisp-mode-hook lsp-bridge-default-mode-hooks))
   (global-lsp-bridge-mode)
   (define-key acm-mode-map (kbd "C-j") 'acm-select-next)
   (define-key acm-mode-map (kbd "C-k") 'acm-select-prev)
   (define-key evil-insert-state-map (kbd "C-k") nil)
 
 
-  (defun my-lsp-bridge-doc ()
-    (interactive)
-    (lsp-bridge-call-file-api "hover" (lsp-bridge--position) nil)
-    )
-
   (evil-define-key* '(normal visual) lsp-bridge-mode-map (kbd "K") #'lsp-bridge-lookup-documentation)
   )
 
-
-;; (advice-add 'lsp-bridge-popup-documentation :override 'lsp-bridge-show-doc-)
-(defun lsp-bridge-show-doc ()
-  (interactive)
-  (lsp-bridge-call-file-api "hover" (lsp-bridge--position))
-  ;; (advice-remove 'lsp-bridge-popup-documentation 'lsp-bridge-show-doc-)
-  )
 
 (defun lsp-bridge-reference (content num)
   ;; (print content)
