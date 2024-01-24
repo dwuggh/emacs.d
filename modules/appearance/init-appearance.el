@@ -8,7 +8,7 @@
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 
-(use-package all-the-icons)
+;; (use-package all-the-icons)
 (use-package doom-themes)
 
 (setq my-emacs-theme (getenv "EMACS_THEME")
@@ -47,7 +47,7 @@
   (default-text-scale-mode 1))
 
 ;; highlight current line
-(global-hl-line-mode t)
+;; (global-hl-line-mode t)
 (setq-default cursor-type 'box)
 (setq-default blink-cursor-mode 0)
 (blink-cursor-mode 0)
@@ -56,11 +56,19 @@
 
 (use-package doom-modeline
   :init
-  (setq doom-modeline-enable-word-count t)
+  (setq
+   doom-modeline-enable-word-count t
+   nerd-icons-color-icons t
+   inhibit-compacting-font-caches t
+   doom-modeline-modal-modern-icon t
+   doom-modeline-modal-state-icon t
+   )
+  (setq doom-modeline-icon t)
+  (setq doom-modeline-icon nil)
   ;; (setq global-mode-string
   ;;     '(:eval (format "%d chars" (- (line-end-position) (line-beginning-position)))))
   :config
-  (display-battery-mode 1)
+  ;; (display-battery-mode 1)
   (doom-modeline-mode 1)
   )
 

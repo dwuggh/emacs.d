@@ -78,12 +78,16 @@
 ;; (use-package vertico-buffer)
 (use-package vertico-indexed)
 
-(use-package embark
+(use-package marginalia
   :init
-  (define-key vertico-map (kbd "C-\"") 'embark-act)
-  (define-key vertico-map (kbd "C-/") 'embark-dwim)
-  
+  (setq
+   marginalia-field-width 80
+   marginalia-align 'right
+   )
+  :config
+  (marginalia-mode)
   )
+
 (use-package consult
   :init
   (setq consult-async-min-input 2
@@ -94,35 +98,32 @@
         completion-in-region-function #'consult-completion-in-region
         consult-line-start-from-top nil
         consult--buffer-display #'switch-to-buffer
-        consult-narrow-key (kbd "C-,")
+        consult-narrow-key "<"
         ;; otherwise `consult-line' would be too slow
         ;; https://github.com/minad/consult/issues/329
         consult-fontify-max-size 1024
+        consult-grep-args consult-ripgrep-args
         )
   :config
   (consult-customize
    consult-ripgrep
-   :preview-key
-   (list (kbd "C-."))
+   :preview-key "C-l"
    )
   )
+;; (use-package embark)
 
-(use-package embark-consult
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode)
-  )
+;; (use-package embark-consult
+;;   :after (embark consult)
+;;   :hook
+;;   (embark-collect-mode . consult-preview-at-point-mode)
+;;   :config
+;;   (define-key vertico-map (kbd "C-\"") 'embark-act)
+;;   (define-key vertico-map (kbd "C-/") 'embark-dwim)
+;;   )
 
 (use-package consult-flycheck
   :after (consult flycheck))
 
-(use-package marginalia
-  :init
-  (setq
-   marginalia-field-width 80
-   marginalia-align 'right
-   )
-  (marginalia-mode)
-  )
 
 (setq orderless-component-separator "[ &]")
 (use-package orderless

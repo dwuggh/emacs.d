@@ -196,14 +196,14 @@ This forces it to read the background before rendering."
 ;; customize packages
 
 ;; (straight-use-package '(my-org-edit-latex :local-repo "~/Projects/emacs/org-edit-latex/"))
-(use-package my-org-edit-latex
-  :straight (my-org-edit-latex :local-repo "~/Projects/emacs/org-edit-latex/")
-  :after org
-  :init
-  (setq org-edit-latex-default-frag-master
-    (concat user-emacs-directory "frag-master.tex"))
-  (add-hook 'org-mode-hook #'org-edit-latex-mode)
-  )
+;; (use-package my-org-edit-latex
+;;   :straight (my-org-edit-latex :local-repo "~/Projects/emacs/org-edit-latex/")
+;;   :after org
+;;   :init
+;;   (setq org-edit-latex-default-frag-master
+;;     (concat user-emacs-directory "frag-master.tex"))
+;;   (add-hook 'org-mode-hook #'org-edit-latex-mode)
+;;   )
 
 
 

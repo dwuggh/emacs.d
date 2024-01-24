@@ -25,7 +25,12 @@
 (defun my-consult-rg-thing-at-point (&optional dir)
   "`consult-line' with initial input."
   (interactive "P")
-  (consult-ripgrep dir (my-thing-at-point))
+  (consult-ripgrep dir (my-thing-at-point)))
+
+(defun my-consult-grep-thing-at-point (&optional dir)
+  "`consult-line' with initial input."
+  (interactive "P")
+  (consult-grep dir (my-thing-at-point))
   )
 
 (defun my-consult-rg-dir (&optional input)

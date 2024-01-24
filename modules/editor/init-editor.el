@@ -16,6 +16,8 @@
 (setq create-lockfiles nil)
 (setq jit-lock-defer-time 0)
 (setq-default indent-tabs-mode nil)
+(setq-default save-place-file (concat my-cache-dir "places"))
+(save-place-mode 1)
 
 
 (use-package auto-save

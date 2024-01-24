@@ -113,7 +113,7 @@
 ;; (add-hook 'LaTeX-mode-hook 'cdlatex-mode)
 ;; (add-hook 'tex-mode-hook 'cdlatex-mode)
 
-;; (setq my-asymbol-dir (concat user-emacs-directory "lisp/asymbol"))
+(setq my-asymbol-dir (concat user-emacs-directory "lisp/asymbol"))
 (straight-use-package `(asymbol :local-repo ,(concat user-emacs-directory "lisp/asymbol/")))
 
 (use-package asymbol

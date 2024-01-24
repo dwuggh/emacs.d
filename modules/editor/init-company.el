@@ -66,7 +66,7 @@
             (put-text-property 0 len 'yas-annotation snip arg)
             (put-text-property 0 len 'yas-annotation-patch t arg)))
         (funcall fn cmd  arg))))
-  (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline)
+  ;; (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline)
   )
 
 (use-package auto-yasnippet
@@ -80,6 +80,7 @@
 
 ;; (use-package yasnippet-snippets)
 
+(use-package all-the-icons)
 (straight-use-package '(company-box
               :no-native-compile t))
 (use-package company-box
@@ -88,13 +89,16 @@
   (setq company-box-backends-colors
     '((company-yasnippet :all "light blue" :selected
                  (:background :foreground "black"))))
-  (setq company-box-doc-delay 0.2)
+  (setq company-box-doc-delay 0.2
+        company-box-icons-alist 'company-box-icons-images
+        )
   )
 
 
 ;; backend
 (setq-default company-backends
-          '((company-capf company-dabbrev-code :with company-yasnippet)
+              '(
+                (company-capf company-dabbrev-code :with company-yasnippet)
         (company-dabbrev :with company-yasnippet)
         company-yasnippet))
 

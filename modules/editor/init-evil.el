@@ -31,6 +31,15 @@
     )
   )
 
+(use-package evil-terminal-cursor-changer
+  :after evil
+  :config
+  (unless (display-graphic-p)
+          (require 'evil-terminal-cursor-changer)
+          (evil-terminal-cursor-changer-activate) ; or (etcc-on)
+          )
+  )
+
 (use-package undo-fu
   :init
   ;; (global-undo-tree-mode -1)
