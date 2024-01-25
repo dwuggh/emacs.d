@@ -2,6 +2,21 @@
 
 
 ;; themes
+
+(defface ivy-current-match
+  '((((class color) (background light))
+     :background "#1a4b77" :foreground "white" :extend t)
+    (((class color) (background dark))
+     :background "#65a7e2" :foreground "black" :extend t))
+  "Face used by Ivy for highlighting the current match.")
+
+(defface ivy-minibuffer-match-face-1
+  '((((class color) (background light))
+     :background "#d3d3d3")
+    (((class color) (background dark))
+     :background "#555555"))
+  "The background face for `ivy' minibuffer matches.")
+
 (setq custom-theme-directory (concat user-emacs-directory "modules/appearance/themes/"))
 ;; disable whatever bar
 (menu-bar-mode -1)
@@ -9,20 +24,23 @@
 (tool-bar-mode -1)
 
 ;; (use-package all-the-icons)
-(use-package doom-themes)
-
-(setq my-emacs-theme (getenv "EMACS_THEME")
+(use-package doom-themes
+  :init
+  (setq my-emacs-theme (getenv "EMACS_THEME")
       custom-safe-themes t
       doom-solarized-light-brighter-comments nil
       doom-solarized-light-brighter-modeline nil
       doom-solarized-light-padded-modeline nil
       )
+  :config
 (cond
  ((equal my-emacs-theme "light") (load-theme 'dwuggh-doom-solarized-light))
  ((equal my-emacs-theme "dark") (load-theme 'doom-one))
  ((equal my-emacs-theme "nord") (load-theme 'doom-nord))
  (t (load-theme 'dwuggh-doom-solarized-light))
  )
+  )
+
 
 
 ;; fullscreen on start
@@ -56,19 +74,17 @@
 
 (use-package doom-modeline
   :init
+   
+  (setq nerd-icons-font-family "Symbols Nerd Font Mono")
   (setq
    doom-modeline-enable-word-count t
    nerd-icons-color-icons t
-   inhibit-compacting-font-caches t
+   inhibit-compacting-font-caches nil
    doom-modeline-modal-modern-icon t
    doom-modeline-modal-state-icon t
    )
   (setq doom-modeline-icon t)
-  (setq doom-modeline-icon nil)
-  ;; (setq global-mode-string
-  ;;     '(:eval (format "%d chars" (- (line-end-position) (line-beginning-position)))))
   :config
-  ;; (display-battery-mode 1)
   (doom-modeline-mode 1)
   )
 
@@ -76,9 +92,8 @@
   ;; :config (global-page-break-lines-mode)
   )
 
-(straight-use-package '(dashboard
-              :no-native-compile t))
 (use-package dashboard
+  :elpaca '(dashboard :no-native-compile t)
   :init
   (setq dashboard-banner-logo-title "Dare Evil"
     dashboard-startup-banner 2

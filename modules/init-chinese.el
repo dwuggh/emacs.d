@@ -14,9 +14,7 @@
   )
 
 
-(use-package goldendict
-  :defer t
-  )
+;; (use-package goldendict :defer t)
 
 (defvar dw-command "dw -o auto --format md -t zh "
   "Command to run dw.")

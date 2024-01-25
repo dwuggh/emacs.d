@@ -73,7 +73,7 @@
   )
 
 (use-package evil-escape
-  :straight (evil-escape :type git :host github :repo "hlissner/evil-escape")
+  :elpaca (evil-escape :type git :host github :repo "hlissner/evil-escape")
   ;; :defer t
   :config
   (setq evil-escape-key-sequence "jk"

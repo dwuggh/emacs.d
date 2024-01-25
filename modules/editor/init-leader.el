@@ -42,6 +42,7 @@
     ;; :keymaps 'override
     )
   )
+(elpaca-wait)
 
 (defmacro dwuggh/localleader-def (&rest args)
   "A wrapper."

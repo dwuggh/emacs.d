@@ -31,13 +31,25 @@
     )
   )
 
-(use-package tex
-  ;; :straight (auctex :host github
+(use-package auctex
+  ;; :ensure auctex
+  ;; (auctex :host github
   ;;                   :repo "emacsmirror/auctex"
   ;;                   ;; :files (:exclude "*.el.in")
   ;;            )
-  :straight auctex
-  ;; :defer t
+  :elpaca (auctex :pre-build (("./autogen.sh")
+                    ("./configure"
+                     "--without-texmf-dir"
+                     "--with-packagelispdir=./"
+                     "--with-packagedatadir=./")
+                    ("make"))
+        :build (:not elpaca--compile-info) ;; Make will take care of this step
+        :files ("*.el" "doc/*.info*" "etc" "images" "latex" "style")
+        :version (lambda (_) (require 'tex-site) AUCTeX-version))
+  :defer t
+    :mode (("\\.tex\\'" . LaTeX-mode)
+         ("\\.tex\\.erb\\'" . LaTeX-mode)
+         ("\\.etx\\'" . LaTeX-mode))
   :init
   (setq
    TeX-command-default "latexmk"
@@ -114,30 +126,32 @@
 ;; (add-hook 'tex-mode-hook 'cdlatex-mode)
 
 (setq my-asymbol-dir (concat user-emacs-directory "lisp/asymbol"))
-(straight-use-package `(asymbol :local-repo ,(concat user-emacs-directory "lisp/asymbol/")))
+;; (straight-use-package `(asymbol :local-repo ,(concat user-emacs-directory "lisp/asymbol/")))
 
-(use-package asymbol
-  :init
-  (setq asymbol-help-symbol-linewidth 80
-    asymbol-help-tag-linewidth    80
-    )
-  (global-asymbol-mode 1)
-  (add-hook 'org-mode-hook #'org-cdlatex-mode)
-  (add-hook 'org-mode-hook #'asymbol-mode)
-  (add-hook 'latex-mode-hook #'asymbol-mode)
-  (add-hook 'LaTeX-mode-hook #'asymbol-mode)
-  (add-hook 'tex-mode-hook #'asymbol-mode)
-  (add-hook 'org-cdlatex-mode-hook
-          (lambda () 
-            (define-key org-cdlatex-mode-map
-          "`" 'asymbol-insert-text-or-symbol)
-            ;; (define-key cdlatex-mode-map
-        ;;   "`" 'asymbol-insert-text-or-symbol)
-        ))
-  )
-
+;; (use-package asymbol
+;;   :init
+;;   (setq asymbol-help-symbol-linewidth 80
+;;     asymbol-help-tag-linewidth    80
+;;     )
+;;   (global-asymbol-mode 1)
+;;   (add-hook 'org-mode-hook #'org-cdlatex-mode)
+;;   (add-hook 'org-mode-hook #'asymbol-mode)
+;;   (add-hook 'latex-mode-hook #'asymbol-mode)
+;;   (add-hook 'LaTeX-mode-hook #'asymbol-mode)
+;;   (add-hook 'tex-mode-hook #'asymbol-mode)
+;;   (add-hook 'org-cdlatex-mode-hook
+;;           (lambda () 
+;;             (define-key org-cdlatex-mode-map
+;;           "`" 'asymbol-insert-text-or-symbol)
+;;             ;; (define-key cdlatex-mode-map
+;;         ;;   "`" 'asymbol-insert-text-or-symbol)
+;;         ))
+;;   )
+(use-package tex-site
+  :elpaca nil)
 (use-package laas
   :defer t
+  :after (tex-site auctex)
   ;; :after org
   ;; :hook (org-mode . laas-mode)
   :init

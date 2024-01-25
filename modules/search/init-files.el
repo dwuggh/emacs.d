@@ -2,6 +2,7 @@
 
 
 (use-package recentf
+  :elpaca nil
   :init
   (setq recentf-save-file (concat user-emacs-directory ".cache/recentf")
         recentf-max-saved-items 2000
@@ -11,7 +12,7 @@
   )
 
 (use-package sync-recentf
-  :straight
+  :elpaca
   (sync-recentf :type git :host github
          :repo "ffevotte/sync-recentf")
   :init
@@ -25,6 +26,7 @@
   (call-process "xdg-open" nil 0 nil (expand-file-name file))
   )
 
+;;;###autoload
 (defun xdg-open-file (&optional initial-input)
   "Open selected file with xdg-open.
 When INITIAL-INPUT is non-nil, use it in the minibuffer during completion."
@@ -51,81 +53,5 @@ When INITIAL-INPUT is non-nil, use it in the minibuffer during completion."
     :history 'file-name-history))
   )
 
-(defvar my-find-file-map
-  (let ((map (make-composed-keymap nil vertico-map)))
-    (define-key map "/" #'my-find-file-/)
-    (define-key map (kbd "C-h") #'my-find-file-C-h)
-    map)
-  "Find file keymap derived from `vertico-map'.")
-
-(defun my-find-file-/ ()
-  (interactive)
-  (if (< vertico--index 0)
-      (insert "/")
-    (let ((file-or-dir (vertico--candidate)))
-      (if (s-ends-with? "/" file-or-dir)
-          (progn
-            (delete-minibuffer-contents)
-            (insert file-or-dir))
-        (insert "/")))))
-
-(defun my-find-file-C-h ()
-  (interactive)
-  (let* ((input (car vertico--input))
-         (parent (f-parent input))
-         (parent (if (s-ends-with? "/" parent) parent (concat parent "/")))
-         )
-    (cond
-     ((s-equals? input "/"))
-     (parent
-      (delete-minibuffer-contents)
-      (insert
-       (if (s-starts-with? (expand-file-name "~/") parent)
-           (->> parent
-                (s-chop-prefix (expand-file-name "~/"))
-                (s-prepend "~/"))
-         parent)
-       )
-      )
-     ;; TODO
-     (t (delete-backward-char))
-     )
-    )
-  )
-
-(defun my-find-file-advice-vertico--setup (&rest args)
-  (use-local-map my-find-file-map)
-  )
-
-;;; https://emacs.stackexchange.com/questions/16490/emacs-let-bound-advice
-;;; also see `undo-fu--with-advice'
-(defmacro with-advice (args &rest body)
-  (declare (indent 1))
-  (let ((fun-name (car args))
-        (advice   (cadr args))
-        (orig-sym (make-symbol "orig")))
-    `(cl-letf* ((,orig-sym  (symbol-function ',fun-name))
-                ((symbol-function ',fun-name)
-                 (lambda (&rest args)
-                   (apply ,advice ,orig-sym args))))
-       ,@body)))
-
-(defun my-find-file ()
-  (interactive)
-  (unwind-protect
-      (progn
-          (advice-add 'vertico--setup :after #'my-find-file-advice-vertico--setup)
-          (call-interactively 'find-file)
-        )
-    (advice-remove 'vertico--setup #'my-find-file-advice-vertico--setup)
-    )
-  )
-
-(dwuggh/leader-def
- "fr" '(my-consult-recent-file :wk "find recent files")
- "ff" '(my-find-file :wk "find files in current dir")
- "fs" '(save-buffer :wk "save file")
- "fS" '(evil-write-all :wk "save all file")
- )
 
 (provide 'init-files)

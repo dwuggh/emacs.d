@@ -80,10 +80,9 @@
 
 ;; (use-package yasnippet-snippets)
 
-(use-package all-the-icons)
-(straight-use-package '(company-box
-              :no-native-compile t))
 (use-package company-box
+  :elpaca '(company-box
+              :no-native-compile t)
   :hook (company-mode . company-box-mode)
   :init
   (setq company-box-backends-colors

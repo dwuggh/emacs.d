@@ -1,45 +1,16 @@
 
 
-(define-key minibuffer-mode-map (kbd "C-v") #'yank)
 
 (use-package savehist
+  :elpaca nil
   :init
   (setq savehist-file (concat my-cache-dir "history"))
   (savehist-mode)
   )
 
-(setq straight-vertico-recipe-args
-      '(:type git :host github :repo "minad/vertico" :local-repo "vertico"))
-
-(defmacro straight-register-vertico-extension (name)
-  "Register vertico extensions in extensions/ ."
-  (let* ((file (s-concat "extensions/" (symbol-name name) ".el"))
-         (files `(,file)))
-    `(straight-register-package
-     '(,name ,@straight-vertico-recipe-args :files ,files))
-    )
-  )
-
-(straight-register-package
-  `(vertico ,@straight-vertico-recipe-args :files ("*.el")))
-
-(defface ivy-current-match
-  '((((class color) (background light))
-     :background "#1a4b77" :foreground "white" :extend t)
-    (((class color) (background dark))
-     :background "#65a7e2" :foreground "black" :extend t))
-  "Face used by Ivy for highlighting the current match.")
-
-(defface ivy-minibuffer-match-face-1
-  '((((class color) (background light))
-     :background "#d3d3d3")
-    (((class color) (background dark))
-     :background "#555555"))
-  "The background face for `ivy' minibuffer matches.")
-
 (use-package vertico
   :init
-  (vertico-mode)
+  (define-key minibuffer-mode-map (kbd "C-v") #'yank)
   (setq vertico-count 17
         vertico-cycle t
         )
@@ -47,6 +18,7 @@
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
   :config
   ;; (define-key vertico-map "?" #'minibuffer-completion-help)
+  (vertico-mode)
   (define-key vertico-map (kbd "M-RET") #'minibuffer-force-complete-and-exit)
   (define-key vertico-map (kbd "M-TAB") #'minibuffer-complete)
   (define-key vertico-map (kbd "C-j") 'vertico-next)
@@ -55,28 +27,20 @@
   ;; (define-key vertico-map (kbd "C-h") nil)
   (custom-set-faces
    '(completions-common-part
-      (( t :inherit ivy-minibuffer-match-face-1 )))
+     (( t :inherit ivy-minibuffer-match-face-1 )))
    '(vertico-current
-      (( t :inherit ivy-prompt-match )))
+     (( t :inherit ivy-prompt-match )))
    )
-  ;; (setq minibuffer-prompt-properties
-  ;;       '(read-only t cursor-intangible t face minibuffer-prompt))
-  ;; (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  (require 'better-find-file)
+  (dwuggh/leader-def
+    "fr" '(my-consult-recent-file :wk "find recent files")
+    "ff" '(my-find-file :wk "find files in current dir")
+    "fs" '(save-buffer :wk "save file")
+    "fS" '(evil-write-all :wk "save all file")
+    )
+  
   )
 
-(straight-register-vertico-extension vertico-directory)
-(straight-register-vertico-extension vertico-repeat)
-(straight-register-vertico-extension vertico-quick)
-(straight-register-vertico-extension vertico-flat)
-(straight-register-vertico-extension vertico-buffer)
-(straight-register-vertico-extension vertico-indexed)
-
-(use-package vertico-directory)
-(use-package vertico-repeat)
-(use-package vertico-quick)
-;; (use-package vertico-flat)
-;; (use-package vertico-buffer)
-(use-package vertico-indexed)
 
 (use-package marginalia
   :init
@@ -102,32 +66,33 @@
         ;; otherwise `consult-line' would be too slow
         ;; https://github.com/minad/consult/issues/329
         consult-fontify-max-size 1024
-        consult-grep-args consult-ripgrep-args
         )
   :config
+  
+  (setq consult-grep-args consult-ripgrep-args)
   (consult-customize
    consult-ripgrep
    :preview-key "C-l"
    )
   )
-;; (use-package embark)
+(use-package embark)
 
-;; (use-package embark-consult
-;;   :after (embark consult)
-;;   :hook
-;;   (embark-collect-mode . consult-preview-at-point-mode)
-;;   :config
-;;   (define-key vertico-map (kbd "C-\"") 'embark-act)
-;;   (define-key vertico-map (kbd "C-/") 'embark-dwim)
-;;   )
+(use-package embark-consult
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode)
+  :config
+  (define-key vertico-map (kbd "C-\"") 'embark-act)
+  (define-key vertico-map (kbd "C-/") 'embark-dwim)
+  )
 
 (use-package consult-flycheck
   :after (consult flycheck))
 
 
-(setq orderless-component-separator "[ &]")
 (use-package orderless
   :init
+  (setq orderless-component-separator "[ &]")
   (setq completion-styles '(substring orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (orderless partial-completion))))
@@ -144,8 +109,8 @@
 
 (defun my-project-root ()
   (if (s-equals?
-              (s-trim-right (shell-command-to-string "git rev-parse --is-inside-work-tree"))
-              "true")
+       (s-trim-right (shell-command-to-string "git rev-parse --is-inside-work-tree"))
+       "true")
       (s-trim-right (shell-command-to-string "git rev-parse --show-toplevel"))
     (when-let (project (project-current)) (project-root project))
     ))
@@ -202,7 +167,7 @@
                                             unless (string-match-p char query)
                                             return char)
                                    "%")
-                     :type perl)
+                              :type perl)
                    consult-async-split-style 'perlalt))))))
     (consult--grep prompt ripgrep-command directory query)))
 
@@ -228,7 +193,7 @@ If INITIAL is non-nil, use as initial input."
   (interactive)
   (let* ((default-directory (or dir default-directory))
          (prompt-dir (consult--directory-prompt "Find" default-directory))
-         (cmd (split-string-and-unquote consult-find-command " "))
+         (cmd (split-string-and-unquote consult-find-args " "))
          (cmd (remove "OPTS" cmd))
          (cmd (remove "ARG" cmd)))
     (find-file

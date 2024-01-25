@@ -30,12 +30,6 @@ This requires rustup intsalled"
   )
 
 
-(use-package cargo
-  :defer t
-  :init
-  (add-hook 'rust-mode-hook 'cargo-minor-mode)
-  )
-
 (use-package toml-mode
   :defer t
   ;; from spacemacs
@@ -45,17 +39,17 @@ This requires rustup intsalled"
   )
 
 (use-package wgsl-mode
-  :straight
+  :elpaca
   (wgsl-mode :type git :host github :repo "acowley/wgsl-mode")
   )
 (use-package glsl-mode
-  :straight
+  :elpaca
   (glsl-mode :type git :host github :repo "jimhourihan/glsl-mode")
   )
 
 
 (dwuggh/localleader-def
- :keymaps 'rust-mode-map
+ :keymaps 'rustic-mode-map
  "==" 'rust-format-buffer
  "bs" '(lsp-rust-switch-server :wk "switch backend")
 

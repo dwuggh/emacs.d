@@ -5,6 +5,7 @@
 *.el~
 # straight should be ignored
 straight
+elpaca
 
 .cache
 eln-cache

@@ -49,15 +49,16 @@
   (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
   )
 
-(defun css-lookup-symbol-at-point ()
-  "See `css-lookup-symbol'"
-  (interactive)
-  (css-lookup-symbol (my-thing-at-point)))
 
 
 (use-package css-mode
   :defer t
+  :elpaca nil
   :config
+  (defun css-lookup-symbol-at-point ()
+    "See `css-lookup-symbol'"
+    (interactive)
+    (css-lookup-symbol (my-thing-at-point)))
   (general-def
     :keymaps 'css-mode-map
     "K" 'css-lookup-symbol-at-point

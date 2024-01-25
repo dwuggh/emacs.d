@@ -10,15 +10,24 @@
 ;;; ------------------------------------------------------------------------------
 
 (use-package explain-pause-mode
-  :straight (explain-pause-mode :type git :host github :repo "lastquestion/explain-pause-mode")
+  :elpaca (explain-pause-mode :type git :host github :repo "lastquestion/explain-pause-mode")
   :config
   ;; (explain-pause-mode)
   )
 
+(use-package elisp-slime-nav
+  :init
+  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
+    (add-hook hook 'turn-on-elisp-slime-nav-mode))
+  (setq elisp-jump-handler
+      '(elisp-slime-nav-find-elisp-thing-at-point
+        ))
+  )
+
 
 (use-package helpful
-  :straight (helpful :type git :host github :repo "Wilfred/helpful")
-  :defer t
+  :elpaca (helpful :type git :host github :repo "Wilfred/helpful")
+  :after elisp-slime-nav
   ;; (setq helpful-switch-buffer-function 'my-popwin-pop-to-buffer)
   ;; (setq helpful-switch-buffer-function 'pop-to-buffer)
   :init
@@ -36,6 +45,10 @@
     "K" 'helpful-at-point
     ;; "RET" 'helpful-visit-reference
    )
+  (general-def
+    :keymaps 'elisp-slime-nav-mode-map
+    :major-modes 'emacs-lisp-mode
+    "K" 'helpful-at-point)
   )
 
 ;; (defun my-helpful-navigate (button)
@@ -57,15 +70,7 @@
 ;; (advice-add 'helpful--navigate :override 'my-helpful-navigate)
 ;; (advice-remove 'helpful--navigate 'my-helpful-navigate)
 
-(use-package elisp-slime-nav
-  :init
-  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-    (add-hook hook 'turn-on-elisp-slime-nav-mode))
-  )
 
-(setq elisp-jump-handler
-      '(elisp-slime-nav-find-elisp-thing-at-point
-        ))
 
 (defun my-elisp-navigation (&optional jump-handler)
   "Jump to definition around point using the best tool for this action.
@@ -99,10 +104,6 @@
 ;;; localleader key setting
 ;;; -------------------------------------------------------------------------------------
 
-(general-def
-  :keymaps 'elisp-slime-nav-mode-map
-  :major-modes 'emacs-lisp-mode
-  "K" 'helpful-at-point)
 
 (dwuggh/localleader-def
  :keymaps '(emacs-lisp-mode-map helpful-mode-map help-mode-map)
@@ -133,7 +134,6 @@
 
 
 ;;; ------------------------------------------------------------------------------------
-(use-package s)
 
 
 (provide 'init-elisp)

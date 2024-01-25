@@ -13,8 +13,26 @@
     ",k" 'with-editor-cancel
     )
   )
+
+;; https://www.reddit.com/r/emacs/comments/1937vaz/emacs_291_on_windows_install_magit_requires_seq/
+(defun +elpaca-unload-seq (e)
+  (and (featurep 'seq) (unload-feature 'seq t))
+  (elpaca--continue-build e))
+
+(defun +elpaca-seq-build-steps ()
+  (append (butlast (if (file-exists-p (expand-file-name "seq" elpaca-builds-directory))
+                       elpaca--pre-built-steps elpaca-build-steps))
+          (list '+elpaca-unload-seq 'elpaca--activate-package)))
+
+(use-package seq :elpaca `(seq :build ,(+elpaca-seq-build-steps)))
 (use-package magit
-  :defer t
+  :after seq
+  :init
+  (dwuggh/leader-def
+  "gs" 'magit-status
+  "gf" 'magit-file-dispatch
+  )
+  
   )
 
 (use-package transient
@@ -35,6 +53,7 @@
   (global-git-gutter-mode 1)
   )
 (use-package git-gutter-fringe
+  :after git-gutter
   :config
   (define-fringe-bitmap 'git-gutter-fr:added [224]
           nil nil '(center repeated))
@@ -45,8 +64,8 @@
   )
 
 (use-package blamer
-  :straight (blamer :type git :host github :repo "artawower/blamer.el")
-  :defer 20
+  :elpaca (blamer :type git :host github :repo "artawower/blamer.el")
+  :defer
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
                     :background nil
@@ -56,15 +75,12 @@
   (setq blamer-max-commit-message-length 50
         blamer-min-offset 60
         blamer-idle-time 0.3
+        blamer-show-avatar-p t
         )
   
   ;; (global-blamer-mode 1)
   )
 
-(dwuggh/leader-def
-  "gs" 'magit-status
-  "gf" 'magit-file-dispatch
-  )
 
 
 (provide 'init-git)

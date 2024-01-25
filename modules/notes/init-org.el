@@ -63,16 +63,16 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
 
 
 
-(straight-use-package '(org :local-repo nil))
-(straight-use-package '(org-plus-contrib :local-repo nil))
 
 
 (use-package org
   :defer t
+  :elpaca nil
   :init
   (setq org-src-window-setup 'split-window-below
         org-hide-emphasis-markers nil
         )
+  :config
   (setq-default org-latex-packages-alist
                 '(
                   ("" "ctex" t nil)
@@ -105,7 +105,6 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
                   ("" "hyperref" nil nil)))
   (setq-default org-preview-latex-default-process 'dvipng)
 
-  :config
   (defun org-latex-fragment-justify-advice (beg end image &optional imagetype)
     "After advice function to justify fragments."
     (org-latex-fragment-justify 'center))
@@ -176,7 +175,7 @@ This forces it to read the background before rendering."
 ;; better table alignment
 ;; TODO integration with org-latex-preview
 (use-package valign
-  :straight (valign :host github
+  :elpaca (valign :host github
                     :repo "casouri/valign"
                     )
   :defer t
@@ -209,9 +208,10 @@ This forces it to read the background before rendering."
 
 (use-package company-org-latex
   :after org
-  :straight `(company-org-latex :type built-in
-                               :local-repo ,(concat user-emacs-directory "lisp/")
-                               :files ("company-org-latex.el"))
+  :elpaca nil
+  ;; :elpaca `(company-org-latex :type built-in
+  ;;                              :local-repo ,(concat user-emacs-directory "lisp/")
+  ;;                              :files ("company-org-latex.el"))
   :init
   (defun org-setup-company ()
     (setq-local company-backends '(company-capf company-yasnippet company-dabbrev))

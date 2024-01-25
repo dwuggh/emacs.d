@@ -21,7 +21,7 @@
 
 
 (use-package auto-save
-  :straight (auto-save :type git
+  :elpaca (auto-save :type git
                :host github
                :repo "manateelazycat/auto-save"
                )
