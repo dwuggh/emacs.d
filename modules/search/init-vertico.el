@@ -16,6 +16,7 @@
         )
   ;; https://emacs.stackexchange.com/questions/14755/how-to-remove-bindings-to-the-esc-prefix-key
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+  (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
   :config
   ;; (define-key vertico-map "?" #'minibuffer-completion-help)
   (vertico-mode)
