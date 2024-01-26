@@ -17,7 +17,7 @@
   (my-load-module 'elisp)
 
   (my-load-module 'chinese)
-  ;; (my-load-module 'notes)
+  (my-load-module 'notes)
 
   ;; programming languages
   (my-load-module 'haskell)

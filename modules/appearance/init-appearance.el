@@ -23,7 +23,11 @@
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 
-;; (use-package all-the-icons)
+(use-package solaire-mode
+  :config
+  (solaire-global-mode +1)
+  )
+(use-package vscode-dark-plus-theme)
 (use-package doom-themes
   :init
   (setq my-emacs-theme (getenv "EMACS_THEME")
@@ -33,13 +37,26 @@
       doom-solarized-light-padded-modeline nil
       )
   :config
-(cond
- ((equal my-emacs-theme "light") (load-theme 'dwuggh-doom-solarized-light))
- ((equal my-emacs-theme "dark") (load-theme 'doom-one))
- ((equal my-emacs-theme "nord") (load-theme 'doom-nord))
- (t (load-theme 'dwuggh-doom-solarized-light))
- )
+  (load-theme 'doom-wilmersdorf)
+  ;; (load-theme 'doom-solarized-light)
   )
+
+(use-package hide-mode-line
+  :init
+  (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
+  (defun hide-mode-line-1 (&rest _)
+    (let ((hide-mode-line-format '("%b")))
+      (hide-mode-line-mode +1)))
+  )
+
+;;;###autoload
+(defun hide-mode-line-popup (&rest _)
+    (global-hide-mode-line-mode +1)
+    (add-hook 'quit-window-hook
+              (lambda () (global-hide-mode-line-mode -1)) 0 1))
+;; (use-package nano
+;;   :elpaca (nano :type git :host github :repo "rougier/nano-emacs")
+;;   )
 
 
 

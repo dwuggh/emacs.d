@@ -27,7 +27,7 @@
 
 (use-package helpful
   :elpaca (helpful :type git :host github :repo "Wilfred/helpful")
-  :after elisp-slime-nav
+  :defer t
   ;; (setq helpful-switch-buffer-function 'my-popwin-pop-to-buffer)
   ;; (setq helpful-switch-buffer-function 'pop-to-buffer)
   :init
@@ -36,7 +36,12 @@
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-h o") #'helpful-symbol)
+  ;; helpful--update-and-switch-buffer
   :config
+  ;; (add-hook 'helpful-mode-hook #'hide-mode-line-popup)
+  ;; TODO if in `helpful-symbol', if symbol is a face, then require special advice.
+  (advice-add 'helpful--update-and-switch-buffer :after 'hide-mode-line-popup)
+  ;; (advice-remove 'helpful--update-and-switch-buffer 'hide-mode-line-popup)
 
   ;; config popwin
   (general-def

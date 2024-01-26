@@ -140,9 +140,10 @@
         (lsp-ui-doc-hide)
       (lsp-ui-doc-show)
       ))
-  (general-def
+  (general-define-key
     :definer 'minor-mode
-    :keymaps 'lsp-mode
+    :keymaps 'lsp-ui-mode
+    :states '(normal visual)
     "K" 'lsp-ui-doc-toggle
     )
   )
@@ -161,7 +162,6 @@
 ;;; latex
 (use-package lsp-latex
   :defer t
-  :after lsp
   :init
   (add-hook 'tex-mode-hook #'lsp)
   (add-hook 'latex-mode-hook #'lsp)

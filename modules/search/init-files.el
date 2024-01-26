@@ -14,9 +14,13 @@
 (use-package sync-recentf
   :elpaca
   (sync-recentf :type git :host github
-         :repo "ffevotte/sync-recentf")
+                :repo "ffevotte/sync-recentf")
   :init
   (setq recentf-auto-cleanup 60)
+  :config
+  (add-to-list 'recentf-exclude (concat "^" sync-recentf-marker))
+  (add-to-list 'recentf-exclude
+         (concat "^" (recentf-expand-file-name my-cache-dir) "*"))
   )
 
 (use-package rg)

@@ -32,12 +32,8 @@
   )
 
 (use-package auctex
-  ;; :ensure auctex
-  ;; (auctex :host github
-  ;;                   :repo "emacsmirror/auctex"
-  ;;                   ;; :files (:exclude "*.el.in")
-  ;;            )
-  :elpaca (auctex :pre-build (("./autogen.sh")
+  :elpaca
+(auctex :pre-build (("./autogen.sh")
                     ("./configure"
                      "--without-texmf-dir"
                      "--with-packagelispdir=./"
@@ -46,8 +42,8 @@
         :build (:not elpaca--compile-info) ;; Make will take care of this step
         :files ("*.el" "doc/*.info*" "etc" "images" "latex" "style")
         :version (lambda (_) (require 'tex-site) AUCTeX-version))
-  :defer t
-    :mode (("\\.tex\\'" . LaTeX-mode)
+  
+  :mode (("\\.tex\\'" . LaTeX-mode)
          ("\\.tex\\.erb\\'" . LaTeX-mode)
          ("\\.etx\\'" . LaTeX-mode))
   :init
@@ -64,38 +60,38 @@
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
   (add-hook 'LaTeX-mode-hook 'smartparens-mode)
+  (add-hook 'LaTeX-mode-hook 'lsp)
   :config
   (define-key TeX-mode-map (kbd "$") nil)
   )
 
-(use-package auctex-latexmk
-  ;; :defer t
-  :config
-  )
+;; (use-package auctex-latexmk
+;;   :after auctex
+;;   :config
+;;   )
 
 
-(use-package company-auctex
-  :defer t
-  )
+;; (use-package company-auctex
+;;   :after auctex
+;;   )
 
-
-(use-package company-reftex
-  :defer t
-  )
+;; (use-package company-reftex
+;;   :aftex auctex
+;;   )
 
 (setq-mode-local latex-mode company-backends
-         '((
-            company-capf
-            ;; company-auctex-macros
-            ;; company-auctex-symbols
-            ;; company-auctex-environments
-            :with company-yasnippet)
-           (company-reftex-labels company-reftex-citations :with company-yasnippet)
-           (company-dabbrev company-files company-semantic :with company-yasnippet))
-      )
+                 '((
+                    company-capf
+                    ;; company-auctex-macros
+                    ;; company-auctex-symbols
+                    ;; company-auctex-environments
+                    :with company-yasnippet)
+                   (company-reftex-labels company-reftex-citations :with company-yasnippet)
+                   (company-dabbrev company-files company-semantic :with company-yasnippet))
+                 )
 
 (use-package magic-latex-buffer
-  :defer t
+  :after auctex
   :init
   (setq magic-latex-enable-block-highlight t
         magic-latex-enable-suscript t
@@ -107,17 +103,18 @@
 
 (use-package cdlatex
   :defer t
+  :init
+  (defun my/org-disable-yasnippet-in-latex-environment ()
+    (setq-local yas-buffer-local-condition '(not (org-inside-LaTeX-fragment-p))))
+  (add-hook 'org-mode-hook #'my/org-disable-yasnippet-in-latex-environment)
+  (add-hook 'LaTeX-mode-hook
+            '(lambda () (define-key LaTeX-mode-map (kbd "TAB") 'cdlatex-tab)))
   :config
   (add-hook 'cdlatex-mode-hook
             (lambda ()
               (define-key cdlatex-mode-map "`" nil)
               (define-key cdlatex-mode-map "$" nil)))
-  (defun my/org-disable-yasnippet-in-latex-environment ()
-    (setq-local yas-buffer-local-condition '(not (org-inside-LaTeX-fragment-p))))
 
-  (add-hook 'org-mode-hook #'my/org-disable-yasnippet-in-latex-environment)
-  (add-hook 'LaTeX-mode-hook
-            '(lambda () (define-key LaTeX-mode-map (kbd "TAB") 'cdlatex-tab)))
 
   )
 
@@ -128,30 +125,29 @@
 (setq my-asymbol-dir (concat user-emacs-directory "lisp/asymbol"))
 ;; (straight-use-package `(asymbol :local-repo ,(concat user-emacs-directory "lisp/asymbol/")))
 
-;; (use-package asymbol
-;;   :init
-;;   (setq asymbol-help-symbol-linewidth 80
-;;     asymbol-help-tag-linewidth    80
-;;     )
-;;   (global-asymbol-mode 1)
-;;   (add-hook 'org-mode-hook #'org-cdlatex-mode)
-;;   (add-hook 'org-mode-hook #'asymbol-mode)
-;;   (add-hook 'latex-mode-hook #'asymbol-mode)
-;;   (add-hook 'LaTeX-mode-hook #'asymbol-mode)
-;;   (add-hook 'tex-mode-hook #'asymbol-mode)
-;;   (add-hook 'org-cdlatex-mode-hook
-;;           (lambda () 
-;;             (define-key org-cdlatex-mode-map
-;;           "`" 'asymbol-insert-text-or-symbol)
-;;             ;; (define-key cdlatex-mode-map
-;;         ;;   "`" 'asymbol-insert-text-or-symbol)
-;;         ))
-;;   )
-(use-package tex-site
-  :elpaca nil)
+(use-package asymbol
+  :elpaca `(asymbol :repo ,(concat user-emacs-directory "lisp/asymbol/"))
+  :init
+  (setq asymbol-help-symbol-linewidth 80
+    asymbol-help-tag-linewidth    80
+    )
+  (global-asymbol-mode 1)
+  (add-hook 'org-mode-hook #'org-cdlatex-mode)
+  (add-hook 'org-mode-hook #'asymbol-mode)
+  (add-hook 'latex-mode-hook #'asymbol-mode)
+  (add-hook 'LaTeX-mode-hook #'asymbol-mode)
+  (add-hook 'tex-mode-hook #'asymbol-mode)
+  (add-hook 'org-cdlatex-mode-hook
+          (lambda () 
+            (define-key org-cdlatex-mode-map
+          "`" 'asymbol-insert-text-or-symbol)
+            ;; (define-key cdlatex-mode-map
+        ;;   "`" 'asymbol-insert-text-or-symbol)
+        ))
+  )
+
 (use-package laas
-  :defer t
-  :after (tex-site auctex)
+  :after auctex
   ;; :after org
   ;; :hook (org-mode . laas-mode)
   :init
@@ -186,14 +182,14 @@
                     ".," (lambda () (interactive) (laas-wrap-previous-object "bm")))
   ;; (aas-set-snippets 'latex-mode
   ;;                   "C-i"
-                    
+  
   ;;                   )
   (general-def
     :keymap 'latex-mode-map
     :states '(normal insert)
     "C-t" (lambda () (interactive)
-                      (yas-expand-snippet "\\item ")
-                      )
+            (yas-expand-snippet "\\item ")
+            )
     )
   )
 
@@ -222,11 +218,11 @@
    table
    (org-combine-plists
     '(:splice t
-      :lstart ""
-      :lend " \\\\"
-      :sep " & "
-      :hline nil
-      :llend "")
+              :lstart ""
+              :lend " \\\\"
+              :sep " & "
+              :hline nil
+              :llend "")
     params)))
 
 
@@ -234,11 +230,11 @@
 ;;; -----------------------------------------------------------
 (setq display-buffer-alist
       (cons `(,shell-command-buffer-name-async display-buffer-no-window)
-        display-buffer-alist))
+            display-buffer-alist))
 
 (setq display-buffer-alist
       (cons '("\\*easy-latex-compile-*" display-buffer-no-window)
-        display-buffer-alist))
+            display-buffer-alist))
 
 (defvar latex-easy-compile-cmd
   "tectonic %s"
@@ -254,8 +250,8 @@
   (if (s-equals? latex-easy-compile-cmd "tectonic %s")
       (setq latex-easy-compile-cmd "xelatex -interaction nonstopmode -synctex=1 \"%s\"")
     (setq latex-easy-compile-cmd "tectonic %s")
-      )
     )
+  )
 
 (defun latex-easy-compile ()
   "compile .tex file easily"
@@ -278,13 +274,13 @@
   "Toggle between lsp backend and company-auctex."
   (interactive)
   (if company-latex--toggle-backend-state
-    (setq-local company-backends company-latex--toggle-backend-state
-                company-latex--toggle-backend-state nil)
-      (setq-local company-latex--toggle-backend-state company-backends
-                  company-backends
-                  '((company-auctex-macros company-auctex-symbols company-auctex-environments :with company-yasnippet)
-                    company-dabbrev)
-      )
+      (setq-local company-backends company-latex--toggle-backend-state
+                  company-latex--toggle-backend-state nil)
+    (setq-local company-latex--toggle-backend-state company-backends
+                company-backends
+                '((company-auctex-macros company-auctex-symbols company-auctex-environments :with company-yasnippet)
+                  company-dabbrev)
+                )
     )
   )
 
