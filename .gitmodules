@@ -1,3 +1,6 @@
 [submodule "lisp/asymbol"]
 	path = lisp/asymbol
 	url = git@github.com:dwuggh/asymbol.git
+[submodule "lisp/auto-hide-mode-line"]
+	path = lisp/auto-hide-mode-line
+	url = git@github.com:dwuggh/auto-hide-mode-line.el.git

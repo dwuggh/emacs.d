@@ -28,8 +28,6 @@
 (use-package helpful
   :elpaca (helpful :type git :host github :repo "Wilfred/helpful")
   :defer t
-  ;; (setq helpful-switch-buffer-function 'my-popwin-pop-to-buffer)
-  ;; (setq helpful-switch-buffer-function 'pop-to-buffer)
   :init
   (global-set-key (kbd "C-h k") 'helpful-key)
   (global-set-key (kbd "C-h C-k") 'helpful-key)
@@ -40,10 +38,9 @@
   :config
   ;; (add-hook 'helpful-mode-hook #'hide-mode-line-popup)
   ;; TODO if in `helpful-symbol', if symbol is a face, then require special advice.
-  (advice-add 'helpful--update-and-switch-buffer :after 'hide-mode-line-popup)
+  ;; (advice-add 'helpful--update-and-switch-buffer :override 'hide-mode-line-popup)
   ;; (advice-remove 'helpful--update-and-switch-buffer 'hide-mode-line-popup)
 
-  ;; config popwin
   (general-def
     :state 'normal
     :keymaps '(helpful-mode-map emacs-lisp-mode-map)
@@ -55,25 +52,6 @@
     :major-modes 'emacs-lisp-mode
     "K" 'helpful-at-point)
   )
-
-;; (defun my-helpful-navigate (button)
-;;   "Override the `helpful--navigate' function"
-;;   (let ((path (substring-no-properties (button-get button 'path))))
-;;       ;; (winum-select-window-1)
-;;     (call-interactively
-;;      (popwin:close-popup-window)
-;;      (winum-select-window-by-number my-window-number-cache)
-;;      (find-file path)
-;;      )
-;;       ;; (popwin:select-popup-window)
-;;      (when-let (pos (get-text-property button 'position
-;;                                        (marker-buffer button)))
-;;        (goto-char pos))
-;;      ))
-
-
-;; (advice-add 'helpful--navigate :override 'my-helpful-navigate)
-;; (advice-remove 'helpful--navigate 'my-helpful-navigate)
 
 
 
@@ -129,12 +107,12 @@
 ;; TODO didn't work
 (setq-mode-local lisp-interaction-mode
                   company-backends
-                  '((company-capf company-dabbrev-code :with company-yasnippet company-elisp)
-                    (company-capf company-dabbrev)))
+                  '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code 
+                    company-dabbrev))
 
 (setq-mode-local emacs-lisp-mode
                   company-backends
-                  '((company-capf company-dabbrev-code :with company-yasnippet company-elisp)
+                  '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code
                     company-dabbrev))
 
 

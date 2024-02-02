@@ -2,6 +2,8 @@
 (setenv "https_proxy" "socks5://127.0.0.1:1080")
 (setenv "all_proxy" "socks5://127.0.0.1:1080")
 
+(setenv "COLORTERM" "truecolor")
+
 (setq url-gateway-method 'socks)
 (setq socks-server '("Default server" "127.0.0.1" 1080 5))
 (setq url-proxy-services
@@ -21,7 +23,7 @@
  ;; gc-cons-threshold 80000000
  )
 (setq tramp-persistency-file-name (concat my-cache-dir "tramp"))
-
+(setq find-function-C-source-directory "~/aur/emacs-native-comp-git/src/emacs-git/src")
 ;; (setq comp-eln-load-path
 ;;       `(,(concat my-cache-dir "eln-cache") "/usr/bin/../lib/emacs/28.0.50/x86_64-pc-linux-gnu/eln-cache/"))
 

@@ -83,7 +83,7 @@
 
     (treemacs-hide-gitignored-files-mode nil)
     ;; turn off modeline in treemacs buffer
-    (add-hook 'treemacs-mode-hook #'hide-mode-line-mode)
+    (add-hook 'treemacs-mode-hook #'turn-on-hide-mode-line-mode)
     
     )
   )

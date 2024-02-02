@@ -20,7 +20,7 @@
 (setq custom-theme-directory (concat user-emacs-directory "modules/appearance/themes/"))
 ;; disable whatever bar
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
 
 (use-package solaire-mode
@@ -31,11 +31,11 @@
 (use-package doom-themes
   :init
   (setq my-emacs-theme (getenv "EMACS_THEME")
-      custom-safe-themes t
-      doom-solarized-light-brighter-comments nil
-      doom-solarized-light-brighter-modeline nil
-      doom-solarized-light-padded-modeline nil
-      )
+        custom-safe-themes t
+        doom-solarized-light-brighter-comments nil
+        doom-solarized-light-brighter-modeline nil
+        doom-solarized-light-padded-modeline nil
+        )
   :config
   (load-theme 'doom-wilmersdorf)
   ;; (load-theme 'doom-solarized-light)
@@ -44,25 +44,35 @@
 (use-package hide-mode-line
   :init
   (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
-  (defun hide-mode-line-1 (&rest _)
-    (let ((hide-mode-line-format '("%b")))
-      (hide-mode-line-mode +1)))
-  )
+  :config
+  (setq hide-mode-line-excluded-modes
+        (append '(helpful-mode)
+                hide-mode-line-excluded-modes)))
 
-;;;###autoload
-(defun hide-mode-line-popup (&rest _)
-    (global-hide-mode-line-mode +1)
-    (add-hook 'quit-window-hook
-              (lambda () (global-hide-mode-line-mode -1)) 0 1))
-;; (use-package nano
-;;   :elpaca (nano :type git :host github :repo "rougier/nano-emacs")
-;;   )
+
+;; (auto-hide-mode-line-mode +1)
+(use-package auto-hide-mode-line
+  :elpaca `(auto-hide-mode-line
+            :repo ,(concat user-emacs-directory "lisp/auto-hide-mode-line/")
+            ;; :files ("auto-hide-mode-line.el")
+            )
+  :config
+  (auto-hide-mode-line-mode +1)
+  )
+;; (require 'auto-hide-mode-line)
+;; (auto-hide-mode-line-mode +1)
 
 
 
 ;; fullscreen on start
 (toggle-frame-maximized)
 (toggle-frame-fullscreen)
+
+(defun my-set-transparency ()
+  (interactive)
+  (set-frame-parameter nil 'alpha-background
+                       (read-number "alpha channel value:" 90))
+  )
 
 (defvar dwuggh-font-family
   "Sarasa Term SC"
@@ -91,7 +101,7 @@
 
 (use-package doom-modeline
   :init
-   
+  
   (setq nerd-icons-font-family "Symbols Nerd Font Mono")
   (setq
    doom-modeline-enable-word-count t
@@ -113,9 +123,9 @@
   :elpaca '(dashboard :no-native-compile t)
   :init
   (setq dashboard-banner-logo-title "Dare Evil"
-    dashboard-startup-banner 2
-    dashboard-center-content t
-    )
+        dashboard-startup-banner 2
+        dashboard-center-content t
+        )
   ;; (setq-default
   ;;  dashboard-banners-directory (expand-file-name (concat user-emacs-directory "straight/build/dashboard/banners")))
   :config

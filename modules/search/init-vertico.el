@@ -17,6 +17,9 @@
   ;; https://emacs.stackexchange.com/questions/14755/how-to-remove-bindings-to-the-esc-prefix-key
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
   (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
+  ;; TODO this will blink
+  ;; (add-hook 'minibuffer-setup-hook #'hide-mode-line-1)
+  ;; (add-hook 'minibuffer-exit-hook #'hide-mode-line-0)
   :config
   ;; (define-key vertico-map "?" #'minibuffer-completion-help)
   (vertico-mode)
@@ -67,6 +70,8 @@
         ;; otherwise `consult-line' would be too slow
         ;; https://github.com/minad/consult/issues/329
         consult-fontify-max-size 1024
+        xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref
         )
   :config
   
@@ -97,6 +102,7 @@
   (setq completion-styles '(substring orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (orderless partial-completion))))
+        ;; completion-category-overrides nil
         orderless-component-separator "[ &]"
         )
   ;; otherwise find-file gets different highlighting than other commands

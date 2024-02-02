@@ -1,2 +1,3 @@
-* DO NOT USE
-* 别用
+* TODO
+  - add ~latex-ts-mode~
+  - use it to do some better completions

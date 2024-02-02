@@ -19,6 +19,9 @@
     (evil-ex-start-word-search nil 'forward 0 symbol)
     )
   (evil-global-set-key 'normal (kbd "C-8") #'evil-ex-search-word)
+  (evil-global-set-key 'normal (kbd "C-q") #'evil-ex-search-word)
+  (evil-global-set-key 'insert (kbd "C-a") #'evil-beginning-of-line)
+  (evil-global-set-key 'insert (kbd "C-q") #'evil-end-of-line)
   (dwuggh/leader-def
     "sc" '(evil-ex-nohighlight :wk "clear highlight"))
   (general-def
