@@ -48,6 +48,5 @@
 (require 'init-python)
 (require 'init-jsts)
 (require 'init-go)
-(require 'init-treesitter)
 
 (provide 'init-programming)

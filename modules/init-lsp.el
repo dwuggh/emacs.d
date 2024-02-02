@@ -11,8 +11,14 @@
   :hook
   (
    (python-mode . lsp)
+   (python-ts-mode . lsp)
    (c-mode . lsp)
    (c++-mode . lsp)
+   (c-or-c++-mode . lsp)
+   (c-ts-mode . lsp)
+   (c++-ts-mode . lsp)
+   (c-or-c++-ts-mode . lsp)
+   (rust-mode . lsp)
    )
   :init
   (setq
@@ -24,16 +30,17 @@
    lsp-enable-folding t
    lsp-enable-suggest-server-download nil
    lsp-enable-text-document-color nil
-   lsp-lens-enable nil
+   lsp-lens-enable t
    )
 
 
   ;; (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
   :config
-  (setq lsp-rust-analyzer-server-display-inlay-hints t)
-  (add-hook 'lsp-after-open-hook (lambda ()
-                                   (when (lsp-find-workspace 'rust-analyzer nil)
-                                     (lsp-rust-analyzer-inlay-hints-mode))))
+  ;; (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  ;; (add-hook 'lsp-after-open-hook (lambda ()
+  ;;                                  (when (lsp-find-workspace 'rust-analyzer nil)
+  ;;                                    (lsp-rust-analyzer-inlay-hints-mode))))
+  ;; (add-to-list 'lsp-language-id-configuration '(latex-ts-mode . "latex"))
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
   (defun lsp-company-backends-h ()
     (interactive)
@@ -107,15 +114,22 @@
       (lsp))
     )
 
-  (general-def
-    :definer 'minor-mode
-    :keymaps 'lsp-mode
+  (general-define-key
+    ;; :definer 'minor-mode
+    :predicate 'lsp-mode
+    ;; :keymaps 'local
     "gt" #'lsp-find-type-definition
     "gr" #'lsp-find-references
     "gd" #'lsp-find-definition
     "gR" #'xref-find-references
     "gM" #'lsp-ui-imenu
     )
+  (general-def 'normal lsp-mode
+    :definer 'minor-mode
+    ",l" lsp-command-map)
+  ;; (evil-define-minor-mode-key
+  ;;   'normal 'lsp-mode "gd" #'lsp-find-definition
+  ;;   )
   )
 
 
@@ -126,13 +140,19 @@
   (setq lsp-ui-doc-delay 2000
         lsp-ui-doc-position 'at-point)
   :config
-  (general-def
-    :keymaps 'lsp-ui-peek-mode-map
+  (general-define-key
+    :predicate 'lsp-ui-peek-mode
     "h" #'lsp-ui-peek--select-prev-file
     "j" #'lsp-ui-peek--select-next
     "k" #'lsp-ui-peek--select-prev
     "l" #'lsp-ui-peek--select-next-file
     )
+  (define-key lsp-ui-peek-mode-map (kbd "C-j") #'lsp-ui-peek--select-next)
+  (define-key lsp-ui-peek-mode-map (kbd "C-k") #'lsp-ui-peek--select-prev)
+  (define-key lsp-ui-peek-mode-map (kbd "j") #'lsp-ui-peek--select-next)
+  (define-key lsp-ui-peek-mode-map (kbd "k") #'lsp-ui-peek--select-prev)
+  (define-key lsp-ui-peek-mode-map (kbd "h") #'lsp-ui-peek--select-prev-file)
+  (define-key lsp-ui-peek-mode-map (kbd "l") #'lsp-ui-peek--select-next-file)
   (defun lsp-ui-doc-toggle ()
     "toggle lsp ui doc."
     (interactive)
@@ -141,8 +161,7 @@
       (lsp-ui-doc-show)
       ))
   (general-define-key
-    :definer 'minor-mode
-    :keymaps 'lsp-ui-mode
+    :predicate 'lsp-ui-mode
     :states '(normal visual)
     "K" 'lsp-ui-doc-toggle
     )

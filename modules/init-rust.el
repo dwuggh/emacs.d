@@ -1,8 +1,7 @@
 
-(use-package rustic
+(use-package rust-mode
   :defer t
   :init
-  ;; (setq rustic-lsp-setup-p nil)
   (defun rust-rustup-target-list ()
     "Get rustup's target list using `rustup target list'."
     (s-split "\n" (s-trim (shell-command-to-string "rustup target list")))
@@ -27,6 +26,7 @@ This requires rustup intsalled"
     (interactive)
     (lsp-rust-analyzer--select-cargo-target
      (completing-read "set cargo target: " (rust-rustup-target-list-installed) nil t)))
+  (setq rust-ts-mode-hook rust-mode-hook)
   )
 
 
@@ -49,7 +49,7 @@ This requires rustup intsalled"
 
 
 (dwuggh/localleader-def
- :keymaps 'rustic-mode-map
+ :keymaps 'rust-mode-map
  "==" 'rust-format-buffer
  "bs" '(lsp-rust-switch-server :wk "switch backend")
 

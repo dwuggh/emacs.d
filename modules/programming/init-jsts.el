@@ -9,26 +9,6 @@
 
 (use-package rainbow-mode)
 
-;; (use-package tide
-;;   :defer t
-;;   :init
-;;   (add-hook 'typescript-mode-hook 'tide-setup)
-;;   (dwuggh/localleader-def
-;;    :keymaps 'typescript-mode-map
-;;    "gg" 'tide-jump-to-definition
-;;    "gb" 'tide-jump-back
-;;    "gi" 'tide-jump-to-implementation
-;;    "hh" 'tide-documentation-at-point
-;;    "gr" 'tide-references
-;;    "rr" 'tide-rename-symbol
-;;    "rf" 'tide-rename-file
-;;    )
-;;   (push '("*tide-documentation*"
-;;  :dedicated t :position bottom
-;;  :stick t :noselect nil :height 0.4)
-;;  popwin:special-display-config)
-;;   )
-
 (use-package web-mode
   :defer t
   :init

@@ -2,16 +2,15 @@
 (use-package treesit
   :elpaca nil
   :init
-  ;; (setq major-mode-remap-alist
-  ;;       '(
-  ;;         (c-mode . c-ts-mode)
-  ;;         ;; (c++-mode . c++-ts-mode)
-  ;;         (c-or-c++-mode . c-or-c++-ts-mode)
-  ;;         (python-mode . python-ts-mode)
-  ;;         (rustic-mode . rust-ts-mode)
-  ;;         (go-mode . go-ts-mode)
-  ;;         )
-  ;;       )
+  (setq major-mode-remap-alist
+        '(
+          (c-mode . c-ts-mode)
+          (c++-mode . c++-ts-mode)
+          (c-or-c++-mode . c-or-c++-ts-mode)
+          (python-mode . python-ts-mode)
+          (go-mode . go-ts-mode)
+          )
+        )
   (setq treesit-font-lock-level 4)
   ;; TODO bettter way
   ;; (setq treesit-language-source-alist
