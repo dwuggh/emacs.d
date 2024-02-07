@@ -54,10 +54,10 @@
 (use-package auto-hide-mode-line
   :elpaca `(auto-hide-mode-line
             :repo ,(concat user-emacs-directory "lisp/auto-hide-mode-line/")
-            ;; :files ("auto-hide-mode-line.el")
+            :files ("auto-hide-mode-line.el")
             )
-  :config
-  (auto-hide-mode-line-mode +1)
+  :init
+  (add-hook 'elpaca-after-init-hook #'auto-hide-mode-line-mode)
   )
 ;; (require 'auto-hide-mode-line)
 ;; (auto-hide-mode-line-mode +1)
@@ -131,6 +131,12 @@
   :config
   (dashboard-setup-startup-hook)
   )
+
+;; (use-package hololayer
+;;   :after (posframe markdown-mode)
+;;   :elpaca (hololayer :host github :repo "manateelazycat/holo-layer"
+;;                      :files (:defaults "*.*" "**/*.*") :main "holo-layer.el")
+;;   )
 
 ;; (require 'pretty-fonts)
 ;; (pretty-fonts-add-hook 'prog-mode-hook 'pretty-fonts-fira-code-alist)

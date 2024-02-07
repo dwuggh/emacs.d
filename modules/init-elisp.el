@@ -20,8 +20,8 @@
   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
     (add-hook hook 'turn-on-elisp-slime-nav-mode))
   (setq elisp-jump-handler
-      '(elisp-slime-nav-find-elisp-thing-at-point
-        ))
+        '(elisp-slime-nav-find-elisp-thing-at-point
+          ))
   )
 
 
@@ -41,12 +41,6 @@
   ;; (advice-add 'helpful--update-and-switch-buffer :override 'hide-mode-line-popup)
   ;; (advice-remove 'helpful--update-and-switch-buffer 'hide-mode-line-popup)
 
-  (general-def
-    :state 'normal
-    :keymaps '(helpful-mode-map emacs-lisp-mode-map)
-    "K" 'helpful-at-point
-    ;; "RET" 'helpful-visit-reference
-   )
   (general-def
     :keymaps 'elisp-slime-nav-mode-map
     :major-modes 'emacs-lisp-mode
@@ -81,8 +75,8 @@
   :defer t
   :init
   (add-hook 'emacs-lisp-mode-hook
-        (lambda ()
-          (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
+            (lambda ()
+              (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
 
 ;;; localleader key setting
 ;;; -------------------------------------------------------------------------------------
@@ -95,6 +89,12 @@
  "gg" '(my-elisp-navigation :wk "jump to definition")
  "'" '(ielm :wk "open ielm")
  )
+(general-define-key
+  :state 'normal
+  :keymaps '(helpful-mode-map emacs-lisp-mode-map)
+  "K" 'helpful-at-point
+  ;; "RET" 'helpful-visit-reference
+  )
 
 
 ;; TODO use the macro
@@ -106,14 +106,14 @@
 
 ;; TODO didn't work
 (setq-mode-local lisp-interaction-mode
-                  company-backends
-                  '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code 
-                    company-dabbrev))
+                 company-backends
+                 '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code 
+                   company-dabbrev))
 
 (setq-mode-local emacs-lisp-mode
-                  company-backends
-                  '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code
-                    company-dabbrev))
+                 company-backends
+                 '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code
+                   company-dabbrev))
 
 
 ;;; ------------------------------------------------------------------------------------
