@@ -60,7 +60,8 @@
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
   (add-hook 'LaTeX-mode-hook 'smartparens-mode)
-  (add-hook 'LaTeX-mode-hook 'lsp)
+  ;; (add-hook 'LaTeX-mode-hook 'lsp)
+  ;; (remove-hook 'LaTeX-mode-hook 'lsp)
   :config
   (define-key TeX-mode-map (kbd "$") nil)
   )

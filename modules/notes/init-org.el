@@ -170,7 +170,8 @@ This forces it to read the background before rendering."
   :init
   (add-hook 'org-mode-hook 'evil-org-mode)
   )
-
+(use-package org-appear
+  :elpaca '(org-appear :type git :host github :repo "awth13/org-appear"))
 
 ;; better table alignment
 ;; TODO integration with org-latex-preview
@@ -279,7 +280,6 @@ This forces it to read the background before rendering."
 
 
 (use-package markdown-mode
-  :defer t
   :init
   (setq markdown-hide-markup t
         markdown-hide-markup-in-view-modes t

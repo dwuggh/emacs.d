@@ -1,10 +1,15 @@
 (setq-default js-indent-level 2)
+
 (use-package typescript-mode
   :init
   (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode-hook 'my-lsp-init)
-  (add-hook 'js-mode-hook 'my-lsp-init)
-  (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . typescript-mode))
+  (add-hook 'typescript-mode-hook 'lsp)
+  (add-hook 'js-mode-hook 'lsp)
+  ;; (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . typescript-mode))
+  )
+
+(with-eval-after-load 'typescript-ts-mode
+  (add-hook 'typescript-ts-mode-hook #'lsp)
   )
 
 (use-package rainbow-mode)

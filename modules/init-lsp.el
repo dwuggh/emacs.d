@@ -18,7 +18,9 @@
    (c-ts-mode . lsp)
    (c++-ts-mode . lsp)
    (c-or-c++-ts-mode . lsp)
-   (rust-mode . lsp)
+   ;; (rust-mode . lsp)
+   (rust-ts-mode . lsp)
+   (go-ts-mode . lsp)
    )
   :init
   (setq
@@ -185,6 +187,33 @@
   (add-hook 'tex-mode-hook #'lsp)
   (add-hook 'latex-mode-hook #'lsp)
   (add-hook 'LaTeX-mode-hook #'lsp)
+  :config
+  (lsp-register-client
+   (make-lsp-client :new-connection
+                  (lsp-stdio-connection
+                   #'lsp-latex-new-connection)
+                  :major-modes '(tex-mode
+                                 yatex-mode
+                                 latex-mode
+                                 latex-ts-mode
+                                 bibtex-mode)
+                  :server-id 'texlab2
+                  :priority 2
+                  :initialized-fn
+                  (lambda (workspace)
+                    (with-lsp-workspace workspace
+                      (lsp--set-configuration
+                       (lsp-configuration-section "latex"))
+                      (lsp--set-configuration
+                       (lsp-configuration-section "bibtex"))))
+                  :notification-handlers
+                  (lsp-ht
+                   ("window/progress"
+                    'lsp-latex-window-progress))
+                  :after-open-fn
+                  (lambda ()
+                    (setq-local lsp-completion-sort-initial-results lsp-latex-completion-sort-in-emacs))))
+
   )
 
 

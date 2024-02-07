@@ -1,19 +1,19 @@
 
 
-(use-package go-mode
-  :defer t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-  (add-hook 'go-mode-hook 'lsp-deferred)
-  :config
-  ;; (push (cons go-test-buffer-name '(:dedicated t :position bottom :stick t :noselect t :height 0.4)) popwin:special-display-config)
-  )
+;; (use-package go-mode
+;;   :defer t
+;;   :init
+;;   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+;;   (add-hook 'go-mode-hook 'lsp-deferred)
+;;   :config
+;;   ;; (push (cons go-test-buffer-name '(:dedicated t :position bottom :stick t :noselect t :height 0.4)) popwin:special-display-config)
+;;   )
 
 (use-package go-impl
   :defer t
   :init
   (dwuggh/localleader-def
-   :keymaps 'go-mode-map
+   :keymaps 'go-ts-mode-map
    "f<" 'go-guru-callers
    "f>" 'go-guru-callees
    "fc" 'go-guru-peers
