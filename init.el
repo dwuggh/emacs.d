@@ -14,6 +14,7 @@
   ;; (my-load-module 'term)
 
   (my-load-module 'lsp)
+  (my-load-module 'ai)
 
   (my-load-module 'elisp)
 
