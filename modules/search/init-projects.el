@@ -7,7 +7,7 @@
   :init
   (dwuggh/leader-def
     "ft" 'treemacs
-    "t"  'treemacs
+    "t"  'window-toggle-side-windows
     )
    :config
   (progn

@@ -97,9 +97,9 @@
 ;; backend
 (setq-default company-backends
               '(
-                (company-capf company-dabbrev-code :with company-yasnippet)
-        (company-dabbrev :with company-yasnippet)
-        company-yasnippet))
+                (:separate company-capf company-yasnippet)
+        (company-dabbrev company-dabbrev-code)
+        ))
 
 
 (provide 'init-company)

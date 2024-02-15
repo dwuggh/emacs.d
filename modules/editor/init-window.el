@@ -34,16 +34,22 @@
 
 
 ;; from https://gist.github.com/3402786
-(defun spacemacs/toggle-maximize-buffer ()
-  "Maximize buffer"
+(defun toggle-maximize-buffer ()
+  "Maximize buffer."
   (interactive)
   (save-excursion
-    (if (and (= 1 (length (window-list)))
+    (if (and (= 1 (length (cl-remove-if
+                           (lambda (w)
+                             (or (and (fboundp 'treemacs-is-treemacs-window?)
+                                      (treemacs-is-treemacs-window? w))
+                                 (->> w (window-buffer) (buffer-name) (s-equals? lsp-treemacs-symbols-buffer-name))
+                                 (and (bound-and-true-p neo-global--window)
+                                      (eq neo-global--window w))))
+                           (window-list))))
              (assoc ?_ register-alist))
         (jump-to-register ?_)
-      (progn
-        (window-configuration-to-register ?_)
-        (delete-other-windows)))))
+      (window-configuration-to-register ?_)
+      (delete-other-windows))))
 
 
 
@@ -67,7 +73,7 @@
   "w-" '(split-window-below :wk "vsplit")
   "w=" '(balance-windows-area :wk "balance windows")
   "wd" '(evil-window-delete :wk "delete current window")
-  "wm" '(spacemacs/toggle-maximize-buffer :wk "maximize window")
+  "wm" '(toggle-maximize-buffer :wk "maximize window")
   "wM" 'ace-swap-window
   )
 

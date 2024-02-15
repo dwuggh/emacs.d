@@ -6,7 +6,6 @@
 
 
 (use-package lsp-mode
-  :defer t
   :commands lsp-install-server
   :hook
   (
@@ -18,13 +17,12 @@
    (c-ts-mode . lsp)
    (c++-ts-mode . lsp)
    (c-or-c++-ts-mode . lsp)
-   ;; (rust-mode . lsp)
    (rust-ts-mode . lsp)
    (go-ts-mode . lsp)
    )
   :init
   (setq
-   lsp-prefer-capf t
+   ;; lsp-prefer-capf t
    lsp-session-file (concat my-cache-dir ".lsp-session-v1")
    dap-breakpoints-file (concat my-cache-dir ".dap-breakpoints")
    lsp-enable-xref nil
@@ -33,6 +31,7 @@
    lsp-enable-suggest-server-download nil
    lsp-enable-text-document-color nil
    lsp-lens-enable t
+   lsp-ui-imenu-kind-position 'top
    )
 
 
@@ -48,10 +47,10 @@
     (interactive)
     (when lsp-completion-mode)
     (set (make-local-variable 'company-backends)
-         '((company-capf :with company-yasnippet)
+         '((:separate company-capf company-yasnippet)
            company-dabbrev-code company-dabbrev))
     )
-  (add-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
+  ;; (add-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
   ;; (add-hook 'lsp-mode-hook #'lsp-company-backends-h)
 
   (dwuggh/localleader-def
@@ -179,6 +178,11 @@
                    (company-dabbrev-code :with company-yasnippet)
                    company-yasnippet company-dabbrev))
 
+(use-package lsp-treemacs
+  :after lsp
+  :config
+  (lsp-treemacs-sync-mode 1)
+  )
 
 ;;; latex
 (use-package lsp-latex

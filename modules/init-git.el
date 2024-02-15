@@ -69,15 +69,15 @@
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
                     :background nil
-                    :height 140
+                    :height 130
                     :italic t)))
   :config
   (setq blamer-max-commit-message-length 50
         blamer-min-offset 60
-        blamer-idle-time 0.3
-        blamer-show-avatar-p t
+        blamer-idle-time 0.8
+        blamer-avatar-size 80
         )
-  
+  ;; (setq blamer-commit-formatter " ● %s")
   ;; (global-blamer-mode 1)
   )
 

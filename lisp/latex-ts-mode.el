@@ -163,6 +163,7 @@
                                    (if (string-equal type "superscript")
                                        'superscript 'subscript) override)))
 
+;; TODO may use `font-lock-ensure'?
 (defun latex-ts-mode--fontify-at-point (pos beg end &optional loudly)
   "fontify at POS."
   (let ((latex-ts-mode--pos pos))

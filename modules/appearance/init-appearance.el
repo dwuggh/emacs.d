@@ -64,15 +64,17 @@
 
 
 
-;; fullscreen on start
-(toggle-frame-maximized)
-(toggle-frame-fullscreen)
 
+(defun my--set-transparency (a)
+  (set-frame-parameter nil 'alpha-background a))
 (defun my-set-transparency ()
   (interactive)
-  (set-frame-parameter nil 'alpha-background
-                       (read-number "alpha channel value:" 90))
-  )
+  (my--set-transparency (read-number "alpha channel value:" 90)))
+
+;; fullscreen on start
+(my--set-transparency 93)
+(toggle-frame-maximized)
+(toggle-frame-fullscreen)
 
 (defvar dwuggh-font-family
   "Sarasa Term SC"
@@ -122,13 +124,30 @@
 (use-package dashboard
   :elpaca '(dashboard :no-native-compile t)
   :init
-  (setq dashboard-banner-logo-title "Dare Evil"
-        dashboard-startup-banner 2
-        dashboard-center-content t
-        )
+  (setq
+   ;; dashboard-banner-logo-title "The fire fades..."
+   dashboard-banner-logo-title "你好"
+;;    dashboard-banner-logo-title "Wherever you go, the moon still sets in Irithyll;
+;; Wherever you may be, Irithyll is your home. "
+   ;; dashboard-banner-logo-title "Forefathers one and all, bear witness!"
+   dashboard-image-extra-props '(:mask heuristic)
+   ;; dashboard-startup-banner "~/Pictures/bonfire-transparent.png"
+   ;; dashboard-startup-banner "~/Pictures/bonfire-removebg-preview.png"
+   ;; dashboard-startup-banner "~/Pictures/bonfire.jpeg"
+   ;; dashboard-startup-banner "~/Pictures/bonfire1.jpeg"
+   ;; dashboard-startup-banner "~/Pictures/wallpaper/Irithyll.jpg"
+   ;; dashboard-startup-banner "~/Pictures/bonfire.gif"
+   dashboard-startup-banner (concat user-emacs-directory "icons/エマ.png")
+   ;; dashboard-startup-banner "~/Pictures/godrick.png"
+   dashboard-image-banner-max-width 800
+   dashboard-image-banner-max-width 600
+   dashboard-center-content t
+   )
   ;; (setq-default
   ;;  dashboard-banners-directory (expand-file-name (concat user-emacs-directory "straight/build/dashboard/banners")))
   :config
+  (add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)
+  (add-hook 'elpaca-after-init-hook #'dashboard-initialize)
   (dashboard-setup-startup-hook)
   )
 
