@@ -32,6 +32,17 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
+  (setq wgsl-tsauto-config
+      (make-treesit-auto-recipe
+       :lang 'wgsl
+       :ts-mode 'wgsl-ts-mode
+       :remap 'wgsl-mode
+       :url "https://github.com/szebniok/tree-sitter-wgsl"
+       :revision "master"
+       :source-dir "src"
+       :ext "\\.wgsl\\'"))
+
+  (add-to-list 'treesit-auto-recipe-list wgsl-tsauto-config)
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 (provide 'init-treesitter)

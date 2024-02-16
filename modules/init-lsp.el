@@ -19,6 +19,7 @@
    (c-or-c++-ts-mode . lsp)
    (rust-ts-mode . lsp)
    (go-ts-mode . lsp)
+   (wgsl-ts-mode . lsp)
    )
   :init
   (setq
@@ -37,11 +38,13 @@
 
   ;; (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
   :config
+  ;; (require 'lsp-wgsl)
   ;; (setq lsp-rust-analyzer-server-display-inlay-hints t)
   ;; (add-hook 'lsp-after-open-hook (lambda ()
   ;;                                  (when (lsp-find-workspace 'rust-analyzer nil)
   ;;                                    (lsp-rust-analyzer-inlay-hints-mode))))
   ;; (add-to-list 'lsp-language-id-configuration '(latex-ts-mode . "latex"))
+  (add-to-list 'lsp-language-id-configuration '(wgsl-ts-mode . "wgsl"))
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
   (defun lsp-company-backends-h ()
     (interactive)

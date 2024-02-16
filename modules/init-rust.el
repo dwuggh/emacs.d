@@ -43,6 +43,10 @@ This requires rustup intsalled"
   :elpaca
   (wgsl-mode :type git :host github :repo "acowley/wgsl-mode")
   )
+(use-package wgsl-ts-mode
+  :elpaca
+  (wgsl-ts-mode :type git :host github :repo "acowley/wgsl-ts-mode")
+  )
 (use-package glsl-mode
   :elpaca
   (glsl-mode :type git :host github :repo "jimhourihan/glsl-mode")
