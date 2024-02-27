@@ -1,6 +1,6 @@
 
 (use-package treesit
-  :elpaca nil
+  :ensure nil
   :init
   (setq major-mode-remap-alist
         '(

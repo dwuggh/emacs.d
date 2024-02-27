@@ -67,7 +67,7 @@ JUSTIFICATION is a symbol for 'left, 'center or 'right."
 
 (use-package org
   :defer t
-  :elpaca nil
+  :ensure nil
   :init
   (setq org-src-window-setup 'split-window-below
         org-hide-emphasis-markers nil
@@ -171,12 +171,12 @@ This forces it to read the background before rendering."
   (add-hook 'org-mode-hook 'evil-org-mode)
   )
 (use-package org-appear
-  :elpaca '(org-appear :type git :host github :repo "awth13/org-appear"))
+  :ensure '(org-appear :type git :host github :repo "awth13/org-appear"))
 
 ;; better table alignment
 ;; TODO integration with org-latex-preview
 (use-package valign
-  :elpaca (valign :host github
+  :ensure (valign :host github
                     :repo "casouri/valign"
                     )
   :defer t
@@ -209,8 +209,8 @@ This forces it to read the background before rendering."
 
 (use-package company-org-latex
   :after org
-  :elpaca nil
-  ;; :elpaca `(company-org-latex :type built-in
+  :ensure nil
+  ;; :ensure `(company-org-latex :type built-in
   ;;                              :local-repo ,(concat user-emacs-directory "lisp/")
   ;;                              :files ("company-org-latex.el"))
   :init

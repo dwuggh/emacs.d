@@ -10,7 +10,7 @@
 ;;; ------------------------------------------------------------------------------
 
 (use-package explain-pause-mode
-  :elpaca (explain-pause-mode :type git :host github :repo "lastquestion/explain-pause-mode")
+  :ensure (explain-pause-mode :type git :host github :repo "lastquestion/explain-pause-mode")
   :config
   ;; (explain-pause-mode)
   )
@@ -26,7 +26,7 @@
 
 
 (use-package helpful
-  :elpaca (helpful :type git :host github :repo "Wilfred/helpful")
+  :ensure (helpful :type git :host github :repo "Wilfred/helpful")
   :defer t
   :init
   (global-set-key (kbd "C-h k") 'helpful-key)

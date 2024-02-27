@@ -24,7 +24,7 @@
 ;;                        elpaca--pre-built-steps elpaca-build-steps))
 ;;           (list '+elpaca-unload-seq 'elpaca--activate-package)))
 
-;; (use-package seq :elpaca `(seq :build ,(+elpaca-seq-build-steps)))
+;; (use-package seq :ensure `(seq :build ,(+elpaca-seq-build-steps)))
 (use-package magit
   ;; :after seq
   :init
@@ -64,7 +64,7 @@
   )
 
 (use-package blamer
-  :elpaca (blamer :type git :host github :repo "artawower/blamer.el")
+  :ensure (blamer :type git :host github :repo "artawower/blamer.el")
   :defer
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"

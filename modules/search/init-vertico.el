@@ -2,7 +2,7 @@
 
 
 (use-package savehist
-  :elpaca nil
+  :ensure nil
   :init
   (setq savehist-file (concat my-cache-dir "history"))
   (savehist-mode)

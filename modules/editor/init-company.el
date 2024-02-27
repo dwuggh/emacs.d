@@ -82,7 +82,7 @@
 ;; (use-package yasnippet-snippets)
 
 (use-package company-box
-  :elpaca '(company-box
+  :ensure '(company-box
               :no-native-compile t)
   :hook (company-mode . company-box-mode)
   :init

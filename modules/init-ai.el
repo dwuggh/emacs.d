@@ -1,6 +1,6 @@
 ;; (use-package codeium
 ;;     ;; if you use straight
-;;     :elpaca (codeium :host github :repo "Exafunction/codeium.el")
+;;     :ensure (codeium :host github :repo "Exafunction/codeium.el")
 ;;     ;; otherwise, make sure that the codeium.el file is on load-path
 
 ;;     :init
@@ -68,7 +68,7 @@
 
 (use-package tabby
   :hook (prog-mode . tabby-mode)
-  :elpaca (tabby :type git :host github :files ("*.el" "node_scripts")
+  :ensure (tabby :type git :host github :files ("*.el" "node_scripts")
                  :repo "alan-w-255/tabby.el")
   :init
   (setq tabby-idle-delay 0.5)

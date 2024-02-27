@@ -32,7 +32,7 @@
   )
 
 (use-package auctex
-  :elpaca
+  :ensure
 (auctex :pre-build (("./autogen.sh")
                     ("./configure"
                      "--without-texmf-dir"
@@ -127,7 +127,7 @@
 ;; (straight-use-package `(asymbol :local-repo ,(concat user-emacs-directory "lisp/asymbol/")))
 
 (use-package asymbol
-  :elpaca `(asymbol :repo ,(concat user-emacs-directory "lisp/asymbol/"))
+  :ensure `(asymbol :repo ,(concat user-emacs-directory "lisp/asymbol/"))
   :init
   (setq asymbol-help-symbol-linewidth 80
     asymbol-help-tag-linewidth    80

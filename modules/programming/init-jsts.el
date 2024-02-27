@@ -38,7 +38,7 @@
 
 (use-package css-mode
   :defer t
-  :elpaca nil
+  :ensure nil
   :config
   (defun css-lookup-symbol-at-point ()
     "See `css-lookup-symbol'"

@@ -122,7 +122,7 @@
   )
 
 (use-package dashboard
-  :elpaca '(dashboard :no-native-compile t)
+  :ensure '(dashboard :no-native-compile t)
   :init
   (setq
    ;; dashboard-banner-logo-title "The fire fades..."
@@ -172,7 +172,7 @@
 
 ;; TODO vscode-like `tab-line-tabs-function'
 (use-package tab-line
-  :elpaca nil
+  :ensure nil
 
   :config
   (require 'intuitive-tab-line)
@@ -202,7 +202,7 @@
   )
 
 (use-package tab-bar
-  :elpaca nil
+  :ensure nil
   :init
   (setq
    tab-bar-close-button (propertize " × "

@@ -19,7 +19,7 @@
 (setq-default save-place-file (concat my-cache-dir "places"))
 (save-place-mode 1)
 (use-package desktop
-  :elpaca nil
+  :ensure nil
   :init (setq desktop-path `(,(concat my-cache-dir "desktops")))
   :config
   (desktop-save-mode 1)
@@ -27,7 +27,7 @@
 
 
 (use-package auto-save
-  :elpaca (auto-save :type git
+  :ensure (auto-save :type git
                :host github
                :repo "manateelazycat/auto-save"
                )

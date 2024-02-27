@@ -2,7 +2,7 @@
 
 
 (use-package recentf
-  :elpaca nil
+  :ensure nil
   :init
   (setq recentf-save-file (concat user-emacs-directory ".cache/recentf")
         recentf-max-saved-items 2000
@@ -12,7 +12,7 @@
   )
 
 (use-package sync-recentf
-  :elpaca
+  :ensure
   (sync-recentf :type git :host github
                 :repo "ffevotte/sync-recentf")
   :init

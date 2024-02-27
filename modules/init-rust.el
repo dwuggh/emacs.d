@@ -40,15 +40,15 @@ This requires rustup intsalled"
   )
 
 (use-package wgsl-mode
-  :elpaca
+  :ensure
   (wgsl-mode :type git :host github :repo "acowley/wgsl-mode")
   )
 (use-package wgsl-ts-mode
-  :elpaca
+  :ensure
   (wgsl-ts-mode :type git :host github :repo "acowley/wgsl-ts-mode")
   )
 (use-package glsl-mode
-  :elpaca
+  :ensure
   (glsl-mode :type git :host github :repo "jimhourihan/glsl-mode")
   )
 
