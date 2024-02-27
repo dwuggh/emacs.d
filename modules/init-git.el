@@ -15,18 +15,18 @@
   )
 
 ;; https://www.reddit.com/r/emacs/comments/1937vaz/emacs_291_on_windows_install_magit_requires_seq/
-(defun +elpaca-unload-seq (e)
-  (and (featurep 'seq) (unload-feature 'seq t))
-  (elpaca--continue-build e))
+;; (defun +elpaca-unload-seq (e)
+;;   (and (featurep 'seq) (unload-feature 'seq t))
+;;   (elpaca--continue-build e))
 
-(defun +elpaca-seq-build-steps ()
-  (append (butlast (if (file-exists-p (expand-file-name "seq" elpaca-builds-directory))
-                       elpaca--pre-built-steps elpaca-build-steps))
-          (list '+elpaca-unload-seq 'elpaca--activate-package)))
+;; (defun +elpaca-seq-build-steps ()
+;;   (append (butlast (if (file-exists-p (expand-file-name "seq" elpaca-builds-directory))
+;;                        elpaca--pre-built-steps elpaca-build-steps))
+;;           (list '+elpaca-unload-seq 'elpaca--activate-package)))
 
-(use-package seq :elpaca `(seq :build ,(+elpaca-seq-build-steps)))
+;; (use-package seq :elpaca `(seq :build ,(+elpaca-seq-build-steps)))
 (use-package magit
-  :after seq
+  ;; :after seq
   :init
   (dwuggh/leader-def
   "gs" 'magit-status

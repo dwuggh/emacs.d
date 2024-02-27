@@ -2,6 +2,7 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
 
+(require 'custom)
 ;; (require 'org-paste-image)
 
 (my-load-module 'appearance)
@@ -18,7 +19,7 @@
 
   (my-load-module 'elisp)
 
-  (my-load-module 'chinese)
+  ;; (my-load-module 'chinese)
   (my-load-module 'notes)
 
   ;; programming languages

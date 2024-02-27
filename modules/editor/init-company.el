@@ -39,7 +39,8 @@
 
 (use-package company-prescient
   :config
-  (company-prescient-mode 1))
+  ;; (company-prescient-mode)
+  )
 
 (use-package company-quickhelp
   :config

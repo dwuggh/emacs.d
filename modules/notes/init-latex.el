@@ -102,22 +102,22 @@
   (add-hook 'TeX-update-style-hook 'magic-latex-buffer)
   )
 
-(use-package cdlatex
-  :defer t
-  :init
-  (defun my/org-disable-yasnippet-in-latex-environment ()
-    (setq-local yas-buffer-local-condition '(not (org-inside-LaTeX-fragment-p))))
-  (add-hook 'org-mode-hook #'my/org-disable-yasnippet-in-latex-environment)
-  (add-hook 'LaTeX-mode-hook
-            '(lambda () (define-key LaTeX-mode-map (kbd "TAB") 'cdlatex-tab)))
-  :config
-  (add-hook 'cdlatex-mode-hook
-            (lambda ()
-              (define-key cdlatex-mode-map "`" nil)
-              (define-key cdlatex-mode-map "$" nil)))
-
-
-  )
+;; (use-package cdlatex
+;;   :defer t
+;;   :init
+;;   (defun my/org-disable-yasnippet-in-latex-environment ()
+;;     (setq-local yas-buffer-local-condition '(not (org-inside-LaTeX-fragment-p))))
+;;   (add-hook 'org-mode-hook #'my/org-disable-yasnippet-in-latex-environment)
+;;   (add-hook 'LaTeX-mode-hook
+;;             '(lambda () (define-key LaTeX-mode-map (kbd "TAB") 'cdlatex-tab)))
+;;   :config
+;;   (add-hook 'cdlatex-mode-hook
+;;             (lambda ()
+;;               (define-key cdlatex-mode-map "`" nil)
+;;               (define-key cdlatex-mode-map "$" nil)))
+;;
+;;
+;;   )
 
 
 ;; (add-hook 'LaTeX-mode-hook 'cdlatex-mode)

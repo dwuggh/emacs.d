@@ -7,11 +7,11 @@
   :init
   (setq evil-want-keybinding nil
         evil-symbol-word-search t
-    evil-search-module 'evil-search
-    evil-undo-system 'undo-fu
-    evil-ex-search-vim-style-regexp t
-    evil-want-Y-yank-to-eol t
-    )
+        evil-search-module 'evil-search
+        evil-undo-system 'undo-fu
+        evil-ex-search-vim-style-regexp t
+        evil-want-Y-yank-to-eol t
+        )
   :config
   (evil-mode 1)
   (defun evil-ex-search-word (&optional symbol)
@@ -22,8 +22,27 @@
   (evil-global-set-key 'normal (kbd "C-q") #'evil-ex-search-word)
   (evil-global-set-key 'insert (kbd "C-a") #'evil-beginning-of-line)
   (evil-global-set-key 'insert (kbd "C-q") #'evil-end-of-line)
-  (dwuggh/leader-def
-    "sc" '(evil-ex-nohighlight :wk "clear highlight"))
+
+  ;; ;; TODO put this in autoloads
+  ;; (evil-define-command +tabs:next-or-goto (index)
+  ;;   "Switch to the next tab, or to INDEXth tab if a count is given."
+  ;;   (interactive "<c>")
+  ;;   (if index
+  ;;       (centaur-tabs-select-visible-nth-tab index)
+  ;;     (centaur-tabs-forward)))
+
+  ;; (evil-define-command +tabs:previous-or-goto (index)
+  ;;   "Switch to the previous tab, or to INDEXth tab if a count is given."
+  ;;   (interactive "<c>")
+  ;;   (if index
+  ;;       (centaur-tabs-select-visible-nth-tab index)
+  ;;     (centaur-tabs-backward)))
+  ;; (general-def
+  ;;   :states 'normal
+  ;;   :keymaps 'override
+  ;;   "gt" '+tabs:next-or-goto
+  ;;   "gT" '+tabs:previous-or-goto
+  ;;   )
   (general-def
     :keymaps 'override
     :states '(normal visual motion)
@@ -32,15 +51,17 @@
     "gj" 'evil-next-line
     "gk" 'evil-previous-line
     )
+  (dwuggh/leader-def
+    "sc" '(evil-ex-nohighlight :wk "clear highlight"))
   )
 
 (use-package evil-terminal-cursor-changer
   :after evil
   :config
   (unless (display-graphic-p)
-          (require 'evil-terminal-cursor-changer)
-          (evil-terminal-cursor-changer-activate) ; or (etcc-on)
-          )
+    (require 'evil-terminal-cursor-changer)
+    (evil-terminal-cursor-changer-activate) ; or (etcc-on)
+    )
   )
 
 (use-package undo-fu
@@ -103,7 +124,7 @@
   (evil-snipe-override-mode 1)
   ;; (evil-snipe-local-mode 1)
   (setq evil-snipe-smart-case t
-        evil-snipe-scope 'line)
+        evil-snipe-scope 'whole-visible)
   )
 
 (use-package evil-nerd-commenter
@@ -183,11 +204,10 @@
  )
 
 (dwuggh/leader-def
-   "c SPC" '(evilnc-quick-comment-or-uncomment-lines :wk "comment or uncomment line" )
-   "cl" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment or uncomment line" )
-   "ll" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment or uncomment line" )
-   "cp" '(evilnc-comment-or-uncomment-paragraphs  :wk  "comment or uncomment paragraph" )
- )
+  "c SPC" '(evilnc-quick-comment-or-uncomment-lines :wk "comment or uncomment line" )
+  "cl" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment or uncomment line" )
+  "cp" '(evilnc-comment-or-uncomment-paragraphs  :wk  "comment or uncomment paragraph" )
+  )
 ;; (add-hook 'evil-mode-hook
 ;;           (progn
 ;;             (evil-escape-mode)

@@ -59,6 +59,7 @@
 (use-package consult
   :init
   (setq consult-async-min-input 2
+        completion-ignore-case t
         consult-async-refresh-delay 0.1
         consult-async-split-style 'semicolon
         consult-async-input-throttle 0.1

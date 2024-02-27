@@ -37,8 +37,8 @@
         doom-solarized-light-padded-modeline nil
         )
   :config
-  (load-theme 'doom-wilmersdorf)
-  ;; (load-theme 'doom-solarized-light)
+  ;; (load-theme 'doom-wilmersdorf)
+  (load-theme 'doom-one)
   )
 
 (use-package hide-mode-line
@@ -52,7 +52,7 @@
 
 ;; (auto-hide-mode-line-mode +1)
 (use-package auto-hide-mode-line
-  :elpaca `(auto-hide-mode-line
+  :ensure `(auto-hide-mode-line
             :repo ,(concat user-emacs-directory "lisp/auto-hide-mode-line/")
             :files ("auto-hide-mode-line.el")
             )
@@ -151,11 +151,72 @@
   (dashboard-setup-startup-hook)
   )
 
-;; (use-package hololayer
-;;   :after (posframe markdown-mode)
-;;   :elpaca (hololayer :host github :repo "manateelazycat/holo-layer"
-;;                      :files (:defaults "*.*" "**/*.*") :main "holo-layer.el")
-;;   )
+(use-package centaur-tabs
+  :init
+  (setq centaur-tabs-set-icons t
+        centaur-tabs-gray-out-icons nil
+        centaur-tabs-set-bar 'left
+        centaur-tabs-set-modified-marker t
+        ;; centaur-tabs-close-button "✕"
+        ;; centaur-tabs-modified-marker "•"
+        centaur-tabs-modified-marker "⏺"
+        centaur-tabs-icon-type 'nerd-icons
+        ;; Scrolling (with the mouse wheel) past the end of the tab list
+        ;; replaces the tab list with that of another Doom workspace. This
+        ;; prevents that.
+        centaur-tabs-cycle-scope 'tabs)
+  :config
+  ;; (remove-hook 'find-file-hook #'centaur-tabs-mode)
+  )
+
+
+;; TODO vscode-like `tab-line-tabs-function'
+(use-package tab-line
+  :elpaca nil
+
+  :config
+  (require 'intuitive-tab-line)
+  (setq
+   tab-line-exclude-modes '(completion-list-mode helpful-mode help-mode)
+   tab-line-close-button (propertize " × "
+                                     'rear-nonsticky nil ;; important to not break auto-scroll
+                                     'keymap tab-line-tab-close-map
+                                     'mouse-face 'tab-line-close-highlight
+                                     'help-echo "Click to close tab")
+   tab-line-switch-cycling t
+   tab-line-tab-name-function 'tab-line-buffer-name-with-nerd-icon
+   tab-line-tab-name-truncated-max 20
+   ;; tab-line-tabs-function 'intuitive-tab-line-buffers-list
+   )
+
+  (defun tab-line-buffer-name-with-nerd-icon (buffer &optional _buffers)
+    (let* ((buf-name (buffer-name buffer))
+           (tab-name (concat (nerd-icons-icon-for-file buf-name) " " buf-name)))
+      (if (< (length tab-name) tab-line-tab-name-truncated-max)
+          tab-name
+        (propertize (truncate-string-to-width
+                     tab-name tab-line-tab-name-truncated-max nil nil
+                     tab-line-tab-name-ellipsis)
+                    'help-echo tab-name))))
+  (add-hook 'find-file-hook #'global-tab-line-mode)
+  )
+
+(use-package tab-bar
+  :elpaca nil
+  :init
+  (setq
+   tab-bar-close-button (propertize " × "
+                                     'rear-nonsticky nil
+                                     'close-tab t
+                                     'mouse-face 'tab-line-close-highlight
+                                     'help-echo "Click to close tab")
+   tab-bar-show nil
+   )
+  (tab-bar-mode 1)
+  
+  )
+
+
 
 ;; (require 'pretty-fonts)
 ;; (pretty-fonts-add-hook 'prog-mode-hook 'pretty-fonts-fira-code-alist)

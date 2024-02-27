@@ -8,6 +8,9 @@
   ;; (conda-env-activate "base")
   )
 
+(use-package lsp-pyright
+  :after lsp)
+
 (dwuggh/localleader-def
   :keymaps '(python-mode-map)
   :states '(normal visual)

@@ -14,10 +14,16 @@
           auto-save-default nil
           auto-save-list-file-prefix (concat my-cache-dir "auto-save-list/.saves-"))
 (setq create-lockfiles nil)
-(setq jit-lock-defer-time 0)
+;; (setq jit-lock-defer-time nil)
 (setq-default indent-tabs-mode nil)
 (setq-default save-place-file (concat my-cache-dir "places"))
 (save-place-mode 1)
+(use-package desktop
+  :elpaca nil
+  :init (setq desktop-path `(,(concat my-cache-dir "desktops")))
+  :config
+  (desktop-save-mode 1)
+  )
 
 
 (use-package auto-save
@@ -169,6 +175,10 @@
   (define-key hl-todo-mode-map (kbd "C-c i") 'hl-todo-insert)
   )
 
+(dwuggh/leader-def
+  "h" 'tab-bar-switch-to-prev-tab
+  "l" 'tab-bar-switch-to-next-tab
+  )
 
 (general-def
  :states '(normal visual motion)

@@ -2,6 +2,7 @@
 
 (setq project-list-file (concat my-cache-dir "projects"))
 
+(use-package consult-project-extra)
 (use-package treemacs
   :defer t
   :init

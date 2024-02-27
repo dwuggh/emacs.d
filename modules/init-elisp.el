@@ -34,6 +34,10 @@
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-h o") #'helpful-symbol)
+  (general-def
+    :keymaps 'elisp-slime-nav-mode-map
+    :major-modes 'emacs-lisp-mode
+    "K" 'helpful-at-point)
   ;; helpful--update-and-switch-buffer
   :config
   ;; (add-hook 'helpful-mode-hook #'hide-mode-line-popup)
@@ -41,10 +45,6 @@
   ;; (advice-add 'helpful--update-and-switch-buffer :override 'hide-mode-line-popup)
   ;; (advice-remove 'helpful--update-and-switch-buffer 'hide-mode-line-popup)
 
-  (general-def
-    :keymaps 'elisp-slime-nav-mode-map
-    :major-modes 'emacs-lisp-mode
-    "K" 'helpful-at-point)
   )
 
 
