@@ -22,7 +22,6 @@
   :ensure nil
   :init (setq desktop-path `(,(concat my-cache-dir "desktops")))
   :config
-  (desktop-save-mode 1)
   )
 
 
