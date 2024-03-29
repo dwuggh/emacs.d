@@ -3,7 +3,7 @@
   ;; :defer t
   :config
   (setq
-   company-selection-wrap-around nil
+   company-selection-wrap-around t
    company-show-numbers nil
    company-idle-delay 0.08
    company-require-match 'never
