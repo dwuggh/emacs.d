@@ -6,6 +6,7 @@
 # straight should be ignored
 straight
 elpaca
+elpaca.1
 
 .cache
 eln-cache

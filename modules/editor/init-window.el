@@ -42,7 +42,10 @@
                            (lambda (w)
                              (or (and (fboundp 'treemacs-is-treemacs-window?)
                                       (treemacs-is-treemacs-window? w))
-                                 (->> w (window-buffer) (buffer-name) (s-equals? lsp-treemacs-symbols-buffer-name))
+                                 (and (boundp 'lsp-treemacs-symbols-buffer-name)
+                                      (->> w (window-buffer) (buffer-name) (s-equals? lsp-treemacs-symbols-buffer-name))
+                                      )
+                                 
                                  (and (bound-and-true-p neo-global--window)
                                       (eq neo-global--window w))))
                            (window-list))))

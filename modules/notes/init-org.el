@@ -153,7 +153,12 @@ This forces it to read the background before rendering."
      ))
   )
 
-
+(use-package org-media-note
+  :ensure '(org-media-note :type git :host github :repo "yuchen-lea/org-media-note")
+  :after org
+  :config
+  (setq org-media-note-screenshot-image-dir "~/Pictures/org-media")
+  )
 ;; (defun my-org-mode-hook ()
 ;;   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
 ;; (add-hook 'org-mode-hook #'my-org-mode-hook)
@@ -270,6 +275,7 @@ This forces it to read the background before rendering."
  "j" 'org-shiftdown
  "k" 'org-shiftup
  "i" 'org-id-get-create
+ "m" 'org-media-note-hydra/body
  )
 
 (general-def

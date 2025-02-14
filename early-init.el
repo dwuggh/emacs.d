@@ -1,6 +1,6 @@
-(setenv "http_proxy" "socks5://127.0.0.1:1080")
-(setenv "https_proxy" "socks5://127.0.0.1:1080")
-(setenv "all_proxy" "socks5://127.0.0.1:1080")
+;; (setenv "http_proxy" "socks5://127.0.0.1:1080")
+;; (setenv "https_proxy" "socks5://127.0.0.1:1080")
+;; (setenv "all_proxy" "socks5://127.0.0.1:1080")
 
 (setenv "COLORTERM" "truecolor")
 
@@ -8,8 +8,8 @@
 (setq socks-server '("Default server" "127.0.0.1" 1080 5))
 (setq url-proxy-services
       '(
-        ;; ("http" . "127.0.0.1:8889")
-        ("socks" . "127.0.0.1:1080")
+        ("https" . "127.0.0.1:1080")
+        ("http" . "127.0.0.1:1080")
         )
       )
 

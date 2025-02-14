@@ -22,6 +22,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+(setq pixel-resolution-fine-flag t)
 
 (use-package solaire-mode
   :config
@@ -41,24 +42,24 @@
   (load-theme 'doom-one)
   )
 
-(use-package hide-mode-line
-  :init
-  (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
-  :config
-  (setq hide-mode-line-excluded-modes
-        (append '(helpful-mode)
-                hide-mode-line-excluded-modes)))
+;; (use-package hide-mode-line
+;;   :init
+;;   (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
+;;   :config
+;;   (setq hide-mode-line-excluded-modes
+;;         (append '(helpful-mode)
+;;                 hide-mode-line-excluded-modes)))
 
 
 ;; (auto-hide-mode-line-mode +1)
-(use-package auto-hide-mode-line
-  :ensure `(auto-hide-mode-line
-            :repo ,(concat user-emacs-directory "lisp/auto-hide-mode-line/")
-            :files ("auto-hide-mode-line.el")
-            )
-  :init
-  (add-hook 'elpaca-after-init-hook #'auto-hide-mode-line-mode)
-  )
+;; (use-package auto-hide-mode-line
+;;   :ensure `(auto-hide-mode-line
+;;             :repo ,(concat user-emacs-directory "lisp/auto-hide-mode-line/")
+;;             :files ("auto-hide-mode-line.el")
+;;             )
+;;   :init
+;;   (add-hook 'elpaca-after-init-hook #'auto-hide-mode-line-mode)
+;;   )
 ;; (require 'auto-hide-mode-line)
 ;; (auto-hide-mode-line-mode +1)
 
@@ -100,6 +101,7 @@
 (blink-cursor-mode 0)
 
 (fset 'yes-or-no-p 'y-or-n-p)
+(setq ring-bell-function 'ignore)
 
 (use-package doom-modeline
   :init

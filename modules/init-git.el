@@ -25,6 +25,10 @@
 ;;           (list '+elpaca-unload-seq 'elpaca--activate-package)))
 
 ;; (use-package seq :ensure `(seq :build ,(+elpaca-seq-build-steps)))
+(use-package llama
+  :ensure (llama :type git :host github :repo "tarsius/llama"))
+(use-package spinner
+  :ensure (spinner :type git :host github :repo "Malabarba/spinner.el"))
 (use-package magit
   ;; :after seq
   :init

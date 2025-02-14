@@ -84,7 +84,7 @@
 (use-package company-box
   :ensure '(company-box
               :no-native-compile t)
-  :hook (company-mode . company-box-mode)
+  ;; :hook (company-mode . company-box-mode)
   :init
   (setq company-box-backends-colors
     '((company-yasnippet :all "light blue" :selected
@@ -93,6 +93,10 @@
         company-box-icons-alist 'company-box-icons-images
         )
   )
+
+(use-package company-posframe
+  :init
+  (company-posframe-mode 1))
 
 
 ;; backend
