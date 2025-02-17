@@ -97,25 +97,6 @@
   )
 
 
-;; TODO use the macro
-;; (setq-modes-local (emacs-lisp-mode lisp-interaction-mode)
-;;                  company-backends
-;;                  '((company-elisp company-dabbrev-code :with company-yasnippet)
-;;                    (company-capf company-dabbrev)))
-
-
-;; TODO didn't work
-(setq-mode-local lisp-interaction-mode
-                 company-backends
-                 '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code 
-                   company-dabbrev))
-
-(setq-mode-local emacs-lisp-mode
-                 company-backends
-                 '((company-capf :with company-yasnippet)  company-elisp company-dabbrev-code
-                   company-dabbrev))
-
-
 ;;; ------------------------------------------------------------------------------------
 
 

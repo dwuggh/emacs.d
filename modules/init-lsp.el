@@ -36,7 +36,6 @@
    )
 
 
-  ;; (remove-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
   :config
   ;; (require 'lsp-wgsl)
   ;; (setq lsp-rust-analyzer-server-display-inlay-hints t)
@@ -46,15 +45,6 @@
   ;; (add-to-list 'lsp-language-id-configuration '(latex-ts-mode . "latex"))
   (add-to-list 'lsp-language-id-configuration '(wgsl-ts-mode . "wgsl"))
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
-  (defun lsp-company-backends-h ()
-    (interactive)
-    (when lsp-completion-mode)
-    (set (make-local-variable 'company-backends)
-         '((:separate company-capf company-yasnippet)
-           company-dabbrev-code company-dabbrev))
-    )
-  ;; (add-hook 'lsp-completion-mode-hook #'lsp-company-backends-h)
-  ;; (add-hook 'lsp-mode-hook #'lsp-company-backends-h)
 
   (dwuggh/localleader-def
    :definer 'minor-mode
@@ -174,12 +164,6 @@
 (use-package consult-lsp
   :after lsp-mode)
 
-
-(setq-mode-local prog-mode
-                 company-backends
-                 '(company-capf
-                   (company-dabbrev-code :with company-yasnippet)
-                   company-yasnippet company-dabbrev))
 
 (use-package lsp-treemacs
   :after lsp

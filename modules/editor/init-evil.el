@@ -22,6 +22,9 @@
   (evil-global-set-key 'normal (kbd "C-q") #'evil-ex-search-word)
   (evil-global-set-key 'insert (kbd "C-a") #'evil-beginning-of-line)
   (evil-global-set-key 'insert (kbd "C-q") #'evil-end-of-line)
+  (evil-global-set-key 'normal (kbd "C-w /") #'evil-window-vsplit)
+  (evil-global-set-key 'normal (kbd "C-w C-/") #'evil-window-vsplit)
+  (evil-global-set-key 'normal (kbd "C-w m") #'toggle-maximize-buffer)
 
   ;; ;; TODO put this in autoloads
   ;; (evil-define-command +tabs:next-or-goto (index)

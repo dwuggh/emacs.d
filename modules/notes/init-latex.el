@@ -72,25 +72,6 @@
 ;;   )
 
 
-;; (use-package company-auctex
-;;   :after auctex
-;;   )
-
-;; (use-package company-reftex
-;;   :aftex auctex
-;;   )
-
-;; (setq-mode-local latex-mode company-backends
-;;                  '((
-;;                     company-capf
-;;                     ;; company-auctex-macros
-;;                     ;; company-auctex-symbols
-;;                     ;; company-auctex-environments
-;;                     :with company-yasnippet)
-;;                    (company-reftex-labels company-reftex-citations :with company-yasnippet)
-;;                    (company-dabbrev company-files company-semantic :with company-yasnippet))
-;;                  )
-
 (use-package magic-latex-buffer
   :after auctex
   :init
@@ -268,22 +249,6 @@
  :keymaps '(latex-mode-map LaTeX-mode-map tex-mode-map)
  "c" 'latex-easy-compile
  )
-
-
-;; (defvar-local company-latex--toggle-backend-state nil)
-;; (defun company-latex-toggle-backend ()
-;;   "Toggle between lsp backend and company-auctex."
-;;   (interactive)
-;;   (if company-latex--toggle-backend-state
-;;       (setq-local company-backends company-latex--toggle-backend-state
-;;                   company-latex--toggle-backend-state nil)
-;;     (setq-local company-latex--toggle-backend-state company-backends
-;;                 company-backends
-;;                 '((company-auctex-macros company-auctex-symbols company-auctex-environments :with company-yasnippet)
-;;                   company-dabbrev)
-;;                 )
-;;     )
-;;   )
 
 
 (provide 'init-latex)

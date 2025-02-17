@@ -7,7 +7,7 @@
 (require 'init-fold)
 
 (require 'init-window)
-(require 'init-company)
+(require 'init-corfu)
 (require 'init-flycheck)
 
 (setq-default make-backup-files nil

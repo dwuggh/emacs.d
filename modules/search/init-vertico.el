@@ -100,12 +100,12 @@
 (use-package orderless
   :init
   (setq orderless-component-separator "[ &]")
-  (setq completion-styles '(substring orderless)
+  (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles . (orderless partial-completion))))
         ;; completion-category-overrides nil
         orderless-component-separator "[ &]"
         )
+  (add-to-list 'completion-category-overrides '((file (styles . (orderless partial-completion)))))
   ;; otherwise find-file gets different highlighting than other commands
   (set-face-attribute 'completions-first-difference nil :inherit nil)
   )

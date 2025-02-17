@@ -212,19 +212,19 @@ This forces it to read the background before rendering."
 
 
 
-(use-package company-org-latex
-  :after org
-  :ensure nil
-  ;; :ensure `(company-org-latex :type built-in
-  ;;                              :local-repo ,(concat user-emacs-directory "lisp/")
-  ;;                              :files ("company-org-latex.el"))
-  :init
-  (defun org-setup-company ()
-    (setq-local company-backends '(company-capf company-yasnippet company-dabbrev))
-    (add-hook 'completion-at-point-functions #'org-latex-capf nil t)
-    )
-  (add-hook 'org-mode-hook 'org-setup-company)
-  )
+;; (use-package company-org-latex
+;;   :after org
+;;   :ensure nil
+;;   ;; :ensure `(company-org-latex :type built-in
+;;   ;;                              :local-repo ,(concat user-emacs-directory "lisp/")
+;;   ;;                              :files ("company-org-latex.el"))
+;;   :init
+;;   (defun org-setup-company ()
+;;     (setq-local company-backends '(company-capf company-yasnippet company-dabbrev))
+;;     (add-hook 'completion-at-point-functions #'org-latex-capf nil t)
+;;     )
+;;   (add-hook 'org-mode-hook 'org-setup-company)
+;;   )
 
 (defun latex-math-environment-p ()
   (or
