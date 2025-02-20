@@ -100,7 +100,7 @@
 (use-package orderless
   :init
   (setq orderless-component-separator "[ &]")
-  (setq completion-styles '(orderless basic)
+  (setq completion-styles '(substring orderless)
         completion-category-defaults nil
         ;; completion-category-overrides nil
         orderless-component-separator "[ &]"
