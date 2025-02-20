@@ -3,8 +3,12 @@
   :defer t
   :init
 
-  ;; (setq rust-ts-mode-hook rust-mode-hook)
+  (setq rust-mode-treesitter-derive t)
+  (setq lsp-rust-analyzer-max-inlay-hint-length 30)
   )
+
+(use-package rustic
+  :after rust-mode)
 
 (defun rust-rustup-target-list ()
   "Get rustup's target list using `rustup target list'."

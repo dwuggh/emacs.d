@@ -43,6 +43,7 @@
       (cons '("\\*my-run-make-*" display-buffer-no-window)
             display-buffer-alist))
 
+(use-package kotlin-mode)
 
 
 (require 'init-python)

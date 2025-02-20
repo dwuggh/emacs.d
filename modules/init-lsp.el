@@ -17,9 +17,9 @@
    (c-ts-mode . lsp)
    (c++-ts-mode . lsp)
    (c-or-c++-ts-mode . lsp)
-   (rust-ts-mode . lsp)
    (go-ts-mode . lsp)
    (wgsl-ts-mode . lsp)
+   (typescript-mode . lsp)
    )
   :init
   (setq
@@ -28,11 +28,13 @@
    dap-breakpoints-file (concat my-cache-dir ".dap-breakpoints")
    lsp-enable-xref nil
    ;; lsp-use-plists t
-   lsp-enable-folding t
+   lsp-enable-folding nil
    lsp-enable-suggest-server-download nil
    lsp-enable-text-document-color nil
    lsp-lens-enable t
+   lsp-inlay-hint-enable t
    lsp-ui-imenu-kind-position 'top
+   lsp-headerline-breadcrumb-enable nil
    )
 
 
@@ -43,8 +45,49 @@
   ;;                                  (when (lsp-find-workspace 'rust-analyzer nil)
   ;;                                    (lsp-rust-analyzer-inlay-hints-mode))))
   ;; (add-to-list 'lsp-language-id-configuration '(latex-ts-mode . "latex"))
-  (add-to-list 'lsp-language-id-configuration '(wgsl-ts-mode . "wgsl"))
+  ;; (add-to-list 'lsp-language-id-configuration '(wgsl-ts-mode . "wgsl"))
   (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration)
+  (setq lsp-completion-provider :none)
+  (add-hook 'lsp-mode-hook #'lsp-completion-mode)
+  (add-hook 'lsp-mode-hook #'lsp-inlay-hints-mode)
+
+  ;; inlay hint faces
+  (set-face-foreground 'font-lock-variable-name-face "#e06c75")
+  (set-face-italic 'font-lock-variable-use-face t)
+  (set-face-attribute 'lsp-inlay-hint-face nil :box nil :foreground "#abb2bf"
+                    :background "#2c313c" :italic t)
+
+  ;;; lsp-booster config
+  (defun lsp-booster--advice-json-parse (old-fn &rest args)
+    "Try to parse bytecode instead of json."
+    (or
+     (when (equal (following-char) ?#)
+       (let ((bytecode (read (current-buffer))))
+         (when (byte-code-function-p bytecode)
+           (funcall bytecode))))
+     (apply old-fn args)))
+  (advice-add (if (progn (require 'json)
+                         (fboundp 'json-parse-buffer))
+                  'json-parse-buffer
+                'json-read)
+              :around
+              #'lsp-booster--advice-json-parse)
+
+  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+    "Prepend emacs-lsp-booster command to lsp CMD."
+    (let ((orig-result (funcall old-fn cmd test?)))
+      (if (and (not test?)                             ;; for check lsp-server-present?
+               (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+               lsp-use-plists
+               (not (functionp 'json-rpc-connection))  ;; native json-rpc
+               (executable-find "emacs-lsp-booster"))
+          (progn
+            (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+              (setcar orig-result command-from-exec-path))
+            (message "Using emacs-lsp-booster for %s!" orig-result)
+            (cons "emacs-lsp-booster" orig-result))
+        orig-result)))
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
   (dwuggh/localleader-def
    :definer 'minor-mode
@@ -109,15 +152,15 @@
     )
 
   (general-define-key
-    ;; :definer 'minor-mode
-    :predicate 'lsp-mode
-    ;; :keymaps 'local
-    "gt" #'lsp-find-type-definition
-    "gr" #'lsp-find-references
-    "gd" #'lsp-find-definition
-    "gR" #'xref-find-references
-    "gM" #'lsp-ui-imenu
-    )
+   ;; :definer 'minor-mode
+   :predicate 'lsp-mode
+   ;; :keymaps 'local
+   "gt" #'lsp-find-type-definition
+   "gr" #'lsp-find-references
+   "gd" #'lsp-find-definition
+   "gR" #'xref-find-references
+   "gM" #'lsp-ui-imenu
+   )
   (general-def 'normal lsp-mode
     :definer 'minor-mode
     ",l" lsp-command-map)
@@ -135,12 +178,12 @@
         lsp-ui-doc-position 'at-point)
   :config
   (general-define-key
-    :predicate 'lsp-ui-peek-mode
-    "h" #'lsp-ui-peek--select-prev-file
-    "j" #'lsp-ui-peek--select-next
-    "k" #'lsp-ui-peek--select-prev
-    "l" #'lsp-ui-peek--select-next-file
-    )
+   :predicate 'lsp-ui-peek-mode
+   "h" #'lsp-ui-peek--select-prev-file
+   "j" #'lsp-ui-peek--select-next
+   "k" #'lsp-ui-peek--select-prev
+   "l" #'lsp-ui-peek--select-next-file
+   )
   (define-key lsp-ui-peek-mode-map (kbd "C-j") #'lsp-ui-peek--select-next)
   (define-key lsp-ui-peek-mode-map (kbd "C-k") #'lsp-ui-peek--select-prev)
   (define-key lsp-ui-peek-mode-map (kbd "j") #'lsp-ui-peek--select-next)
@@ -155,10 +198,10 @@
       (lsp-ui-doc-show)
       ))
   (general-define-key
-    :predicate 'lsp-ui-mode
-    :states '(normal visual)
-    "K" 'lsp-ui-doc-toggle
-    )
+   :predicate 'lsp-ui-mode
+   :states '(normal visual)
+   "K" 'lsp-ui-doc-toggle
+   )
   )
 
 (use-package consult-lsp
@@ -181,29 +224,29 @@
   :config
   (lsp-register-client
    (make-lsp-client :new-connection
-                  (lsp-stdio-connection
-                   #'lsp-latex-new-connection)
-                  :major-modes '(tex-mode
-                                 yatex-mode
-                                 latex-mode
-                                 latex-ts-mode
-                                 bibtex-mode)
-                  :server-id 'texlab2
-                  :priority 2
-                  :initialized-fn
-                  (lambda (workspace)
-                    (with-lsp-workspace workspace
-                      (lsp--set-configuration
-                       (lsp-configuration-section "latex"))
-                      (lsp--set-configuration
-                       (lsp-configuration-section "bibtex"))))
-                  :notification-handlers
-                  (lsp-ht
-                   ("window/progress"
-                    'lsp-latex-window-progress))
-                  :after-open-fn
-                  (lambda ()
-                    (setq-local lsp-completion-sort-initial-results lsp-latex-completion-sort-in-emacs))))
+                    (lsp-stdio-connection
+                     #'lsp-latex-new-connection)
+                    :major-modes '(tex-mode
+                                   yatex-mode
+                                   latex-mode
+                                   latex-ts-mode
+                                   bibtex-mode)
+                    :server-id 'texlab2
+                    :priority 2
+                    :initialized-fn
+                    (lambda (workspace)
+                      (with-lsp-workspace workspace
+                                          (lsp--set-configuration
+                                           (lsp-configuration-section "latex"))
+                                          (lsp--set-configuration
+                                           (lsp-configuration-section "bibtex"))))
+                    :notification-handlers
+                    (lsp-ht
+                     ("window/progress"
+                      'lsp-latex-window-progress))
+                    :after-open-fn
+                    (lambda ()
+                      (setq-local lsp-completion-sort-initial-results lsp-latex-completion-sort-in-emacs))))
 
   )
 
