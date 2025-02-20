@@ -1,3 +1,4 @@
 * TODO
   - add ~latex-ts-mode~
   - use it to do some better completions
+  - enhance corfu-preview-current

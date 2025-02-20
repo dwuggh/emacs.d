@@ -21,6 +21,51 @@
   (global-flycheck-mode 1)
   )
 
+(defvar my/flycheck-error-popup--timer nil
+  "Timer to hide the Flycheck error popup after a delay.")
+
+(defvar my/flycheck-error-popup--buffer "*flycheck-error-popup*"
+  "Buffer name for the Flycheck error popup.")
+
+(defun my/flycheck-error-popup--hide ()
+  "Hide the Flycheck error popup."
+  (posframe-hide my/flycheck-error-popup--buffer))
+
+(defun my/flycheck-error-popup--show ()
+  "Show the Flycheck error at point in a posframe."
+  (let ((error-message (flycheck-explain-error-at-point)))
+    (when error-message
+      (posframe-show
+       my/flycheck-error-popup--buffer
+       :string error-message
+       :position (point)
+       :min-width 80
+       :max-width 80
+       :min-height 5
+       :max-height 10
+       ;; :background-color "#1c1c1c"
+       ;; :foreground-color "#ffffff"
+       :border-width 1
+       :border-color "#ffffff")
+      (with-current-buffer my/flycheck-error-popup--buffer
+        (markdown-mode)
+        (tab-line-mode -1)
+        )
+      )))
+
+(defun my/flycheck-error-popup ()
+  "Display Flycheck error at point in a posframe and auto-hide it after a delay."
+  (interactive)
+  (my/flycheck-error-popup--show)
+  (when my/flycheck-error-popup--timer
+    (cancel-timer my/flycheck-error-popup--timer))
+  (setq my/flycheck-error-popup--timer
+        (run-with-idle-timer 5 nil 'my/flycheck-error-popup--hide)))
+
+;; Hide the popup on cursor movement or command execution
+
+
+
 (defmacro defadvice! (symbol arglist &optional docstring &rest body)
   "Define an advice called SYMBOL and add it to PLACES.
 

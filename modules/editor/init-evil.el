@@ -136,7 +136,10 @@
   (general-def
     :states '(normal visual)
     :keymaps 'override
-    ",/" '(evilnc-comment-or-uncomment-lines :wk "toggle comment lines"))
+    ",/" '(evilnc-comment-or-uncomment-lines :wk "toggle comment lines")
+    "M-;" '(evilnc-comment-or-uncomment-lines :wk "toggle comment lines")
+    )
+  (evil-define-key 'normal prog-mode-map "gc" 'evilnc-comment-operator)
   )
 
 

@@ -17,6 +17,7 @@
      :background "#555555"))
   "The background face for `ivy' minibuffer matches.")
 
+
 (setq custom-theme-directory (concat user-emacs-directory "modules/appearance/themes/"))
 ;; disable whatever bar
 (menu-bar-mode -1)
@@ -73,7 +74,7 @@
   (my--set-transparency (read-number "alpha channel value:" 90)))
 
 ;; fullscreen on start
-(my--set-transparency 93)
+(my--set-transparency 97)
 (toggle-frame-maximized)
 (toggle-frame-fullscreen)
 
@@ -109,19 +110,40 @@
   (setq nerd-icons-font-family "Symbols Nerd Font Mono")
   (setq
    doom-modeline-enable-word-count t
-   nerd-icons-color-icons t
+   nerd-icons-color-icons nil
    inhibit-compacting-font-caches nil
+   doom-modeline-modal-icon t
    doom-modeline-modal-modern-icon t
-   doom-modeline-modal-state-icon t
+   doom-modeline-major-mode-icon t
+   doom-modeline-major-mode-color-icon nil
+   doom-modeline-minor-modes nil
+   doom-modeline-position-column-line-format '("%l:%c")
+   doom-modeline-lsp nil
+   doom-modeline-time-icon t
+   doom-modeline-buffer-encoding nil
+   doom-modeline-height 30
+   ;; doom-modeline-modal-state-icon nil
    )
   (setq doom-modeline-icon t)
+  (set-face-attribute 'doom-modeline nil :height 110 :foreground nil)
   :config
+  (doom-modeline-def-modeline 'my-modeline
+    '(eldoc buffer-info remote-host buffer-position word-count selection-info)
+    '(compilation misc-info lsp check github vcs debug input-method indent-info process time)
+    )
+  (add-hook 'doom-modeline-mode-hook
+          (lambda ()
+            (doom-modeline-set-modeline 'my-modeline 'default)))
   (doom-modeline-mode 1)
+  ;; (setq header-line-format mode-line-format)
+  ;; (setq-default mode-line-format nil)
   )
 
 (use-package page-break-lines
   ;; :config (global-page-break-lines-mode)
   )
+
+(use-package visual-fill-column)
 
 (use-package dashboard
   :ensure '(dashboard :no-native-compile t)
