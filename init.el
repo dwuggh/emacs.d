@@ -7,7 +7,7 @@
 
 (my-load-module 'appearance)
 (my-load-module 'editor)
-;; (my-load-module 'treesitter)
+(my-load-module 'treesitter)
 (my-load-module 'search)
 (my-load-module 'git)
 

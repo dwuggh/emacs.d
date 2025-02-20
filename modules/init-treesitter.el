@@ -9,20 +9,23 @@
           (c-or-c++-mode   . c-or-c++-ts-mode)
           (python-mode     . python-ts-mode)
           (go-mode         . go-ts-mode)
-          (rust-mode       . rust-ts-mode)
           (javascript-mode . js-ts-mode)
           (typescript-mode . typescript-ts-mode)
           (css-mode        . css-ts-mode)
           (json-mode       . json-ts-mode)
           (yaml-mode       . yaml-ts-mode)
+          ;; (rust-mode       . rust-ts-mode)
+          ;; (rustic-mode     . rust-ts-mode)
           (bash-mode       . bash-ts-mode)
           (sh-mode         . bash-ts-mode)
           (latex-mode      . latex-ts-mode)
           (html-mode       . html-ts-mode)
           (markdown-mode   . markdown-ts-mode)))
 
+  ;; (add-to-list 'auto-mode-alist )
+
   ;; Font-lock settings
-  (setq treesit-font-lock-level 4
+  (setq treesit-font-lock-level 6
         treesit-font-lock-feature-list
         '((comment definition)
           (keyword string type)
@@ -48,24 +51,23 @@
 
   :config
   ;; Enable tree-sitter for all supported modes
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+  )
 
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (setq wgsl-tsauto-config
-      (make-treesit-auto-recipe
-       :lang 'wgsl
-       :ts-mode 'wgsl-ts-mode
-       :remap 'wgsl-mode
-       :url "https://github.com/szebniok/tree-sitter-wgsl"
-       :revision "master"
-       :source-dir "src"
-       :ext "\\.wgsl\\'"))
+;; (use-package treesit-auto
+;;   :custom
+;;   (treesit-auto-install 'prompt)
+;;   :config
+;;   (setq wgsl-tsauto-config
+;;       (make-treesit-auto-recipe
+;;        :lang 'wgsl
+;;        :ts-mode 'wgsl-ts-mode
+;;        :remap 'wgsl-mode
+;;        :url "https://github.com/szebniok/tree-sitter-wgsl"
+;;        :revision "master"
+;;        :source-dir "src"
+;;        :ext "\\.wgsl\\'"))
 
-  (add-to-list 'treesit-auto-recipe-list wgsl-tsauto-config)
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
+;;   (add-to-list 'treesit-auto-recipe-list wgsl-tsauto-config)
+;;   ;; (treesit-auto-add-to-auto-mode-alist 'all)
+;;   (global-treesit-auto-mode))
 (provide 'init-treesitter)
