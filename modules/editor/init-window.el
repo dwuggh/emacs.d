@@ -52,7 +52,8 @@
              (assoc ?_ register-alist))
         (jump-to-register ?_)
       (window-configuration-to-register ?_)
-      (delete-other-windows))))
+      (let ((ignore-window-parameters t))
+        (delete-other-windows)))))
 
 
 
