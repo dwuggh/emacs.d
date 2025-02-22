@@ -45,6 +45,65 @@
   
   )
 
+(use-package vertico-posframe
+  :config
+  ;; (setq vertico-posframe-parameters '((alpha-background . 85)))
+  (setq vertico-posframe-parameters nil)
+  (setq vertico-multiform-commands
+        '((consult-line
+           posframe
+           (vertico-posframe-poshandler . posframe-poshandler-frame-top-center)
+           (vertico-posframe-border-width . 10)
+           (vertico-posframe-fallback-mode . vertico-buffer-mode))
+          ))
+  
+  (setq vertico-multiform-categories
+        '(
+          (consult-location
+           posframe
+           (vertico-posframe-poshandler . posframe-poshandler-frame-top-center)
+           (vertico-posframe-border-width . 10)
+           (vertico-posframe-fallback-mode . vertico-buffer-mode))
+          (consult-grep
+           posframe
+           (vertico-posframe-poshandler . posframe-poshandler-frame-top-center)
+           (vertico-posframe-border-width . 10)
+           (vertico-posframe-fallback-mode . vertico-buffer-mode))
+          (file posframe)
+          (buffer posframe)
+          (t posframe)
+          ))
+  (vertico-multiform-mode 1)
+
+  (defun my/posframe-hide (buffer-or-name)
+  "Hide posframe pertaining to BUFFER-OR-NAME.
+BUFFER-OR-NAME can be a buffer or a buffer name.
+Return the list of hided frames."
+  ;; Make sure buffer-list-update-hook is nil when posframe-hide is
+  ;; called, otherwise:
+  ;;   (add-hook 'buffer-list-update-hook  #'posframe-hide)
+  ;; will lead to infinite recursion.
+  (when buffer-or-name
+    (let ((buffer-list-update-hook nil))
+      (--filter
+        (let ((buffer-info (frame-parameter it 'posframe-buffer)))
+          (when (or (equal buffer-or-name (car buffer-info))
+                    (equal buffer-or-name (cdr buffer-info)))
+            (posframe--make-frame-invisible it)
+            it))
+        (frame-list)))))
+  (defvar vertico-posframe-toggle--hide nil)
+  (defun vertico-posframe-toggle ()
+    (interactive)
+    (if (null vertico-posframe-toggle--hide)
+        (setq vertico-posframe-toggle--hide (my/posframe-hide vertico-posframe--buffer))
+      (--each vertico-posframe-toggle--hide (posframe--make-frame-visible it))
+      (setq vertico-posframe-toggle--hide nil)))
+
+  (define-key vertico-map (kbd "C-d") #'vertico-multiform-unobtrusive)
+
+  )
+
 
 (use-package marginalia
   :init
@@ -76,11 +135,10 @@
         )
   :config
   
+  (consult-customize consult-buffer :category 'buffer)
   (setq consult-grep-args consult-ripgrep-args)
-  (consult-customize
-   consult-ripgrep
-   :preview-key "C-l"
-   )
+  (consult-customize consult-ripgrep :preview-key "C-l")
+  (consult-customize consult-flymake :initial-narrow ">e")
   )
 (use-package embark)
 
@@ -93,14 +151,11 @@
   (define-key vertico-map (kbd "C-/") 'embark-dwim)
   )
 
-(use-package consult-flycheck
-  :after (consult flycheck))
-
 
 (use-package orderless
   :init
   (setq orderless-component-separator "[ &]")
-  (setq completion-styles '(substring orderless)
+  (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         ;; completion-category-overrides nil
         orderless-component-separator "[ &]"
@@ -203,7 +258,8 @@ If INITIAL is non-nil, use as initial input."
          (prompt-dir (consult--directory-prompt "Find" default-directory))
          (cmd (split-string-and-unquote consult-find-args " "))
          (cmd (remove "OPTS" cmd))
-         (cmd (remove "ARG" cmd)))
+         (cmd (remove "ARG" cmd))
+         )
     (find-file
      (consult--read
       (split-string (cdr (apply #'call-process cmd)) "\n" t)
@@ -212,7 +268,7 @@ If INITIAL is non-nil, use as initial input."
       :require-match t
       :initial (if initial (shell-quote-argument initial))
       :add-history (thing-at-point 'filename)
-      :category 'consult
+      :category 'file
       :history '(:input my-consult-find-file-in--history))))
   )
 

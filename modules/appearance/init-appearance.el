@@ -64,6 +64,23 @@
 ;; (require 'auto-hide-mode-line)
 ;; (auto-hide-mode-line-mode +1)
 
+  ;; inlay hint faces
+(use-package font-lock
+  :ensure nil
+  :config
+  (set-face-foreground 'font-lock-variable-name-face "#e06c75")
+  (set-face-italic 'font-lock-variable-use-face t)
+  )
+
+
+(with-eval-after-load 'lspce
+  (set-face-attribute 'lspce-inlay-hint-face nil :box nil :foreground "#abb2bf"
+                      :background "#2c313c" :italic t)
+  (set-face-attribute 'lspce-face-highlight nil :box nil
+                      :background "#2c313c" :inherit nil
+                      :underline t :italic nil)
+  )
+
 
 
 
@@ -125,8 +142,24 @@
    ;; doom-modeline-modal-state-icon nil
    )
   (setq doom-modeline-icon t)
-  (set-face-attribute 'doom-modeline nil :height 110 :foreground nil)
   :config
+  (set-face-attribute 'doom-modeline nil :height 110 :foreground nil)
+  (with-eval-after-load 'lsp-mode
+    ;; (setq global-mode-string '(""))
+    (defun my/lsp--progress-status ()
+      (-let ((progress-status
+           (and (-filter
+            (lambda (workspace)
+              (let ((tokens (lsp--workspace-work-done-tokens workspace)))
+                (ht-empty? tokens)))
+            (lsp-workspaces)))))
+        (if progress-status "✓" lsp-progress-prefix)))
+    (advice-add 'lsp--progress-status :override #'my/lsp--progress-status)
+    (setq lsp-modeline-diagnostics-enable nil)
+    ;; (remove-hook 'lsp-configure-hook #'lsp-modeline--enable-diagnostics t)
+    ;; (remove-hook 'lsp-unconfigure-hook #'lsp-modeline--disable-diagnostics t)
+    
+    )
   (doom-modeline-def-modeline 'my-modeline
     '(eldoc buffer-info remote-host buffer-position word-count selection-info)
     '(compilation misc-info lsp check github vcs debug input-method indent-info process time)

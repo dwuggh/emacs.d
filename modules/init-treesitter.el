@@ -23,6 +23,7 @@
           (markdown-mode   . markdown-ts-mode)))
 
   ;; (add-to-list 'auto-mode-alist )
+  
 
   ;; Font-lock settings
   (setq treesit-font-lock-level 6

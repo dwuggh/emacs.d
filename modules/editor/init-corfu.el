@@ -5,7 +5,7 @@
   ;; :config
   (setq corfu-auto t
         corfu-auto-delay 0.04
-        corfu-auto-prefix 2
+        corfu-auto-prefix 1
         corfu-cycle t
         corfu-count 12
         corfu-max-width 160
@@ -13,16 +13,27 @@
         ;; corfu-quit-no-match 'separator
         corfu-on-exact-match nil
         tab-always-indent 'complete
-        corfu-preselect 'prompt
+        corfu-preselect 'valid
         corfu-preview-current #'insert
         )
   (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
   :config
   (add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
   (setq corfu-popupinfo-delay '(0.5 . 0.5))
+  (setq text-mode-ispell-word-completion nil)
   (add-to-list 'completion-category-overrides `(lsp-capf (styles ,@completion-styles)))
   (add-to-list 'savehist-additional-variables 'corfu-history)
+  (require 'corfu-preview)
+  ;; (keymap-set corfu-map "RET" `( menu-item "" nil :filter
+  ;;                                ,(lambda (&optional _)
+  ;;                                   (and (derived-mode-p 'eshell-mode 'comint-mode)
+  ;;                                        #'corfu-send))))
   )
+
+;; (require 'corfu-candidate-overlay)
+;; (setq corfu-auto t)
+;; (corfu-candidate-overla)
+
 
 (use-package nerd-icons-corfu
   :after corfu
@@ -57,9 +68,7 @@
 
 (use-package yasnippet
   :config
-  (yas-global-mode 1)
-  
-  )
+  (yas-global-mode 1))
 
 (use-package auto-yasnippet
   :config
@@ -74,7 +83,7 @@
   :after cape
   :config
   (defun corfu-add-yasnippet-capf-h ()
-      (add-hook 'completion-at-point-functions #'yasnippet-capf 30 t))
+      (add-hook 'completion-at-point-functions #'yasnippet-capf 10 t))
   (add-hook 'prog-mode-hook 'corfu-add-yasnippet-capf-h)
   )
 
