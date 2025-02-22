@@ -8,7 +8,9 @@
 
 (require 'init-window)
 (require 'init-corfu)
-(require 'init-flycheck)
+;; (require 'init-company)
+(require 'init-flymake)
+
 
 (setq-default make-backup-files nil
           auto-save-default nil
@@ -73,9 +75,9 @@
              smartparens-mode)
   :config
   (require 'smartparens-config)
-  (sp-with-modes
-      'prog-mode
-    (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))
+  ;; (sp-with-modes
+  ;;     'prog-mode
+  ;;   (sp-local-pair "{" nil :post-handlers '(:add ("||[i]" "RET"))))
   (sp-with-modes
       'org-mode
     (sp-local-pair "$" "$")

@@ -35,6 +35,7 @@
    lsp-inlay-hint-enable t
    lsp-ui-imenu-kind-position 'top
    lsp-headerline-breadcrumb-enable nil
+   lsp-diagnostics-provider :flymake
    )
 
 
@@ -50,12 +51,6 @@
   (setq lsp-completion-provider :none)
   (add-hook 'lsp-mode-hook #'lsp-completion-mode)
   (add-hook 'lsp-mode-hook #'lsp-inlay-hints-mode)
-
-  ;; inlay hint faces
-  (set-face-foreground 'font-lock-variable-name-face "#e06c75")
-  (set-face-italic 'font-lock-variable-use-face t)
-  (set-face-attribute 'lsp-inlay-hint-face nil :box nil :foreground "#abb2bf"
-                    :background "#2c313c" :italic t)
 
   ;;; lsp-booster config
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
@@ -137,8 +132,6 @@
    "xh" #'lsp-document-highlight
    "xl" #'lsp-lens-show
    "xL" #'lsp-lens-hide
-
-   "e" #'(lsp-ui-flycheck-list :wk "list error")
    )
   (defun my-lsp-session ()
     "Get lsp session for current buffer."
