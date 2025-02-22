@@ -46,6 +46,13 @@
   ;;   "gt" '+tabs:next-or-goto
   ;;   "gT" '+tabs:previous-or-goto
   ;;   )
+  (defun my/evil-lookup-func ()
+    (interactive)
+    (cond
+     ((bound-and-true-p lspce-mode) (lspce-help-at-point))
+     ((eq major-mode 'emacs-lisp-mode) (helpful-at-point))
+     (t (woman))))
+  (setq evil-lookup-func 'my/evil-lookup-func)
   (general-def
     :keymaps 'override
     :states '(normal visual motion)
@@ -53,9 +60,25 @@
     "k" 'evil-previous-visual-line
     "gj" 'evil-next-line
     "gk" 'evil-previous-line
+    "gr" 'xref-find-references
+    "gt" 'xref-find-type-definition
+    "gy" 'xref-find-implementations
     )
   (dwuggh/leader-def
     "sc" '(evil-ex-nohighlight :wk "clear highlight"))
+  )
+
+(use-package xref
+  :ensure nil
+  :config
+  (setq xref-prompt-for-identifier
+        '(not
+          xref-find-definitions xref-find-definitions-other-window
+          xref-find-definitions-other-frame
+          xref-find-references
+          xref-find-implementations
+          xref-find-type-definition
+          ))
   )
 
 (use-package evil-terminal-cursor-changer

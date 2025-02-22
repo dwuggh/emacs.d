@@ -1,14 +1,29 @@
 
 (use-package rust-mode
-  :defer t
   :init
-
   (setq rust-mode-treesitter-derive t)
   (setq lsp-rust-analyzer-max-inlay-hint-length 30)
+  (with-eval-after-load
+      'rust-ts-mode
+      (setq auto-mode-alist (delete '("\\.rs\\'" . rust-ts-mode) auto-mode-alist))
+      (setq rust-ts-flymake-command '("cargo" "clippy"))
+      (defun remove-rust-ts-flymake ()
+        (remove-hook 'flymake-diagnostic-functions 'rust-ts-flymake t))
+      (add-hook 'rust-ts-mode-hook 'remove-rust-ts-flymake)
+      )
+  
   )
 
-(use-package rustic
-  :after rust-mode)
+;; (use-package rustic
+;;   :after (rust-mode)
+;;   :init
+;;   (setq rustic-lsp-setup-p nil
+;;         rustic-lsp-client nil)
+;;   :config
+;;   (defvaralias 'rustic-indent-offset 'rust-ts-mode-indent-offset)
+;;   (setq lsp-rust-analyzer-macro-expansion-method 'lsp-rust-analyzer-macro-expansion-default)
+  
+;;   )
 
 (defun rust-rustup-target-list ()
   "Get rustup's target list using `rustup target list'."
