@@ -58,7 +58,6 @@
  "sp" '(consult-ripgrep :wk "rg project")
  "sP" '(my-consult-rg-thing-at-point :wk "rg project")
  "ps" '(consult-ripgrep :wk "rg project")
- "se" '(consult-flymake :wk "consult errors")
  ";" '(vertico-repeat :wk "last search")
  )
 

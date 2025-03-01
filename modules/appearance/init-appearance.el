@@ -41,48 +41,9 @@
   :config
   ;; (load-theme 'doom-wilmersdorf)
   (load-theme 'doom-one)
-  )
-
-;; (use-package hide-mode-line
-;;   :init
-;;   (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
-;;   :config
-;;   (setq hide-mode-line-excluded-modes
-;;         (append '(helpful-mode)
-;;                 hide-mode-line-excluded-modes)))
-
-
-;; (auto-hide-mode-line-mode +1)
-;; (use-package auto-hide-mode-line
-;;   :ensure `(auto-hide-mode-line
-;;             :repo ,(concat user-emacs-directory "lisp/auto-hide-mode-line/")
-;;             :files ("auto-hide-mode-line.el")
-;;             )
-;;   :init
-;;   (add-hook 'elpaca-after-init-hook #'auto-hide-mode-line-mode)
-;;   )
-;; (require 'auto-hide-mode-line)
-;; (auto-hide-mode-line-mode +1)
-
-  ;; inlay hint faces
-(use-package font-lock
-  :ensure nil
-  :config
   (set-face-foreground 'font-lock-variable-name-face "#e06c75")
   (set-face-italic 'font-lock-variable-use-face t)
   )
-
-
-(with-eval-after-load 'lspce
-  (set-face-attribute 'lspce-inlay-hint-face nil :box nil :foreground "#abb2bf"
-                      :background "#2c313c" :italic t)
-  (set-face-attribute 'lspce-face-highlight nil :box nil
-                      :background "#2c313c" :inherit nil
-                      :underline t :italic nil)
-  )
-
-
-
 
 (defun my--set-transparency (a)
   (set-frame-parameter nil 'alpha-background a))
@@ -171,6 +132,27 @@
   ;; (setq header-line-format mode-line-format)
   ;; (setq-default mode-line-format nil)
   )
+
+
+
+  ;; inlay hint faces
+(with-eval-after-load 'lsp-proxy
+  (set-face-attribute 'lsp-proxy-inlay-hint-face nil :box nil :foreground "#abb2bf"
+                      :background "#2c313c" :italic t)
+  (set-face-attribute 'lsp-proxy-highlight-symbol-face nil :box nil
+                      :background "#2c313c" :inherit nil
+                      :underline t :italic nil)
+  )
+(with-eval-after-load 'lspce
+  (set-face-attribute 'lspce-inlay-hint-face nil :box nil :foreground "#abb2bf"
+                      :background "#2c313c" :italic t)
+  (set-face-attribute 'lspce-face-highlight nil :box nil
+                      :background "#2c313c" :inherit nil
+                      :underline t :italic nil)
+  )
+(with-eval-after-load 'lsp
+  (set-face-attribute 'lsp-inlay-hint-face nil :box nil :foreground "#abb2bf"
+                      :background "#2c313c" :italic t))
 
 (use-package page-break-lines
   ;; :config (global-page-break-lines-mode)
@@ -271,6 +253,19 @@
    )
   (tab-bar-mode 1)
   
+  )
+
+(use-package indent-bars
+  :init
+  (setq
+    indent-bars-color '(highlight :face-bg t :blend 0.2)
+    indent-bars-pattern "."
+    indent-bars-width-frac 0.1
+    indent-bars-pad-frac 0.1
+    indent-bars-zigzag nil
+    indent-bars-color-by-depth nil
+    indent-bars-highlight-current-depth nil
+    indent-bars-display-on-blank-lines nil)
   )
 
 

@@ -21,6 +21,21 @@
 ;;   (evil-define-key 'insert tabby-mode-map (kbd "C-M-l") 'tabby-accept-completion-by-line)
 ;;   )
 
+(use-package gptel)
+(use-package ellama)
+
+;; (require 'lsp)
+(with-eval-after-load 'lsp-mode
+  (lsp-register-client
+    (make-lsp-client  :new-connection (lsp-stdio-connection '("npx" "tabby-agent" "--stdio"))
+                      ;; you can select languages to enable Tabby language server
+                      :activation-fn (lsp-activate-on "typescript" "javascript" "toml" "rust" "emacs-lisp")
+                      :priority 1
+                      :add-on? t
+                      :server-id 'tabby-agent))
+  )
+
+
 (use-package aider
   :ensure (aider :type git :host github :files ("aider.el" "aider-etc.el")
                  :repo "tninja/aider.el")

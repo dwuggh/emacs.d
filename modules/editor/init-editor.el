@@ -10,12 +10,18 @@
 (require 'init-corfu)
 ;; (require 'init-company)
 (require 'init-flymake)
+;; (require 'init-flycheck)
 
 
-(setq-default make-backup-files nil
-          auto-save-default nil
-          auto-save-list-file-prefix (concat my-cache-dir "auto-save-list/.saves-"))
-(setq create-lockfiles nil)
+(setq make-backup-files nil
+      auto-save-default t
+      auto-save-timeout 4
+      auto-save-interval 10
+      auto-save-list-file-prefix (concat my-cache-dir "auto-save-list/.saves-")
+      auto-save-include-big-deletions t
+      create-lockfiles nil
+      mode-require-final-newline nil
+      require-final-newline nil)
 ;; (setq jit-lock-defer-time nil)
 (setq-default indent-tabs-mode nil)
 (setq-default save-place-file (concat my-cache-dir "places"))
@@ -26,18 +32,6 @@
   :config
   )
 
-
-(use-package auto-save
-  :ensure (auto-save :type git
-               :host github
-               :repo "manateelazycat/auto-save"
-               )
-  :config
-  (auto-save-enable)
-  (setq
-   auto-save-silent t
-    auto-save-idle 10)
-  )
 
 
 (setq-default scroll-conservatively 101)
@@ -103,12 +97,12 @@
   (interactive)
   (if (looking-back "{")
       (progn
-    (newline)
-    (newline)
-    (indent-for-tab-command)
-    (evil-previous-line)
-    (indent-for-tab-command)
-    )
+        (newline)
+        (newline)
+        (indent-for-tab-command)
+        (evil-previous-line)
+        (indent-for-tab-command)
+        )
     (newline)
     )
   )
@@ -182,9 +176,9 @@
   )
 
 (general-def
- :states '(normal visual motion)
- :keymaps 'override
- "C-q" 'evil-end-of-line)
+  :states '(normal visual motion)
+  :keymaps 'override
+  "C-q" 'evil-end-of-line)
 
 ;; miscellaneous
 (use-package crux)

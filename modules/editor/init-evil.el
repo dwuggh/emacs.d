@@ -14,10 +14,15 @@
         )
   :config
   (evil-mode 1)
+  (setq evil-goto-definition-functions
+        '(evil-goto-definition-xref
+          evil-goto-definition-imenu
+          evil-goto-definition-semantic
+          evil-goto-definition-search
+          ))
   (defun evil-ex-search-word (&optional symbol)
     (interactive (list evil-symbol-word-search))
-    (evil-ex-start-word-search nil 'forward 0 symbol)
-    )
+    (evil-ex-start-word-search nil 'forward 0 symbol))
   (evil-global-set-key 'normal (kbd "C-8") #'evil-ex-search-word)
   (evil-global-set-key 'normal (kbd "C-q") #'evil-ex-search-word)
   (evil-global-set-key 'insert (kbd "C-a") #'evil-beginning-of-line)
@@ -40,16 +45,17 @@
   ;;   (if index
   ;;       (centaur-tabs-select-visible-nth-tab index)
   ;;     (centaur-tabs-backward)))
-  ;; (general-def
-  ;;   :states 'normal
-  ;;   :keymaps 'override
-  ;;   "gt" '+tabs:next-or-goto
-  ;;   "gT" '+tabs:previous-or-goto
-  ;;   )
+  (general-def
+    :states 'normal
+    :keymaps 'override
+    "gh" 'tab-line-switch-to-prev-tab
+    "gl" 'tab-line-switch-to-next-tab
+    )
   (defun my/evil-lookup-func ()
     (interactive)
     (cond
      ((bound-and-true-p lspce-mode) (lspce-help-at-point))
+     ((bound-and-true-p lsp-proxy-mode) (lsp-proxy-hover-at-point))
      ((eq major-mode 'emacs-lisp-mode) (helpful-at-point))
      (t (woman))))
   (setq evil-lookup-func 'my/evil-lookup-func)
@@ -61,7 +67,7 @@
     "gj" 'evil-next-line
     "gk" 'evil-previous-line
     "gr" 'xref-find-references
-    "gt" 'xref-find-type-definition
+    "gt" 'lsp-proxy-find-type-definition
     "gy" 'xref-find-implementations
     )
   (dwuggh/leader-def
@@ -127,7 +133,7 @@
   ;; :defer t
   :config
   (setq evil-escape-key-sequence "jk"
-        evil-escape-delay 0.15
+        evil-escape-delay 0.05
         evil-escape-unordered-key-sequence t)
   ;; (add-hook 'evil-normal-state-exit-hook
   ;;           (lambda () (require 'evil-escape)))

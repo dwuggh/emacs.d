@@ -8,6 +8,21 @@
 (defvar my-window-number-cache nil
   "window cache, for jumping")
 
+(defun popper-display-in-posframe (buffer &optional alist)
+  (let ((posframe (posframe-plus-show buffer t nil
+  ;; (let ((posframe (posframe-show buffer 
+                   :position t
+                   :poshandler #'posframe-poshandler-frame-center
+                   :width 80
+                   :height 30
+                   :border-width 3
+                   :tty-non-selected-cursor t
+                   :accept-focus t
+                   :cursor (if (eq cursor-type t)
+                               'box
+                             cursor-type))))
+    (select-frame-set-input-focus posframe))
+    )
 
 (use-package popper
   :init
@@ -15,13 +30,21 @@
         '("\\*Messages\\*"
           "Output\\*$"
           "\\*Async Shell Command\\*"
-          help-mode
           helpful-mode
           compilation-mode))
+  ;; TODO this function is buggy, need to rewrite using
+  ;; make-frame some day
+  ;; (setq popper-display-function #'popper-display-in-posframe)
+  ;; (setq popper-display-function #'display-buffer-in-child-frame)
+  (setq popper-display-function #'popper-display-popup-at-bottom)
+        
+  (setq popper-group-function #'popper-group-by-project
+        popper-display-control t)
   (popper-mode +1)
   (popper-echo-mode +1)
+  :config
   (define-key popper-mode-map (kbd "C-`") #'popper-cycle)
-  (setq popper-group-function #'popper-group-by-project)
+  ;; (evil-define-key 'normal posframe-plus-active-map "q" #'posframe-plus-ctrl-g-hide-frames)
   )
 
 (use-package winum

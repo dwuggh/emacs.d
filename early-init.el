@@ -12,6 +12,9 @@
         ("http" . "127.0.0.1:1080")
         )
       )
+;; (setq url-gateway-method 'native)
+;; (setq socks-server nil)
+;; (setq url-proxy-services nil)
 
 (defvar dwuggh-emacs-type 'full
   "Type of emacs configuration. Can be `full' `terminal' `vps'. Default `full'.")

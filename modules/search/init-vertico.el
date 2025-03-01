@@ -154,13 +154,21 @@ Return the list of hided frames."
 
 (use-package orderless
   :init
+  ;; (defun my/lsp-mode-setup-completion ()
+  ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+  ;;         '(orderless)))
+  
+  ;; :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
   (setq orderless-component-separator "[ &]")
+  ;; (setq completion-styles '(substring orderless))
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        ;; completion-category-overrides nil
+        completion-category-overrides nil
         orderless-component-separator "[ &]"
         )
   (add-to-list 'completion-category-overrides '((file (styles . (orderless partial-completion)))))
+  (add-to-list 'completion-category-overrides `(lsp-capf (styles ,@completion-styles)))
+  (add-to-list 'completion-category-overrides `(lsp-proxy-capf (styles ,@completion-styles)))
   ;; otherwise find-file gets different highlighting than other commands
   (set-face-attribute 'completions-first-difference nil :inherit nil)
   )

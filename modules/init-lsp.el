@@ -300,5 +300,13 @@
   ;; (lsp-haskell-set-completion-snippets-on)
   )
 
+(use-package rustic
+    :after (rust-mode)
+    :init
+    (setq rustic-lsp-setup-p t)
+    :config
+    (defvaralias 'rustic-indent-offset 'rust-ts-mode-indent-offset)
+    (setq
+     lsp-rust-analyzer-macro-expansion-method 'lsp-rust-analyzer-macro-expansion-default))
 
 (provide 'init-lsp)

@@ -4,7 +4,8 @@
   (global-corfu-mode)
   ;; :config
   (setq corfu-auto t
-        corfu-auto-delay 0.04
+        ;; corfu-auto-delay 0.04
+        corfu-auto-delay 0
         corfu-auto-prefix 1
         corfu-cycle t
         corfu-count 12
@@ -14,16 +15,22 @@
         corfu-on-exact-match nil
         tab-always-indent 'complete
         corfu-preselect 'valid
-        corfu-preview-current #'insert
+        corfu-preview-current t
         )
+  (general-def
+    :states '(normal insert)
+    "C-/" #'completion-at-point
+    )
   (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
   :config
   (add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
   (setq corfu-popupinfo-delay '(0.5 . 0.5))
   (setq text-mode-ispell-word-completion nil)
-  (add-to-list 'completion-category-overrides `(lsp-capf (styles ,@completion-styles)))
   (add-to-list 'savehist-additional-variables 'corfu-history)
   (require 'corfu-preview)
+  ;; (add-hook 'global-corfu-mode-hook #'corfu-preview-mode)
+  ;; (setq corfu-preview-only-1-candidate nil)
+  
   ;; (keymap-set corfu-map "RET" `( menu-item "" nil :filter
   ;;                                ,(lambda (&optional _)
   ;;                                   (and (derived-mode-p 'eshell-mode 'comint-mode)
@@ -59,8 +66,10 @@
               eshell-mode-hook)
              corfu-add-cape-dabbrev-h)
   :config
-  (advice-add #'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
-  (advice-add #'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
+  (with-eval-after-load 'lsp
+    (advice-add #'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
+    (advice-add #'lsp-completion-at-point :around #'cape-wrap-buster)
+    )
   (advice-add #'comint-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add #'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add #'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive)

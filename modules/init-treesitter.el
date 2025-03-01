@@ -42,9 +42,12 @@
           (go . ("https://github.com/tree-sitter/tree-sitter-go"))
           (html . ("https://github.com/tree-sitter/tree-sitter-html"))
           (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+          (jsdoc . ("https://github.com/tree-sitter/tree-sitter-jsdoc"))
           (json . ("https://github.com/tree-sitter/tree-sitter-json"))
           (latex . ("https://github.com/latex-lsp/tree-sitter-latex"))
-          (markdown . ("https://github.com/ikatyang/tree-sitter-markdown"))
+          (markdown . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
+          (markdown-inline . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src"))
+
           (python . ("https://github.com/tree-sitter/tree-sitter-python"))
           (rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
           (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript"))

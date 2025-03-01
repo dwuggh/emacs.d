@@ -19,13 +19,20 @@
   (setq eldoc-idle-delay 0.1)
   (add-hook 'lspce-mode-hook #'lspce-inlay-hints-mode)
   (define-key lspce-mode-map "K" #'lspce-help-at-point)
+  ;; (define-key lspce-mode-map "C-." #'lspce-code-actions)
+  (dwuggh/localleader-def
+   :keymaps 'prog-mode-map
+   "a" #'lspce-code-actions
+   )
 
+  (setq lspce-modes-enable-single-file-root '(python-ts-mode python-mode))
   (lspce-set-log-file "/tmp/lspce.log")
   (setq lspce-server-programs
         `(("rust"  "rust-analyzer" "" lspce-ra-initializationOptions)
-          ("C" "clangd" "--all-scopes-completion --clang-tidy --enable-config --header-insertion-decorators=0")))
+          ("C" "clangd" "--all-scopes-completion --clang-tidy --enable-config --header-insertion-decorators=0")
+          ("typescript" "deno" "--stdio")
+          ("python" "basedpyright-langserver" "--stdio")))
   )
-
 
 
 (provide 'init-lspce)

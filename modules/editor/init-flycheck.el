@@ -8,6 +8,7 @@
   (setq flycheck-indication-mode 'right-fringe)
   ;; And don't recheck on idle as often
   (setq flycheck-idle-change-delay 1.0)
+  (delq 'new-line flycheck-check-syntax-automatically)
 
   ;; For the above functionality, check syntax in a buffer that you switched to
   ;; only briefly. This allows "refreshing" the syntax check state for several
@@ -15,7 +16,7 @@
   (setq flycheck-buffer-switch-check-intermediate-buffers t)
   
   ;; Display errors a little quicker (default is 0.9s)
-  (setq flycheck-display-errors-delay 0.25)
+  (setq flycheck-display-errors-delay 0.5)
 
 
   (global-flycheck-mode 1)
@@ -111,6 +112,10 @@ Do nothing if `lsp-ui-mode' is active and `lsp-ui-sideline-enable' is non-nil."
         (not (bound-and-true-p company-backend))))
 
   )
+
+(use-package consult-flycheck
+  :after consult)
+
 
 (dwuggh/leader-def
  "e" '(consult-flycheck :wk "flycheck errors")

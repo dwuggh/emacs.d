@@ -2,6 +2,12 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
 
+;; (use-package exec-path-from-shell
+;;   :defer nil
+;;   :config
+;;   (exec-path-from-shell-initialize))
+
+;; (module-load (expand-file-name "~/.emacs.d/libemacs_rs_module.so"))
 (require 'custom)
 ;; (require 'org-paste-image)
 
@@ -15,7 +21,8 @@
   ;; (my-load-module 'term)
 
   ;; (my-load-module 'lsp)
-  (my-load-module 'lspce)
+  ;; (my-load-module 'lspce)
+  (my-load-module 'lsp-proxy)
   (my-load-module 'ai)
 
   (my-load-module 'elisp)

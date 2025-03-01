@@ -3,27 +3,55 @@
   :init
   (setq rust-mode-treesitter-derive t)
   (setq lsp-rust-analyzer-max-inlay-hint-length 30)
-  (with-eval-after-load
-      'rust-ts-mode
-      (setq auto-mode-alist (delete '("\\.rs\\'" . rust-ts-mode) auto-mode-alist))
-      (setq rust-ts-flymake-command '("cargo" "clippy"))
-      (defun remove-rust-ts-flymake ()
-        (remove-hook 'flymake-diagnostic-functions 'rust-ts-flymake t))
-      (add-hook 'rust-ts-mode-hook 'remove-rust-ts-flymake)
-      )
   
   )
 
-;; (use-package rustic
-;;   :after (rust-mode)
-;;   :init
-;;   (setq rustic-lsp-setup-p nil
-;;         rustic-lsp-client nil)
-;;   :config
-;;   (defvaralias 'rustic-indent-offset 'rust-ts-mode-indent-offset)
-;;   (setq lsp-rust-analyzer-macro-expansion-method 'lsp-rust-analyzer-macro-expansion-default)
-  
+
+
 ;;   )
+
+(defun rust-cargo-fmt ()
+  "run cargo fmt"
+  (interactive)
+  (s-split "\n" (s-trim (shell-command-to-string "rustup target list"))))
+
+(defun rust-cargo-fmt ()
+  "Run `cargo fmt` on the current buffer using the project root."
+  (interactive)
+  ;; (require 'project) ; Ensure the `project` package is loaded
+  (let* ((file (buffer-file-name))
+         (project-root (project-root (project-current nil file)))
+         (default-directory (or project-root default-directory)))
+    (if (not (executable-find "cargo"))
+        (error "`cargo` not found in PATH")
+      (with-temp-message "Running `cargo fmt`..."
+        (if (zerop (call-process "cargo" nil nil nil "fmt" "--" file))
+            (progn
+              (revert-buffer t t t) ; Reload the buffer to reflect changes
+              (message "`cargo fmt` completed successfully"))
+          (error "`cargo fmt` failed"))))))
+
+(defun my-cargo-test-at-point ()
+  "Run `cargo test` for the test function under the cursor."
+  (interactive)
+  (require 'project) ; Ensure the `project` package is loaded
+  (let* ((file (buffer-file-name))
+         (project-root (project-root (project-current nil file)))
+         (default-directory (or project-root default-directory))
+         (test-name (rustic-test-name-at-point)))
+    (if (not (executable-find "cargo"))
+        (error "`cargo` not found in PATH")
+      (if (not test-name)
+          (error "No test function found at point")
+        (with-temp-message (format "Running `cargo test` for %s..." test-name)
+          (compile (format "cargo test %s" test-name)))))))
+
+(defun rustic-test-name-at-point ()
+  "Get the name of the test function at the cursor position."
+  (save-excursion
+    (beginning-of-line)
+    (when (re-search-forward "fn \\(test_[^ ]+\\)()" (line-end-position) t)
+      (match-string 1))))
 
 (defun rust-rustup-target-list ()
   "Get rustup's target list using `rustup target list'."
